@@ -27,6 +27,7 @@ app.use(passport.initialize())
 app.use(passport.session())
 
 app.use('/api/user', require('./routes/auth'))
+app.use('/api/items', require('./routes/example'))
 
 
 app.listen(port, () => console.log(`Server started on port: ${port}`))
