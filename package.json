@@ -5,7 +5,8 @@
   "main": "server.js",
   "scripts": {
     "start": "node backend/server.js",
-    "server": "nodemon backend/server.js"
+    "server": "nodemon backend/server.js",
+    "client": "npm start --prefix frontend"
   },
   "author": "Prajwal Magar",
   "license": "MIT",
@@ -18,7 +19,8 @@
     "express-session": "^1.17.3",
     "mongoose": "^6.8.3",
     "passport": "^0.6.0",
-    "passport-local": "^1.0.0"
+    "passport-local": "^1.0.0",
+    "react-icons": "^4.7.1"
   },
   "devDependencies": {
     "nodemon": "^2.0.20"
