@@ -33,13 +33,14 @@ export default function SignUp() {
 
 
     const [formData, setFormData] = useState({
-        name: '',
+        firstName: '',
+        lastName: '',
         email: '',
         password: '',
 
     })
 
-    const { name, email, password} = formData;
+    const { firstName, lastName, email, password} = formData;
 
 
   return (
@@ -62,20 +63,30 @@ export default function SignUp() {
           </Typography>
           <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
-              <Grid item xs={12} >
+              <Grid item xs={12} sm={6} >
                 <TextField
                   autoComplete="given-name"
                   name="name"
                   required
                   fullWidth
-                  id="name"
-                  value={name}
-                  label="Full Name"
+                  id="firstName"
+                  value={firstName}
+                  label="First Name"
                   onChange={handleChange}
                   autoFocus
                 />
               </Grid>
-              
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  required
+                  fullWidth
+                  id="lastName"
+                  label="Last Name"
+                  name="lastName"
+                  value={lastName}
+                  autoComplete="family-name"
+                />
+              </Grid>
               <Grid item xs={12}>
                 <TextField
                   required
