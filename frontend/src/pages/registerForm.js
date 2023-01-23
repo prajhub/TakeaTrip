@@ -81,6 +81,7 @@ export default function SignUp() {
                   required
                   fullWidth
                   id="email"
+                  value={email}
                   label="Email Address"
                   name="email"
                   autoComplete="email"
@@ -95,6 +96,7 @@ export default function SignUp() {
                   label="Password"
                   type="password"
                   id="password"
+                  value={password}
                   autoComplete="new-password"
                   onChange={handleChange}
                 />
