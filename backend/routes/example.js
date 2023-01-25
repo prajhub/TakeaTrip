@@ -19,12 +19,6 @@ const groceryList = [
 
 ]
 
- router.use((req, res, next) => {
-    console.log('Inside Groceries Auth Middleware')
-    console.log(req.user)
-    if (req.user) next();
-    else res.status(401)
- })
 
 
 router.get('/groceries', (req, res)=> {
