@@ -8,18 +8,18 @@ const session = require('express-session')
 const bodyParser = require('body-parser')
 const cors = require('cors')
 const jwt = require('jsonwebtoken')
-
+const verifyJWT = require('./middleware/verifyJWT')
 const secretKey = process.env.JWT_SECRET;
 //Connecting to DB
 const connectDB = require('./config/db')
-
+const bcrypt = require('bcrypt');
 
 
 
 const app = express();
 require('./strategies/local')
 require('./model/user')
-require('./config/passport');
+// require('./config/passport');
 connectDB();
 
 
@@ -31,12 +31,7 @@ connectDB();
 
 app.use(cookieParser())
 
-//Only for local strategy
-// app.use(session({
-//     secret: 'abc123',
-//     resave: false,
-//     saveUninitialized: false,
-// }))
+
 
 
 app.use(passport.initialize())
@@ -46,8 +41,12 @@ app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 app.use(cors())
 
-app.use('/api/user', require('./routes/auth'))
-app.use('/api/items', require('./routes/example'))
+//routes
+app.use('/register', require('./routes/register'));
+app.use('/auth', require('./routes/auth'));
+app.use('/refresh', require('./routes/refresh'));
+app.use('/logout', require('./routes/logout'));
+
 app.get('/protected', passport.authenticate('jwt', {session: false}), (req,res) => {
     return res.status(200).send({
         success: true,

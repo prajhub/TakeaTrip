@@ -42,7 +42,7 @@ export default function PositionedMenu() {
           horizontal: 'left',
         }}
       >
-        <MenuItem onClick={handleClose}>Log In</MenuItem>
+        <MenuItem onClick={handleClose}><Link to='/login'>Log In</Link></MenuItem>
         <MenuItem onClick={handleClose}><Link to='/register'>Sign Up</Link></MenuItem>
         <MenuItem onClick={handleClose}>Help</MenuItem>
       </Menu>

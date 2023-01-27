@@ -4,6 +4,7 @@ import { BiBellMinus} from 'react-icons/bi'
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import SignUp from './signup';
+import SignIn from '../pages/SignIn';
 
 const Navbar = () => {
   return (

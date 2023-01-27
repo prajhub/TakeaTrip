@@ -25,6 +25,15 @@ const UserSchema = new mongoose.Schema({
         unique: true,
         max: 50,
     },
+    roles: {
+        User: {
+            type: Number,
+            default: 2001
+        },
+        Editor: Number,
+        Admin: Number,
+    },
+    refreshToken: String,
     followers: {
         type: Array,
         default: [],
