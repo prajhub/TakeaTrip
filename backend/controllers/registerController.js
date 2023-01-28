@@ -25,7 +25,7 @@ const handleNewUser = async (req, res) => {
                     message: "User created successfully",
                     user: {
                         id: user._id,
-                        username: user.username
+                        email: user.email
                     }
                 })
             })

@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom';
 import { BiBellMinus} from 'react-icons/bi'
 
-import SignUp from '../Pages/SignUp';
+import SignUp from '../materialUIButtons/SignUp';
 
 
 const Navbar = () => {
