@@ -6,7 +6,8 @@ import Homepage from './Pages/Homepage';
 import SignUp from './Pages/SignUp';
 import Protected from './Pages/Protected';
 import SignIn from './Pages/SignIn';
-
+import './App.css';
+import Sucsacc from './Components/sucsacc';
 const queryClient = new QueryClient();
 function App() {
   
@@ -20,6 +21,7 @@ function App() {
             <Route path='/' element={<Homepage/>} />
             <Route path='/register' element={<SignUp/>} />
             <Route path='/login' element={<SignIn/>} />
+            <Route path='/accreation' element={<Sucsacc/>} />
             <Route path='/protected' element={<Protected/>}/>
           </Routes>
         </div>

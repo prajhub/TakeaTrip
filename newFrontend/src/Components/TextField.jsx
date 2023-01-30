@@ -5,9 +5,10 @@ export const TextField = ({ label, ...props }) => {
   const [field, meta] = useField(props);
   return (
     <div className="mb-2">
-      <label htmlFor={field.name} className='text-sm mb-2'>{label}</label>
+      
       <input
-        className={`w-full h-10 px-3 mb-2 text-base text-gray-700 placeholder-gray-800 border rounded-lg focus:shadow-outline ${meta.touched && meta.error && 'is-invalid'}`}
+      placeholder={label}
+        className={`form-control block border border-grey-light w-full p-3 rounded mb-7 ${meta.touched && meta.error && 'is-invalid'}`}
         {...field} {...props}
         autoComplete="off"
       />
