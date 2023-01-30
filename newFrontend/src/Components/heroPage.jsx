@@ -1,23 +1,26 @@
 import React from 'react'
 import Navbar from './navBar';
 import { BsSearch} from 'react-icons/bs'
-
+import beachVid from '../assets/beachVid.mp4';
 
 const Hero = () => {
   return (
-    <div >
-        <div className='h-[500px] bg-center bg-no-repeat bg-cover bg-[url("../public/assets/switz-hero.jpg")]'>
-          <Navbar/>
-          <div className='max-w-[1240px] mx-auto flex flex-col  items-center'>
-            <h1 className='text-[#FFFFFF] text-[70px] font-["Unbounded"] mx-auto text-center max-w-[700px] pt-3 '>Your adventure starts here</h1>
+    <div className='w-full h-screen relative'>
+        <video className='w-full object-cover h-full' src={beachVid} autoPlay loop muted />
+        <div className='absolute top-0 w-full h-full flex flex-col justify-center text-center text-white p-4'>
+          <h1 className='font-["Unbounded"] text-[70px]'>Your adventure starts here</h1>
+          
+<form className='mt-40'>   
+    <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
+    <div class="relative  max-w-[700px]  mx-auto">
+        <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+            <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+        </div>
+        <input type="search" id="default-search" class="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-100/90 focus:ring-primary-500 focus:border-primary-800 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search locations" required/>
+        <button type="submit" class="text-white absolute right-2.5 bottom-2.5 bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Search</button>
+    </div>
+</form>
 
-            <form className='mt-[160px]'>
-              <div className='relative flex items-center text-gray-400 focus-within:text-gray-600'>
-                <BsSearch className='w-5 h-5 absolute ml-3'/>
-              <input type='text' placeholder='Take a trip' autoComplete='off' name='search' className='pr-[500px] pl-10 py-3 font-semibold placeholder-gray-500 text-black rounded-md border-none ring-2 ring-gray-300 focus:ring-gray-500 focus:ring-2'/>
-              </div>
-            </form>
-          </div>
         </div>
     </div>
   )
