@@ -11,7 +11,7 @@ const Homepage = () => {
       <Navbar/>
         <Hero/>
         <Explore/>
-        {/* <Yexplore/> */}
+        
     </div>
   )
 }
