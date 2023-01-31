@@ -25,13 +25,9 @@ const UserSchema = new mongoose.Schema({
         unique: true,
         max: 50,
     },
-    roles: {
-        User: {
-            type: Number,
-            default: 2001
-        },
-        Editor: Number,
-        Admin: Number,
+    isAdmin: {
+        type: Boolean,
+        default: false,
     },
     refreshToken: String,
     followers: {
@@ -40,11 +36,7 @@ const UserSchema = new mongoose.Schema({
     },
     location: String,
     aboutMe: String,
-    createdAt: {
-        type: mongoose.SchemaTypes.Date,
-        required: true,
-        default: new Date(),
-    }
-})
+    
+}, {timestamps: true })
 
 module.exports = mongoose.model('users', UserSchema);

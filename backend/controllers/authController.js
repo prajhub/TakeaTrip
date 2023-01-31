@@ -15,15 +15,15 @@ const handleLogin = async (req, res) => {
     const isValid = comparePassword(password, userDB.password);
     if (isValid) {
 
-        const roles = Object.values(userDB.roles)
+        
         // create JWTs
         const accessToken = jwt.sign(
-            { "email": userDB.email },
+            { id: userDB._id, isAdmin: userDB.isAdmin },
             process.env.ACCESS_TOKEN_SECRET,
             { expiresIn: '15m' }
         );
         const refreshToken = jwt.sign(
-            { "email": userDB.email },
+            { id: userDB._id },
             process.env.REFRESH_TOKEN_SECRET,
             { expiresIn: '1d' }
         );
@@ -33,7 +33,7 @@ const handleLogin = async (req, res) => {
         console.log(result)
 
 
-        res.cookie('jwt', refreshToken, { httpOnly: true, sameSite: 'None', secure: true, maxAge: 24 * 60 * 60 * 1000 });
+        res.cookie('jwt', accessToken, { httpOnly: true, sameSite: 'None', secure: true, maxAge: 24 * 60 * 60 * 1000 });
         res.json({ accessToken });
     } else {
         res.sendStatus(401);
