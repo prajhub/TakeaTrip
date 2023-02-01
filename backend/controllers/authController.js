@@ -6,39 +6,56 @@ const { comparePassword } = require('../utils/helpers')
 
 const handleLogin = async (req, res) => {
 
-    const {email, password} = req.body;
-    if (!email || !password) return res.status(400).json({ 'message': 'Email and password are required.' });
+    try {
+        const user = await  User.findOne({email: req.body.email})
+        if(!user) return res.status(400).json({
+            msg: 'No user found!'
+        })
 
-    const userDB = await User.findOne({ email }).exec();
-    if(!userDB) throw new Error('User not found');
+        const isPasswordCorrect = await comparePassword(req.body.password, user.password)
+        if(!isPasswordCorrect) return res.status(400).send({ msg: 'Incorrectt Password!'});
 
-    const isValid = comparePassword(password, userDB.password);
-    if (isValid) {
+        const token = jwt.sign({id: user._id, isAdmin: user.isAdmin}, process.env.ACCESS_TOKEN_SECRET);
+        
+        const {password, isAdmin, ...otherData} = user._doc
+
+        res.cookie("access_token", token, {
+            httpOnly: true,
+        }).res.status(200).json({...otherData})
+    
+    } catch (error) {
+        res.send(error)
+    }
+
+
+
+ 
 
         
         // create JWTs
-        const accessToken = jwt.sign(
-            { id: userDB._id, isAdmin: userDB.isAdmin },
-            process.env.ACCESS_TOKEN_SECRET,
-            { expiresIn: '15m' }
-        );
-        const refreshToken = jwt.sign(
-            { id: userDB._id },
-            process.env.REFRESH_TOKEN_SECRET,
-            { expiresIn: '1d' }
-        );
-        // Saving refreshToken with current user
-        userDB.refreshToken = refreshToken;
-        const result = await userDB.save();
-        console.log(result)
+
+     
 
 
-        res.cookie('jwt', accessToken, { httpOnly: true, sameSite: 'None', secure: true, maxAge: 24 * 60 * 60 * 1000 });
-        res.json({ accessToken });
-    } else {
-        res.sendStatus(401);
-    }
 
+        // const accessToken = jwt.sign(
+        //     { id: userDB._id, isAdmin: userDB.isAdmin },
+        //     process.env.ACCESS_TOKEN_SECRET,
+        //     { expiresIn: '15m' }
+        // );
+        // const refreshToken = jwt.sign(
+        //     { id: userDB._id, isAdmin: userDB.isAdmin},
+        //     process.env.REFRESH_TOKEN_SECRET,
+        //     { expiresIn: '1d' }
+        // );
+        // // Saving refreshToken with current user`
+        // userDB.accesToken = accessToken;
+        // userDB.refreshToken = refreshToken;
+        // const result = await userDB.save();
+        // console.log(result)
+
+
+       
 }
 
 module.exports = { handleLogin };

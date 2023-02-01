@@ -29,6 +29,7 @@ const UserSchema = new mongoose.Schema({
         type: Boolean,
         default: false,
     },
+    accesToken: String,
     refreshToken: String,
     followers: {
         type: Array,

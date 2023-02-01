@@ -44,8 +44,8 @@ app.use(cors())
 //routes
 app.use('/register', require('./routes/register'));
 app.use('/auth', require('./routes/auth'));
-app.use('/refresh', require('./routes/refresh'));
-app.use('/logout', require('./routes/logout'));
+// app.use('/refresh', require('./routes/refresh'));
+// app.use('/logout', require('./routes/logout'));
 app.use('/hotels', require('./routes/hotels'));
 app.use('/users', require('./routes/users'));
 

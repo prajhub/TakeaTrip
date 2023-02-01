@@ -3,10 +3,13 @@ const { deleteUser, getUser, getUsers, updateUser } = require('../controllers/us
 
 const express = require('express');
 
+const verifyToken = require('../middleware/verifyJWT');
 const router = express.Router();
 
 
-
+router.get('/checkauthentication', verifyToken, (req, res, next) => {
+    res.send("Hello user you are logged in!")
+})
 
 
 
