@@ -1,11 +1,18 @@
-import React from 'react'
-import { Link } from 'react-router-dom';
-import { BiBellMinus} from 'react-icons/bi'
+import React, { useState } from 'react'
 import { Navigate } from 'react-router-dom';
-import SignUp from '../materialUIButtons/SignUp';
-
+import { useQuery, useMutation, useQueryClient } from 'react-query';
+import { getUser } from '../ApiQueries/UserApi';
 
 const Navbar = () => {
+
+    const queryClient = useQueryClient();
+
+    const {
+        isLoading,
+        isError,
+        error,
+        data: user
+    } = useQuery('user', getUser)
   return (
     <header>
     <nav class="border-gray-200 w-full px-4 lg:px-6 py-2.5 dark:bg-gray-800 absolute z-10 text-white">
