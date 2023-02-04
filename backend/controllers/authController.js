@@ -13,15 +13,15 @@ const handleLogin = async (req, res) => {
         })
 
         const isPasswordCorrect = await comparePassword(req.body.password, user.password)
-        if(!isPasswordCorrect) return res.status(400).send({ msg: 'Incorrectt Password!'});
+        if(!isPasswordCorrect) return res.status(400).send({ msg: 'Incorrectt Password laude!'});
 
         const token = jwt.sign({id: user._id, isAdmin: user.isAdmin}, process.env.ACCESS_TOKEN_SECRET);
         
-        const {password, isAdmin, ...otherData} = user._doc
+       const { password, isAdmin, ...otherDetails} = user._doc;
 
         res.cookie("access_token", token, {
             httpOnly: true,
-        }).res.status(200).json({...otherData})
+        }).status(200).json({ details: {...otherDetails, isAdmin}})
     
     } catch (error) {
         res.send(error)
