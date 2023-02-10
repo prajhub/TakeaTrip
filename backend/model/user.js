@@ -25,6 +25,10 @@ const UserSchema = new mongoose.Schema({
         unique: true,
         max: 50,
     },
+    country: {
+        type: String,
+        required: true
+    },
     isAdmin: {
         type: Boolean,
         default: false,
