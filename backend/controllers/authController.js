@@ -21,7 +21,7 @@ const handleLogin = async (req, res) => {
 
         res.cookie("access_token", token, {
             httpOnly: true,
-        }).status(200).json({ details: {...otherDetails, isAdmin}})
+        }).status(200).json({ details: {...otherDetails}, isAdmin})
     
     } catch (error) {
         res.send(error)
