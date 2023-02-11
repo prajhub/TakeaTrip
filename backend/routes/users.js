@@ -34,7 +34,7 @@ router.get("/:id", verifyUser, getUser)
 
 
 //GETALL
-router.get("/", verifyAdmin, getUsers)
+router.get("/",  getUsers)
 
 
 module.exports = router;
