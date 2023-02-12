@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken')
 
 const verifyToken = async (req, res, next) => {
 
-    const token = req.cookies.access_token;
+    const token = await req.cookies.access_token;
     if(!token){
         res.status(401).status({ msg: "You are not authenticated!"})
     }
@@ -12,7 +12,7 @@ const verifyToken = async (req, res, next) => {
         if(err) return res.status(401).status({ msg: "Token not valid."});
 
          req.user = user;
-         return next();
+          next();
     })
 }
 
