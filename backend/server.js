@@ -8,7 +8,7 @@ const session = require('express-session')
 const bodyParser = require('body-parser')
 const cors = require('cors')
 const jwt = require('jsonwebtoken')
-const verifyJWT = require('./middleware/verifyJWT')
+
 const secretKey = process.env.JWT_SECRET;
 //Connecting to DB
 const connectDB = require('./config/db')
@@ -17,7 +17,7 @@ const bcrypt = require('bcrypt');
 
 
 const app = express();
-require('./strategies/local')
+
 require('./model/user')
 // require('./config/passport');
 connectDB();

@@ -1,40 +1,34 @@
 import { useRef, useState, useContext} from 'react'
 import { useMutation, useQueryClient, useQuery } from 'react-query';
 import axios from 'axios';
-import { AuthContext } from '../Context/AuthContext';
+
 import { Navigate, useNavigate } from 'react-router';
 import Header from '../Components/header';
 import MainLogo from '../assets/mainlogo.png'
-import { loginUser } from '../ApiQueries';
+
 
 const SignIn = () => {
 
   
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
 
-  const credentials = {
-    email: email,
-    password: password,
-  }
-  const { loading, error, dispatch } = useContext(AuthContext);
+
+  const [formData, setFormData] = useState({
+    email: '',
+    password: '',
+  })
+
+  const { email, password } = formData
+
 
   const navigate = useNavigate()
 
-  const hanldeLogin = async (e) => {
-    e.preventDefault()
-    dispatch({type: "LOGIN_START"})
-    try {
-      const res = await axios.post('http://localhost:5000/auth', credentials)
-      
-      dispatch({ type: "LOGIN_SUCCESS", payload: res.data.details})
-      navigate('/')
-    } catch (error) {
-      console.log(error)
-      dispatch({type: "LOGIN_FAILURE", payload:error.response.data})
-    }
-  }
-
+  
+const onChange = (e) => {
+  setFormData((prevState)=> ({
+    ...prevState,
+    [e.target.name]: e.target.value,
+  }))
+}
 
 
 
@@ -51,16 +45,16 @@ const SignIn = () => {
         <a href="#" class=" ml-1 font-medium text-primary-600 hover:text-primary-500">Create One</a>
       </p>
     </div>
-    <form class="mt-8 space-y-6" onSubmit={hanldeLogin}>
+    <form class="mt-8 space-y-6" >
       <input type="hidden" name="remember" value="true"/>
       <div class="-space-y-px rounded-md shadow-sm">
         <div>
           <label for="email-address" class="sr-only">Email address</label>
-          <input id="email-address" value={email} name="email" type="email" onChange={e => setEmail(e.target.value)} required class="relative block w-full appearance-none rounded-none rounded-t-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-primary-500 focus:outline-none focus:ring-primary-500 sm:text-sm" placeholder="Email address"/>
+          <input id="email-address" onChange={onChange} value={email} name="email" type="email"  required class="relative block w-full appearance-none rounded-none rounded-t-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-primary-500 focus:outline-none focus:ring-primary-500 sm:text-sm" placeholder="Email address"/>
         </div>
         <div>
           <label for="password" class="sr-only">Password</label>
-          <input id="password" name="password" type="password" value={password} onChange={e => setPassword(e.target.value)} autocomplete="current-password" required class="relative block w-full appearance-none rounded-none rounded-b-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-primary-500 focus:outline-none focus:ring-primary-500 sm:text-sm" placeholder="Password"/>
+          <input id="password" name="password" onChange={onChange} type="password" value={password}  autocomplete="current-password" required class="relative block w-full appearance-none rounded-none rounded-b-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-primary-500 focus:outline-none focus:ring-primary-500 sm:text-sm" placeholder="Password"/>
         </div>
       </div>
 
@@ -76,7 +70,7 @@ const SignIn = () => {
       </div>
 
       <div>
-        <button disabled={loading}  class="group relative flex w-full justify-center rounded-md border border-transparent bg-primary-600 py-2 px-4 text-sm font-medium text-white hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2">
+        <button   class="group relative flex w-full justify-center rounded-md border border-transparent bg-primary-600 py-2 px-4 text-sm font-medium text-white hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2">
           <span class="absolute inset-y-0 left-0 flex items-center pl-3">
          
             <svg class="h-5 w-5 text-primary-500 group-hover:text-primary-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
@@ -85,7 +79,7 @@ const SignIn = () => {
           </span>
           Sign in
         </button>
-        {error && <span>{error.message}</span>}
+        
       </div>
     </form>
   </div>

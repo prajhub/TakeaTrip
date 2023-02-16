@@ -1,15 +1,20 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Formik, Form } from 'formik';
 import { TextField } from '../Components/TextField';
 import * as Yup from 'yup';
 import { useMutation } from 'react-query';
 import axios from 'axios';
 import { Navigate } from 'react-router';
+import { registerUser } from '../ApiQueriesuseQuery';
+import Spinner from '../Components/Spinner'
+
 import Header from '../Components/header';
 
 const SignUp = () => {
 
-  const [navigate, setNavigate] = useState(false);
+
+const [navigate, setNavigate] = useState(false)
+ 
 
   const {mutate} = useMutation(
     userData => axios.post('http://localhost:5000/register', userData ),
@@ -22,8 +27,10 @@ const SignUp = () => {
 
 
 if(navigate) {
-  return <Navigate to='/'/>
+  return <Navigate to='/accreation'/>
 }
+
+
 
   const validate = Yup.object({
     firstName: Yup.string()
@@ -52,7 +59,8 @@ if(navigate) {
     validationSchema={validate}
     onSubmit={values => {
       const userData = values
-      mutate(userData);
+      console.log(userData)
+      mutate(userData)
     }}
   >
     {formik => (

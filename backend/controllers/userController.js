@@ -1,50 +1,77 @@
-const User = require('../model/user')
+const asyncHandler = require('express-async-handler')
 
-// const createUser = async (req, res) => {
+const User = require('../model/user');
+const { hashPassword } = require('../utils/helpers');
 
-//     const newHotel = new User(req.body)
 
-//     try {
-//         const savedHotel = await newHotel.save()
-//         res.status(200).json(savedHotel)
-//     } catch (error) {
 
-//         res.status(500).json(error)
-//         console.log(error)
-        
-//     }
-// }
 
-const updateUser = async (req, res) => {
+const updateUser = asyncHandler(async (req, res) => {
 
-    try {
-        const updatedUser = await User.findByIdAndUpdate(req.params.id, { $set: req.body}, {new: true})
-        res.status(200).json(updatedUser)
-    } catch (error) {
+    const { id, email, roles, active, password} = req.body;
 
-        res.status(500).json(error)
-        console.log(error)
-        
+    //Confirm data
+    if(!id || !email || !Array.isArray(roles) || !roles.length || typeof active !== 'boolean'){
+        res.status(400).json({ message: 'All fields are required'})
     }
-}
 
-const deleteUser = async (req, res) => {
+    const user = await User.findById(id).exec()
 
-    try {
-        await User.findByIdAndDelete(req.params.id)
-        res.status(200).json("Hotel has been deleted.")
-    } catch (error) {
-
-        res.status(500).json(error)
-        console.log(error)
-        
+    if(!user){
+        return res.status(400).json({ message: 'User not found'})
     }
-}
+
+    //Checking for same usr
+
+    const duplicate = await User.findOne({ email }).lean().exec()
+
+    if(duplicate && duplicate?._id.toString() !== id) {
+        return res.status(409).json({ message: 'Duplicate Username'})
+    }
+
+    user.firstName = firstName
+    user.lastName = lastName
+    user.email = email
+    user.roles = roles
+
+
+    if(password) {
+        user.password = await hashPassword(password)
+    }
+
+    const updatedUser = await user.save()
+
+    res.json({ message: `${updatedUser.email} updated`})
+
+})
+
+const deleteUser = asyncHandler(async (req, res) => {
+
+    const { id } = req.body
+
+    if(!id) {
+        return res.status(400).json({ message: 'User id is required'})
+    }
+
+
+    const user = await User.findById(id).exec()
+
+    if(!user) {
+        return res.status(400).json({ message: 'user not found'})
+    }
+
+    const result = await user.deleteOne()
+
+    const reply = `Username ${result.email} with ID ${result._id} deleted`
+
+    res.json(reply)
+    
+})
 
 const getUser = async (req, res) => {
 
     try {
-        const user = await User.find(req.params.id)
+        const user = await User.findById(req.params.id)
         res.status(200).json(user)
     } catch (error) {
 
@@ -54,16 +81,14 @@ const getUser = async (req, res) => {
     }
 }
 
-const getUsers = async (req, res) => {
+const getUsers = asyncHandler(async (req, res) => {
 
-    try {
-        const users = await User.find()
-        res.status(200).json(users)
-    } catch (error) {
-
-        res.status(500).json(error)
-        
+    const users = await User.find().select('-password').lean()
+    if(!users) {
+        return res.status(400).json({ message: 'No user '})
     }
-}
+
+    res.json(users)
+})
     
 module.exports = {  updateUser, deleteUser, getUser, getUsers };

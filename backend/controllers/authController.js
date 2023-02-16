@@ -4,56 +4,36 @@ const jwt = require('jsonwebtoken');
 require('dotenv').config();
 const { comparePassword } = require('../utils/helpers')
 
+
+const generateToken = (id) => {
+    return jwt.sign({ id }, process.env.ACCESS_TOKEN_SECRET, {
+        expiresIn: '1d'
+    })
+}
+
 const handleLogin = async (req, res) => {
 
-    try {
-        const user = await  User.findOne({email: req.body.email})
-        if(!user) return res.status(400).json({
-            msg: 'No user found!'
+    const { email, password } = req.body
+
+    //check for user email
+    const user = await User.findOne({email})
+   
+    if(user && (comparePassword(password, user.password))) {
+        res.json({
+            _id: user.id,
+            email: user.email,
+            token: generateToken(user._id)
         })
-
-        const isPasswordCorrect = await comparePassword(req.body.password, user.password)
-        if(!isPasswordCorrect) return res.status(400).send({ msg: 'Incorrectt Password laude!'});
-
-        const token = jwt.sign({id: user._id, isAdmin: user.isAdmin}, process.env.ACCESS_TOKEN_SECRET);
-        
-       const { password, isAdmin, ...otherDetails} = user._doc;
-
-        res.cookie("access_token", token, {
-            httpOnly: true,
-        }).status(200).json({ details: {...otherDetails}, isAdmin})
-    
-    } catch (error) {
-        res.send(error)
+    } else {
+        res.status(400)
+        throw new Error('Invalid credentials')
     }
-
 
 
  
 
         
-        // create JWTs
-
-     
-
-
-
-        // const accessToken = jwt.sign(
-        //     { id: userDB._id, isAdmin: userDB.isAdmin },
-        //     process.env.ACCESS_TOKEN_SECRET,
-        //     { expiresIn: '15m' }
-        // );
-        // const refreshToken = jwt.sign(
-        //     { id: userDB._id, isAdmin: userDB.isAdmin},
-        //     process.env.REFRESH_TOKEN_SECRET,
-        //     { expiresIn: '1d' }
-        // );
-        // // Saving refreshToken with current user`
-        // userDB.accesToken = accessToken;
-        // userDB.refreshToken = refreshToken;
-        // const result = await userDB.save();
-        // console.log(result)
-
+        
 
        
 }
