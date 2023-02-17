@@ -1,17 +1,21 @@
 import { useRef, useState, useContext} from 'react'
 import { useMutation, useQueryClient, useQuery } from 'react-query';
 import axios from 'axios';
-
+import { useDispatch, useSelector } from 'react-redux';
 import { Navigate, useNavigate } from 'react-router';
 import Header from '../Components/header';
 import MainLogo from '../assets/mainlogo.png'
+import { setLogin } from '../state';
 
 
 const SignIn = () => {
 
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [navigate, setNavigate] = useState(false)
+  // const [navigate, setNavigate] = useState(false)
 
   const mainData = {
     email,
@@ -24,8 +28,16 @@ const SignIn = () => {
     userData => axios.post('http://localhost:5000/auth', userData ),
     {
       onSuccess: () => {
-        setNavigate(true)
-        localStorage.setItem('user', JSON.stringify(data.data))
+        
+          console.log(data)
+          dispatch(
+            setLogin({
+              user: data.data.sameUser,
+              token: data.data.accessToken        
+            })
+          )
+
+          navigate('/')
 
       }
     }
@@ -34,11 +46,12 @@ const SignIn = () => {
 const handleSubmit = (e) => {
   e.preventDefault()
   mutate(mainData)
+  console.log(mainData)
 }
 
-if(navigate) {
-  return <Navigate to='/'/>
-}
+// if(navigate) {
+//   return <Navigate to='/'/>
+// }
 
 
  

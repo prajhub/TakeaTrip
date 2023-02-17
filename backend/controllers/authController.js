@@ -32,16 +32,16 @@ const login = asynchHandler( async (req, res) => {
         {
 
         "UserInfo": {
-            "email": sameUser.email,
+            
             "id": sameUser._id
         }
         },
         process.env.ACCESS_TOKEN_SECRET,
-        { expiresIn: '10s'}
+        { expiresIn: '10d'}
     )
 
     const refreshToken = jwt.sign(
-        { "email": sameUser.email },
+        { "id": sameUser._id },
         process.env.REFRESH_TOKEN_SECRET,
         { expiresIn: '1d'}
     )
@@ -57,7 +57,7 @@ const login = asynchHandler( async (req, res) => {
     })
 
     //send accesstoken containing user info
-    res.json({ accessToken })
+    res.json({ accessToken, sameUser })
 
 })
 
