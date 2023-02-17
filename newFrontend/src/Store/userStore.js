@@ -1,22 +1,29 @@
-// import axios from "axios";
+import axios from "axios";
 
-// import create from 'zustand';
+import create from 'zustand';
 
-// import { persist } from 'zustand/middleware'
-
-
-// const URL = "http://localhost:5000/register";
+import { persist } from 'zustand/middleware'
 
 
-// const useUserStore =  create(
-//     persist((set, get) => ({
+const URL = "http://localhost:5000/auth";
 
-//         user: '',
-//         loading: false,
 
-//         registerUser: async () => {
-//             const response = await axios.post()
-//         }
+const currentUser = JSON.parse(localStorage.getItem('user'))
 
-//     }))
-// )
+
+const useUserStore =  create(
+    persist((set, get) => ({
+
+        user: currentUser ? currentUser : null,
+        
+
+        // registerUser: async () => {
+        //     const state = get();
+        //     const response = await axios.post(URL, userData);
+        //     set({ loading: false, user: localStorage.setItem('user', JSON.stringify(response.data))})
+        // }
+
+    }))
+)
+
+export default useUserStore;

@@ -9,26 +9,44 @@ import MainLogo from '../assets/mainlogo.png'
 
 const SignIn = () => {
 
-  
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [navigate, setNavigate] = useState(false)
+
+  const mainData = {
+    email,
+    password,
+  }
 
 
-  const [formData, setFormData] = useState({
-    email: '',
-    password: '',
-  })
 
-  const { email, password } = formData
+  const {mutate, data} = useMutation(
+    userData => axios.post('http://localhost:5000/auth', userData ),
+    {
+      onSuccess: () => {
+        setNavigate(true)
+        localStorage.setItem('user', JSON.stringify(data.data))
 
+      }
+    }
+)
 
-  const navigate = useNavigate()
-
-  
-const onChange = (e) => {
-  setFormData((prevState)=> ({
-    ...prevState,
-    [e.target.name]: e.target.value,
-  }))
+const handleSubmit = (e) => {
+  e.preventDefault()
+  mutate(mainData)
 }
+
+if(navigate) {
+  return <Navigate to='/'/>
+}
+
+
+ 
+  
+  
+
+  
+
 
 
 
@@ -45,16 +63,16 @@ const onChange = (e) => {
         <a href="#" class=" ml-1 font-medium text-primary-600 hover:text-primary-500">Create One</a>
       </p>
     </div>
-    <form class="mt-8 space-y-6" >
+    <form class="mt-8 space-y-6"  onSubmit={handleSubmit}>
       <input type="hidden" name="remember" value="true"/>
       <div class="-space-y-px rounded-md shadow-sm">
         <div>
           <label for="email-address" class="sr-only">Email address</label>
-          <input id="email-address" onChange={onChange} value={email} name="email" type="email"  required class="relative block w-full appearance-none rounded-none rounded-t-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-primary-500 focus:outline-none focus:ring-primary-500 sm:text-sm" placeholder="Email address"/>
+          <input id="email-address" onChange={(e) => setEmail(e.target.value)} value={email} name="email" type="email"  required class="relative block w-full appearance-none rounded-none rounded-t-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-primary-500 focus:outline-none focus:ring-primary-500 sm:text-sm" placeholder="Email address"/>
         </div>
         <div>
           <label for="password" class="sr-only">Password</label>
-          <input id="password" name="password" onChange={onChange} type="password" value={password}  autocomplete="current-password" required class="relative block w-full appearance-none rounded-none rounded-b-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-primary-500 focus:outline-none focus:ring-primary-500 sm:text-sm" placeholder="Password"/>
+          <input id="password" name="password" onChange={(e) => setPassword(e.target.value)} type="password" value={password}  autocomplete="current-password" required class="relative block w-full appearance-none rounded-none rounded-b-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-primary-500 focus:outline-none focus:ring-primary-500 sm:text-sm" placeholder="Password"/>
         </div>
       </div>
 
