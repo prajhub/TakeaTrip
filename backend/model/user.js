@@ -1,4 +1,5 @@
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
+const refreshToken = require('./refreshToken').schema;
 
 
 const UserSchema = new mongoose.Schema({
@@ -31,7 +32,9 @@ const UserSchema = new mongoose.Schema({
     },
     
     accesToken: String,
-    refreshToken: String,
+    refreshToken: {
+        type: [refreshToken]
+    },
     followers: {
         type: Array,
         default: [],

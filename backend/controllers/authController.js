@@ -3,6 +3,7 @@ const User = require('../model/user')
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
 const { comparePassword } = require('../utils/helpers')
+const { addRefreshTokenToWhitelist } = require('../utils/authService')
 const asynchHandler = require('express-async-handler')
 
 
@@ -57,7 +58,9 @@ const login = asynchHandler( async (req, res) => {
     })
 
     //send accesstoken containing user info
-    res.json({ accessToken, sameUser })
+    res.json({ accessToken, refreshToken })
+    await addRefreshTokenToWhitelist({ refreshToken, userId: sameUser._id})
+
 
 })
 

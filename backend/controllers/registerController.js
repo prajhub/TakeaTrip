@@ -7,12 +7,6 @@ const bcrypt = require('bcrypt');
 const asyncHandler = require('express-async-handler');
 
 
-const generateToken = (id) => {
-    return jwt.sign({ id }, process.env.ACCESS_TOKEN_SECRET, {
-        expiresIn: '1d'
-    })
-}
-
 
 const handleNewUser = asyncHandler(async (req, res) => {
 
@@ -31,10 +25,20 @@ const handleNewUser = asyncHandler(async (req, res) => {
     if (duplicate) {
         return res.status(400).json({ message: "User exist"})
     } else {
+
         const password = await hashPassword(req.body.password)
         const newUser = await User.create({ firstName, lastName, email, password})
-        res.sendStatus(201)
+        
+        res.sendStatus(201).json({ newUser})
     }
+        
+        
+      
+          
+       
+            
+        
+    
 
     
     

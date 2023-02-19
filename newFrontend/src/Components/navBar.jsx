@@ -1,17 +1,24 @@
-import React, { useState, useContext } from 'react'
-import { useDispatch, useSelector } from 'react-redux';
-import { setLogout } from '../state';
-import { useNavigate } from 'react-router';
+import React, { useState, useContext} from 'react'
 
+
+import { useMutation } from 'react-query';
+import { useNavigate } from 'react-router';
+import {Menu, Transition} from '@headlessui/react'
+import { ChevronDownIcon } from '@heroicons/react/20/solid'
+
+
+function classNames(...classes) {
+    return classes.filter(Boolean).join(' ')
+  }
 
 
 const Navbar = () => {
 
-const dispatch = useDispatch();
-const navigate = useNavigate();
-const user = useSelector((state) => state.user);
 
-const fullName = `${user.firstName} ${user.lastName}`
+
+
+
+
 
 
   return (
@@ -28,13 +35,89 @@ const fullName = `${user.firstName} ${user.lastName}`
                     
                         
 
-            {user ? <p>{fullName}</p> : 
+            {/* <Menu as="div" className="relative inline-block text-left">
+      <div>
+        <Menu.Button className="inline-flex w-full justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-100">
+          {user.firstName}
+          <ChevronDownIcon className="-mr-1 ml-2 h-5 w-5" aria-hidden="true" />
+        </Menu.Button>
+      </div>
+
+      <Transition
+        as={Fragment}
+        enter="transition ease-out duration-100"
+        enterFrom="transform opacity-0 scale-95"
+        enterTo="transform opacity-100 scale-100"
+        leave="transition ease-in duration-75"
+        leaveFrom="transform opacity-100 scale-100"
+        leaveTo="transform opacity-0 scale-95"
+      >
+        <Menu.Items className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+          <div className="py-1">
+            <Menu.Item>
+              {({ active }) => (
+                <a
+                  href="#"
+                  className={classNames(
+                    active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                    'block px-4 py-2 text-sm'
+                  )}
+                >
+                  Account settings
+                </a>
+              )}
+            </Menu.Item>
+            <Menu.Item>
+              {({ active }) => (
+                <a
+                  href="#"
+                  className={classNames(
+                    active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                    'block px-4 py-2 text-sm'
+                  )}
+                >
+                  Support
+                </a>
+              )}
+            </Menu.Item>
+            <Menu.Item>
+              {({ active }) => (
+                <a
+                  href="#"
+                  className={classNames(
+                    active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                    'block px-4 py-2 text-sm'
+                  )}
+                >
+                  License
+                </a>
+              )}
+            </Menu.Item>
+            <form>
+              <Menu.Item>
+                {({ active }) => (
+                  <button onClick={handleLogOut}
+                    type="submit"
+                    className={classNames(
+                      active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                      'block w-full px-4 py-2 text-left text-sm'
+                    )}
+                  >
+                    Sign out
+                  </button>
+                )}
+              </Menu.Item>
+            </form>
+          </div>
+        </Menu.Items>
+      </Transition>
+    </Menu>   */}
                       
                         <div>
                             <a href="/login" class="text-gray-800 dark:text-white hover:bg-gray-50 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 dark:hover:bg-gray-700 focus:outline-none dark:focus:ring-gray-800">Log in</a>
                             <a href="/register" class="text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800">Get started</a>
                         </div> 
-}
+
                 <button data-collapse-toggle="mobile-menu-2" type="button" class="inline-flex items-center p-2 ml-1 text-sm text-gray-500 rounded-lg lg:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="mobile-menu-2" aria-expanded="false">
                     <span class="sr-only">Open main menu</span>
                     <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path></svg>

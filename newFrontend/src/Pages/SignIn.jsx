@@ -1,11 +1,11 @@
 import { useRef, useState, useContext} from 'react'
 import { useMutation, useQueryClient, useQuery } from 'react-query';
 import axios from 'axios';
-import { useDispatch, useSelector } from 'react-redux';
+
 import { Navigate, useNavigate } from 'react-router';
 import Header from '../Components/header';
 import MainLogo from '../assets/mainlogo.png'
-import { setLogin } from '../state';
+
 
 
 const SignIn = () => {
@@ -30,14 +30,14 @@ const SignIn = () => {
       onSuccess: () => {
         
           console.log(data)
-          dispatch(
-            setLogin({
-              user: data.data.sameUser,
-              token: data.data.accessToken        
-            })
-          )
+          // dispatch(
+          //   setLogin({
+          //     user: data.data.sameUser,
+          //     token: data.data.accessToken        
+          //   })
+          // )
 
-          navigate('/')
+          // navigate('/')
 
       }
     }
