@@ -1,5 +1,4 @@
-import { create } from 'zustand'
-import { persist, createJSONStorage } from 'zustand/middleware'
+import create from "zustand";
 
 function setTokensToLocalStorage({ accessToken, refreshToken }) {
   localStorage.setItem("accessToken", accessToken);
@@ -11,7 +10,7 @@ function removeTokensFromLocalStorage() {
   localStorage.removeItem("refreshToken");
 }
 
-export const useAuthStore = create(persist((set, get) => ({
+export const useAuthStore = create((set, get) => ({
   accessToken: localStorage.getItem("accessToken") || null,
   refreshToken: localStorage.getItem("refreshToken") || null,
   isLoggedIn: () => !!get().accessToken,
@@ -31,4 +30,4 @@ export const useAuthStore = create(persist((set, get) => ({
       refreshToken: null,
     }));
   },
-})));
+}));

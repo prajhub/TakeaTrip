@@ -1,64 +1,74 @@
-import { useRef, useState, useContext} from 'react'
-import { useMutation, useQueryClient, useQuery } from 'react-query';
-import axios from 'axios';
+import { useRef, useState, useContext, useEffect} from 'react'
+import { useLogin } from '../Hooks/useLogin';
 
-import { Navigate, useNavigate } from 'react-router';
-import Header from '../Components/header';
+
+
+
+
 import MainLogo from '../assets/mainlogo.png'
 
 
 
 const SignIn = () => {
 
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
+  
+
+  
+ 
+
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  // const [navigate, setNavigate] = useState(false)
+  const { login, error, isLoading } = useLogin()
+  
 
-  const mainData = {
-    email,
-    password,
+  const hanldeSubmit = async (e) => {
+    e.preventDefault()
+
+    await login(email, password)
   }
 
 
 
-  const {mutate, data} = useMutation(
-    userData => axios.post('http://localhost:5000/auth', userData ),
-    {
-      onSuccess: () => {
+
+
+  // const [navigate, setNavigate] = useState(false)
+
+  // const mainData = {
+  //   email,
+  //   password,
+  // }
+
+
+
+//   const {mutate, data} = useMutation(
+//     userData => axios.post('http://localhost:5000/auth', userData ),
+//     {
+//       onSuccess: () => {
         
-          console.log(data)
-          // dispatch(
-          //   setLogin({
-          //     user: data.data.sameUser,
-          //     token: data.data.accessToken        
-          //   })
-          // )
+//           console.log(data)
+//           // dispatch(
+//           //   setLogin({
+//           //     user: data.data.sameUser,
+//           //     token: data.data.accessToken        
+//           //   })
+//           // )
 
-          // navigate('/')
+//           // navigate('/')
 
-      }
-    }
-)
+//       }
+//     }
+// )
 
-const handleSubmit = (e) => {
-  e.preventDefault()
-  mutate(mainData)
-  console.log(mainData)
-}
+// const handleSubmit = (e) => {
+//   e.preventDefault()
+//   mutate(mainData)
+//   console.log(mainData)
+// }
 
 // if(navigate) {
 //   return <Navigate to='/'/>
 // }
-
-
- 
-  
-  
-
-  
 
 
 
@@ -76,16 +86,17 @@ const handleSubmit = (e) => {
         <a href="#" class=" ml-1 font-medium text-primary-600 hover:text-primary-500">Create One</a>
       </p>
     </div>
-    <form class="mt-8 space-y-6"  onSubmit={handleSubmit}>
+  
+    <form class="mt-8 space-y-6" onSubmit={hanldeSubmit}  >
       <input type="hidden" name="remember" value="true"/>
       <div class="-space-y-px rounded-md shadow-sm">
         <div>
           <label for="email-address" class="sr-only">Email address</label>
-          <input id="email-address" onChange={(e) => setEmail(e.target.value)} value={email} name="email" type="email"  required class="relative block w-full appearance-none rounded-none rounded-t-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-primary-500 focus:outline-none focus:ring-primary-500 sm:text-sm" placeholder="Email address"/>
+          <input id="email-address"   value={email} name="email" type="email" onChange={(e) => setEmail(e.target.value)}  required class="relative block w-full appearance-none rounded-none rounded-t-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-primary-500 focus:outline-none focus:ring-primary-500 sm:text-sm" placeholder="Email address"/>
         </div>
         <div>
           <label for="password" class="sr-only">Password</label>
-          <input id="password" name="password" onChange={(e) => setPassword(e.target.value)} type="password" value={password}  autocomplete="current-password" required class="relative block w-full appearance-none rounded-none rounded-b-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-primary-500 focus:outline-none focus:ring-primary-500 sm:text-sm" placeholder="Password"/>
+          <input id="password" name="password"  type="password" value={password} onChange={(e) => setPassword(e.target.value)}  autocomplete="current-password" required class="relative block w-full appearance-none rounded-none rounded-b-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-primary-500 focus:outline-none focus:ring-primary-500 sm:text-sm" placeholder="Password"/>
         </div>
       </div>
 
@@ -101,7 +112,7 @@ const handleSubmit = (e) => {
       </div>
 
       <div>
-        <button   class="group relative flex w-full justify-center rounded-md border border-transparent bg-primary-600 py-2 px-4 text-sm font-medium text-white hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2">
+        <button disabled={isLoading}   class="group relative flex w-full justify-center rounded-md border border-transparent bg-primary-600 py-2 px-4 text-sm font-medium text-white hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2">
           <span class="absolute inset-y-0 left-0 flex items-center pl-3">
          
             <svg class="h-5 w-5 text-primary-500 group-hover:text-primary-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
@@ -110,7 +121,7 @@ const handleSubmit = (e) => {
           </span>
           Sign in
         </button>
-        
+        {error && <div>{error}</div>}
       </div>
     </form>
   </div>

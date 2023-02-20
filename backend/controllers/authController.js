@@ -3,8 +3,8 @@ const User = require('../model/user')
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
 const { comparePassword } = require('../utils/helpers')
-const { addRefreshTokenToWhitelist } = require('../utils/authService')
-const asynchHandler = require('express-async-handler')
+
+const asynchHandler = require('express-async-handler');
 
 
 //@desc Login
@@ -21,7 +21,7 @@ const login = asynchHandler( async (req, res) => {
     const sameUser = await User.findOne({ email }).exec()
 
     if(!sameUser){
-        return res.status(401).json({ message: 'Unauthorized' })
+        return res.status(401).json({ message: 'Invalid Email' })
     }
 
     const check = await comparePassword(password, sameUser.password)
@@ -38,28 +38,30 @@ const login = asynchHandler( async (req, res) => {
         }
         },
         process.env.ACCESS_TOKEN_SECRET,
-        { expiresIn: '10d'}
+        { expiresIn: '5m'}
     )
 
     const refreshToken = jwt.sign(
         { "id": sameUser._id },
         process.env.REFRESH_TOKEN_SECRET,
-        { expiresIn: '1d'}
+        { expiresIn: '8h'}
     )
+
+   
 
 
     //Create secure cookies with ref token
 
-    res.cookie('jwt', refreshToken, {
-        httpOnly: true,
-        secure: true,
-        sameSite: 'None',
-        maxAge: 7 * 24 * 60 * 60 * 1000
-    })
+    // res.cookie('jwt', refreshToken, {
+    //     httpOnly: true,
+    //     secure: true,
+    //     sameSite: 'None',
+    //     maxAge: 7 * 24 * 60 * 60 * 1000
+    // })
 
     //send accesstoken containing user info
-    res.json({ accessToken, refreshToken })
-    await addRefreshTokenToWhitelist({ refreshToken, userId: sameUser._id})
+    res.json({ accessToken, email })
+   
 
 
 })

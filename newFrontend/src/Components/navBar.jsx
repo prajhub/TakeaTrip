@@ -1,10 +1,13 @@
-import React, { useState, useContext} from 'react'
+import React, { useState, useContext, useEffect} from 'react'
 
 
 import { useMutation } from 'react-query';
 import { useNavigate } from 'react-router';
 import {Menu, Transition} from '@headlessui/react'
 import { ChevronDownIcon } from '@heroicons/react/20/solid'
+
+
+
 
 
 function classNames(...classes) {
@@ -17,7 +20,12 @@ const Navbar = () => {
 
 
 
-
+// const [sendLogout, {
+//   isLoading,
+//   isSuccess,
+//   isError,
+//   error
+// }] = useSendLogOutMutation()
 
 
 
