@@ -5,10 +5,9 @@ const { hashPassword } = require('../utils/helpers');
 
 
 
-
 const updateUser = asyncHandler(async (req, res) => {
 
-    const { id, email, roles, active, password} = req.body;
+    const { id, email, roles,  password} = req.body;
 
     //Confirm data
     if(!id || !email || !Array.isArray(roles) || !roles.length || typeof active !== 'boolean'){

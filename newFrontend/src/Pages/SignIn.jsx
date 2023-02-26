@@ -1,7 +1,6 @@
 import { useRef, useState, useContext, useEffect} from 'react'
-import { useLogin } from '../Hooks/useLogin';
 
-
+import axios from 'axios'
 
 
 
@@ -19,13 +18,13 @@ const SignIn = () => {
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const { login, error, isLoading } = useLogin()
-  
 
+
+  
   const hanldeSubmit = async (e) => {
     e.preventDefault()
 
-    await login(email, password)
+  
   }
 
 

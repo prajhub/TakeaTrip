@@ -5,8 +5,7 @@ import * as Yup from 'yup';
 import { useMutation } from 'react-query';
 import axios from 'axios';
 import { Navigate } from 'react-router';
-import { registerUser } from '../ApiQueriesuseQuery';
-import Spinner from '../Components/Spinner'
+
 
 import Header from '../Components/header';
 

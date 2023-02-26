@@ -13,70 +13,75 @@ const asynchHandler = require('express-async-handler');
 const login = asynchHandler( async (req, res) => {
 
     const { email, password } = req.body
-
-    if(!email || !password) {
-        return res.status(400).json({ message: 'All fields are required'})
-    }
-
-    const sameUser = await User.findOne({ email }).exec()
-
-    if(!sameUser){
-        return res.status(401).json({ message: 'Invalid Email' })
-    }
-
-    const check = await comparePassword(password, sameUser.password)
-
-    if(!check) return res.status(401).json({ message: 'Unauthorized'}) 
-
-
-    const accessToken = jwt.sign(
-        {
-
-        "UserInfo": {
-            
-            "id": sameUser._id
+    try {
+        if(!email || !password) {
+            return res.status(400).json({ message: 'All fields are required'})
         }
-        },
-        process.env.ACCESS_TOKEN_SECRET,
-        { expiresIn: '5m'}
-    )
+    
+        const sameUser = await User.findOne({ email }).exec()
+    
+        if(!sameUser){
+            return res.status(401).json({ message: 'Invalid Email' })
+        }
+    
+        const check = await comparePassword(password, sameUser.password)
+    
+        if(!check) return res.status(401).json({ message: 'Unauthorized'}) 
+    
+        //Generate the accessToken
+        const accessToken = jwt.sign(
+            {
 
-    const refreshToken = jwt.sign(
-        { "id": sameUser._id },
-        process.env.REFRESH_TOKEN_SECRET,
-        { expiresIn: '8h'}
-    )
+                "UserInfo": {
+                    "userId": sameUser._id
+                }
+            },
+            process.env.ACCESS_TOKEN_SECRET, { expiresIn: '10s' }
+            
+            )
 
-   
+            //Generate the refresh token
+            const refreshToken = jwt.sign(
+                {
+                    "userId": sameUser._id
+                },
+                process.env.REFRESH_TOKEN_SECRET, { expiresIn: '1d' }
+                
+                )
+    
+                
+                //Create a secure cookie with refresh token  //in future: When react sends the request to the refresh endpoint, this cookie is sent along
+                res.cookie("jwt", refreshToken,  {
+                    
+                    httpOnly: true,
+                    
+                    sameSite: 'lax',
+                    maxAge: 7 * 24 * 60 * 60 * 1000 
+                })
+            
 
 
-    //Create secure cookies with ref token
-
-    // res.cookie('jwt', refreshToken, {
-    //     httpOnly: true,
-    //     secure: true,
-    //     sameSite: 'None',
-    //     maxAge: 7 * 24 * 60 * 60 * 1000
-    // })
-
-    //send accesstoken containing user info
-    res.json({ accessToken, email })
-   
+            //Send ok status 
+            res.json({ accessToken })
 
 
+            
+    } catch (error) {
+        return res.sendStatus(400)
+    }
 })
 
 
 //@desc Refresh
 //@route POST /auth/refresh
 //@access Public - becuz token gets expired
-const refresh = asynchHandler( async (req, res) => {
+const refresh = asynchHandler( async(req, res) => {
 
-    const cookies = req.cookies
+    const coookies = req.cookies
 
-    if(!cookies?.jwt) return res.status(401).json({ message: 'Unauthorized'})
+    if(!coookies?.jwt) return res.status(401).json({ message: 'Access denied...No token provided...'})
 
-    const refreshToken = cookies.jwt
+    const refreshToken = coookies.jwt
 
     jwt.verify(
         refreshToken,
@@ -84,9 +89,9 @@ const refresh = asynchHandler( async (req, res) => {
         asynchHandler(async (err, decoded) => {
             if(err) return res.status(403).json({ message: 'Forbidden' })
 
-            const foundUser = await User.findOne({ email: decoded.email })
+            const foundUser = await User.findOne({ _id: decoded.userId })
 
-            if(!foundUser) return res.status(401).json({ message: 'Unauthorized' })
+            if(!foundUser) return res.status(401).json({ message: 'Unauthorizedss' })
 
             const accessToken = jwt.sign(
                 {
@@ -118,9 +123,10 @@ const logout = asynchHandler( async (req, res) => {
 
     const cookies = req.cookies
 
-    if(!cookies?.jwt) return res.sendStatus(204) //nothing
+    if(!cookies?.auth) return res.sendStatus(204) //nothing
 
-    res.clearCookie('jwt', { httpOnly: true, sameSite: 'None', secure: true })
+    // res.clearCookie('Authorization', { httpOnly: true, sameSite: 'None', secure: true })
+    res.clearCookie('auth', { httpOnly: true, sameSite: 'None', secure: true})
     res.json({ message: 'Cookie Cleared' })
 
 })

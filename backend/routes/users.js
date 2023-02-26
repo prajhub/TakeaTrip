@@ -1,12 +1,24 @@
 
-const { deleteUser, getUser, getUsers, updateUser } = require('../controllers/userController');
+const { deleteUser, getUser, getUsers, updateUser} = require('../controllers/userController');
+
+const reqAuth = require('../middleware/reqAuth')
 
 const express = require('express');
-const {protect} = require('../middleware/authMiddleware')
+
 const router = express.Router();
 
+function requireAuth(req, res) {
+    try {
+        console.log(req.user)
+        res.sendStatus(200)
 
+    } catch (error) {
+        return res.sendStatus(400)
+    }
+    
+}
 
+router.get("/check-auth", reqAuth, requireAuth)
 
 //UPDATE
 router.put("/update/:id",  updateUser)
@@ -16,7 +28,7 @@ router.put("/update/:id",  updateUser)
 router.delete("/:id",  deleteUser)
 
 //GET
-router.get("/:id", protect,  getUser)
+router.get("/:id",   getUser)
 
 
 //GETALL
