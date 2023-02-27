@@ -36,7 +36,7 @@ const login = asynchHandler( async (req, res) => {
                     "userId": sameUser._id
                 }
             },
-            process.env.ACCESS_TOKEN_SECRET, { expiresIn: '10s' }
+            process.env.ACCESS_TOKEN_SECRET, { expiresIn: '15m' }
             
             )
 
@@ -45,7 +45,7 @@ const login = asynchHandler( async (req, res) => {
                 {
                     "userId": sameUser._id
                 },
-                process.env.REFRESH_TOKEN_SECRET, { expiresIn: '1d' }
+                process.env.REFRESH_TOKEN_SECRET, { expiresIn: '7d' }
                 
                 )
     
@@ -55,7 +55,7 @@ const login = asynchHandler( async (req, res) => {
                     
                     httpOnly: true,
                     
-                    sameSite: 'lax',
+                    sameSite: 'None',
                     maxAge: 7 * 24 * 60 * 60 * 1000 
                 })
             

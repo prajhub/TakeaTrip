@@ -1,6 +1,6 @@
-import React, { useState, useContext, useEffect} from 'react'
-
-
+import React, { useState, useContext, useEffect, Fragment} from 'react'
+import { useSelector } from 'react-redux'
+import navBarPopOver from './navBarPopOver'
 import { useMutation } from 'react-query';
 import { useNavigate } from 'react-router';
 import {Menu, Transition} from '@headlessui/react'
@@ -28,6 +28,12 @@ const Navbar = () => {
 // }] = useSendLogOutMutation()
 
 
+const authSlice = useSelector((state) => state.auth.token)
+
+
+
+
+
 
   return (
     <header>
@@ -42,12 +48,13 @@ const Navbar = () => {
 
                     
                         
-
-            {/* <Menu as="div" className="relative inline-block text-left">
+            {authSlice ? 
+            <Menu as="div" className="relative inline-block text-left">
       <div>
-        <Menu.Button className="inline-flex w-full justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-100">
-          {user.firstName}
-          <ChevronDownIcon className="-mr-1 ml-2 h-5 w-5" aria-hidden="true" />
+        <Menu.Button className="inline-flex w-full justify-center  text-sm font-medium text-gray-700 shadow-sm hover: focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-100">
+            <div class="relative inline-flex items-center justify-center w-10 h-10 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
+              <span class="font-medium text-gray-600 dark:text-gray-300">JL</span>
+            </div>
         </Menu.Button>
       </div>
 
@@ -104,7 +111,7 @@ const Navbar = () => {
             <form>
               <Menu.Item>
                 {({ active }) => (
-                  <button onClick={handleLogOut}
+                  <button
                     type="submit"
                     className={classNames(
                       active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
@@ -119,13 +126,14 @@ const Navbar = () => {
           </div>
         </Menu.Items>
       </Transition>
-    </Menu>   */}
-                      
-                        <div>
-                            <a href="/login" class="text-gray-800 dark:text-white hover:bg-gray-50 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 dark:hover:bg-gray-700 focus:outline-none dark:focus:ring-gray-800">Log in</a>
-                            <a href="/register" class="text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800">Get started</a>
-                        </div> 
+    </Menu>  
+                      :
+                       <div>
+                          <a href="/login" class="text-gray-800 dark:text-white hover:bg-gray-50 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 dark:hover:bg-gray-700 focus:outline-none dark:focus:ring-gray-800">Log in</a>
+                          <a href="/register" class="text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800">Get started</a>
+                      </div> }
 
+                
                 <button data-collapse-toggle="mobile-menu-2" type="button" class="inline-flex items-center p-2 ml-1 text-sm text-gray-500 rounded-lg lg:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="mobile-menu-2" aria-expanded="false">
                     <span class="sr-only">Open main menu</span>
                     <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path></svg>
