@@ -46,11 +46,13 @@ app.use(cors({
 app.use('/register', require('./routes/register'));
 app.use('/auth', require('./routes/auth'));
 
-
+app.use('/location', require('./routes/location'))
+app.use('/country', require('./routes/country'))
 app.use('/hotels', require('./routes/hotels'));
 app.use('/rooms', require('./routes/rooms'));
 app.use('/users', require('./routes/users'));
 app.use('/users/check-auth', require('./routes/users'));
+
 
 
 

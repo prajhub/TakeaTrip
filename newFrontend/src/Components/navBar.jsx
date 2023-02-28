@@ -1,11 +1,12 @@
 import React, { useState, useContext, useEffect, Fragment} from 'react'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
+import { setLogOut } from '../Features/auth/authSlice';
 import navBarPopOver from './navBarPopOver'
 import { useMutation } from 'react-query';
 import { useNavigate } from 'react-router';
 import {Menu, Transition} from '@headlessui/react'
 import { ChevronDownIcon } from '@heroicons/react/20/solid'
-
+// import { useSendLogOutMutation } from '../Features/auth/authApiSlice'
 
 
 
@@ -18,7 +19,8 @@ function classNames(...classes) {
 const Navbar = () => {
 
 
-
+const navigate = useNavigate()
+const dispatch = useDispatch()
 
 // const [sendLogout, {
 //   isLoading,
@@ -27,11 +29,22 @@ const Navbar = () => {
 //   error
 // }] = useSendLogOutMutation()
 
+// useEffect(() => {
+//   if(isSuccess) navigate('/')
+// }, [isSuccess, navigate])
+
+
+// if(isLoading) return <p>Logging Out...</p>
+// if(isError) return <p>Error: {error.message}</p>
+
 
 const authSlice = useSelector((state) => state.auth.token)
 
 
 
+useEffect(() => {
+  if(!authSlice) navigate('/')
+}, [authSlice])
 
 
 
@@ -112,6 +125,7 @@ const authSlice = useSelector((state) => state.auth.token)
               <Menu.Item>
                 {({ active }) => (
                   <button
+                    onClick={dispatch(setLogOut())}
                     type="submit"
                     className={classNames(
                       active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',

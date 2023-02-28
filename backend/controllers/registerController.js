@@ -1,6 +1,6 @@
 
 const User = require('../model/user')
-const jwt = require('jsonwebtoken');
+
 require('dotenv').config();
 const { hashPassword } = require('../utils/helpers')
 const bcrypt = require('bcrypt');

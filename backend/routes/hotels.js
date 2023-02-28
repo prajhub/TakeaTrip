@@ -1,6 +1,5 @@
 const express = require('express');
 const { createHotel, deleteHotel, updateHotel, getHotel, getHotels } = require('../controllers/hotelController');
-const Hotel = require('../model/hotel');
 
 
 const router = express.Router();

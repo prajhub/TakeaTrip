@@ -32,9 +32,10 @@ const login = asynchHandler( async (req, res) => {
         const accessToken = jwt.sign(
             {
 
-                "UserInfo": {
-                    "userId": sameUser._id
-                }
+                
+                    "userId": sameUser._id, 
+                    "roles": sameUser.roles
+            
             },
             process.env.ACCESS_TOKEN_SECRET, { expiresIn: '15m' }
             

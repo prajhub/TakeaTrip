@@ -27,10 +27,14 @@ const UserSchema = new mongoose.Schema({
         max: 50,
     },
     country: {
-        type: String,
+        type: mongoose.SchemaTypes.String,
         // required: true
     },
-    
+    roles: {
+        type: mongoose.SchemaTypes.String,
+        default: 'User'
+    }
+    ,
     accesToken: String,
     refreshToken: {
         type: [refreshToken]

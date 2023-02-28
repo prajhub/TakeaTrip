@@ -1,28 +1,34 @@
 const mongoose = require('mongoose')
+const country = require('./country').schema;
+
 
 const LocationSchema = new mongoose.Schema({
+
+    country: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'country',
+        required: true
+    },
     name: {
         type: String,
         required: true
     },
-    destinations: {
-        type: [String]
-    },
+    
     desc: {
         type: String,
         required: true
     },
-    hotel: {
+    hotels: {
         type: [String],
 
     },
-    photo: {
+    photos: {
         type: [String]
     },
-    restaurant: {
+    restaurants: {
         type: [String],
     },
-    thingtodo: {
+    thingstodo: {
         type: [String]
     }
 })
