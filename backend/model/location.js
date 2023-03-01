@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 const country = require('./country').schema;
-
+const hotels = require('./hotel').schema
 
 const LocationSchema = new mongoose.Schema({
 
@@ -18,10 +18,11 @@ const LocationSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    hotels: {
-        type: [String],
+    hotels: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'hotels'
 
-    },
+    }],
     photos: {
         type: [String]
     },

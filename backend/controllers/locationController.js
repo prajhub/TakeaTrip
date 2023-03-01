@@ -27,6 +27,8 @@ const createLocation = async (req, res) => {
        findCountry.locations.push(newLocation)
        await findCountry.save()
 
+       await Location.findById(newLocation._id).populate('country').exec();
+
        return res.status(201).json(newLocation)
 
 
@@ -65,5 +67,31 @@ const getSingleLocation = async (req, res) => {
     }
   };
 
+  const deleteLocation = async (req, res) => {
+    const { countryId, locationId } = req.params;
 
-module.exports = { createLocation, getSingleLocation }
+    try {
+      // find the location in the database
+      const location = await Location.findById(locationId)
+      if (!location) {
+        return res.status(404).json({ message: 'Location not found' });
+      }
+  
+      // delete the location
+      await location.remove();
+  
+      // remove the location from the country
+      const country = await Country.findById(countryId);
+      country.locations.pull(locationId);
+      await country.save();
+  
+      res.json({ message: 'Location deleted successfully' });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Server error' });
+    }
+  
+  }
+
+
+module.exports = { createLocation, getSingleLocation, deleteLocation }
