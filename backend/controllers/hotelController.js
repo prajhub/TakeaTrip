@@ -38,18 +38,6 @@ const createHotel = async (req, res) => {
     } catch (error) {
         res.status(500).json(error)
     }
-
-    // const newHotel = new Hotel(req.body)
-
-    // try {
-    //     const savedHotel = await newHotel.save()
-    //     res.status(200).json(savedHotel)
-    // } catch (error) {
-
-    //     res.status(500).json(error)
-    //     console.log(error)
-        
-    // }
 }
 
 const updateHotel = async (req, res) => {
@@ -81,7 +69,7 @@ const deleteHotel = async (req, res) => {
 const getHotel = async (req, res) => {
 
     try {
-        const hotel = await Hotel.find(req.params.id)
+        const hotel = await Hotel.findById(req.params.id)
         res.status(200).json(hotel)
     } catch (error) {
 
@@ -102,5 +90,30 @@ const getHotels = async (req, res) => {
         
     }
 }
+
+
+const getHotelsByLocation = async (req, res) => {
+
+    const { locationId } = req.params;
+
+    if(!locationId){
+        return res.sendStatus(401).json({ message: 'Enter the location name cuh!'})
+    }
+
+    try {
+        const foundLocation = await Location.findById(locationId).populate('hotels').lean()
+
+        if(!foundLocation){
+            res.status(401).json({ message: 'Location not found'})
+        }
+
+
+        const hotels = foundLocation.hotels
+        res.status(200).json(hotels)
+        
+    } catch (error) {
+        res.status(401).json(error)
+    }
+}
     
-module.exports = { createHotel, updateHotel, deleteHotel, getHotel, getHotels };
+module.exports = { createHotel, updateHotel, deleteHotel, getHotel, getHotels, getHotelsByLocation };

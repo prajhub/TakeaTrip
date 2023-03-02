@@ -26,9 +26,10 @@ const LocationSchema = new mongoose.Schema({
     photos: {
         type: [String]
     },
-    restaurants: {
-        type: [String],
-    },
+    restaurants: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'foodservice'
+    }],
     thingstodo: {
         type: [String]
     }
