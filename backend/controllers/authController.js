@@ -21,10 +21,10 @@ const login = asynchHandler( async (req, res) => {
         const sameUser = await User.findOne({ email }).exec()
     
         if(!sameUser){
-            return res.status(401).json({ message: 'Invalid Email' })
+            return res.status(401).json({ message: 'Unauthorized' })
         }
     
-        const check = await comparePassword(password, sameUser.password)
+        const check = comparePassword(password, sameUser.password)
     
         if(!check) return res.status(401).json({ message: 'Unauthorized'}) 
     
@@ -68,7 +68,7 @@ const login = asynchHandler( async (req, res) => {
 
             
     } catch (error) {
-        return res.sendStatus(400)
+        return res.sendStatus(400).json(error)
     }
 })
 

@@ -27,7 +27,7 @@ const createLocation = async (req, res) => {
        findCountry.locations.push(newLocation)
        await findCountry.save()
 
-       await Location.findById(newLocation._id).populate('country').exec();
+      //  await Location.findById(newLocation._id).populate('country').exec();
 
        return res.status(201).json(newLocation)
 

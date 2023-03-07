@@ -34,10 +34,43 @@ const createNewFoodService = async ( req, res ) => {
 
 
     } catch (error) {
-        
+        res.sendStatus(400).json(error)
     }
 
 
 }
 
-module.exports = { createNewFoodService }
+
+const updateFoodService = async (req, res) => {
+
+    try {
+        const updatedFoodService = await FoodService.findByIdAndUpdate(req.params.id, { $set: req.body}, {new: true})
+        res.status(200).json(updatedFoodService)
+    } catch (error) {
+
+        res.status(500).json(error)
+        console.log(error)
+        
+    }
+}
+
+
+
+const deleteFoodService = async (req, res) => {
+
+    try {
+        await FoodService.findByIdAndDelete(req.params.id)
+        res.status(200).json("The food service has been deleted.")
+    } catch (error) {
+
+        res.status(500).json(error)
+        console.log(error)
+        
+    }
+}
+
+
+
+
+
+module.exports = { createNewFoodService, updateFoodService, deleteFoodService }
