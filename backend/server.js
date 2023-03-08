@@ -30,7 +30,7 @@ const reqAuth = require('./middleware/reqAuth')
 
 
 
-
+const protect = require('./middleware/authMiddleware')
 
 
 
@@ -51,6 +51,7 @@ app.use('/country', require('./routes/country'))
 app.use('/hotels', require('./routes/hotels'));
 app.use('/foodservice', require('./routes/foodservice'))
 app.use('/rooms', require('./routes/rooms'));
+app.use('/protected', protect, require('./routes/protected') )
 app.use('/users', require('./routes/users'));
 app.use('/users/check-auth', require('./routes/users'));
 

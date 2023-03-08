@@ -34,7 +34,9 @@ const login = asynchHandler( async (req, res) => {
 
                 
                     "userId": sameUser._id, 
-                    "roles": sameUser.roles
+                    // "roles": sameUser.roles,
+                    
+                    
             
             },
             process.env.ACCESS_TOKEN_SECRET, { expiresIn: '15m' }
@@ -60,15 +62,26 @@ const login = asynchHandler( async (req, res) => {
                     maxAge: 7 * 24 * 60 * 60 * 1000 
                 })
             
+             
+             
 
 
             //Send ok status 
-            res.json({ accessToken })
+
+            res.json({ 
+
+                _id: sameUser._id,
+                firstName: sameUser.firstName,
+                lastName: sameUser.lastName,
+                email: sameUser.email,
+                role: sameUser.roles,
+                token: accessToken
+            })
 
 
             
     } catch (error) {
-        return res.sendStatus(400).json(error)
+         res.sendStatus(400).json(error)
     }
 })
 

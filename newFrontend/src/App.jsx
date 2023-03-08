@@ -1,7 +1,7 @@
 
 import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
 import { QueryClientProvider, QueryClient} from 'react-query';
-
+import AdminDashboard from './Pages/AdminDashboard';
 import Homepage from './Pages/Homepage';
 import SignUp from './Pages/SignUp';
 import Protected from './Pages/Protected';
@@ -24,6 +24,7 @@ function App() {
             <Route path='/successreg' element={<SuccessModal/>} />
             <Route path='/login' element={<SignIn/>} />
             <Route path='/accreation' element={<Sucsacc/>} />
+            <Route path='/adashboard' element={<AdminDashboard/>} />
             <Route path='/protected' element={<Protected/>}/>
           </Routes>
         </div>

@@ -30,6 +30,10 @@ const UserSchema = new mongoose.Schema({
         type: mongoose.SchemaTypes.String,
         // required: true
     },
+    isAdmin: {
+        type: Boolean,
+        default: false,
+    },
     roles: {
         type: mongoose.SchemaTypes.String,
         default: 'User'

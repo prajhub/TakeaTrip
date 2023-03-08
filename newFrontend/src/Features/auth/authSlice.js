@@ -7,6 +7,7 @@ const token = localStorage.getItem('access-token') ? localStorage.getItem('acces
 const initialState = {
     loading: false,
     token,
+    userInfo: {},
     error: null,
     success: false,
 }
@@ -22,6 +23,10 @@ const authSlice = createSlice({
         },
 
         setLogOut: (state, action) => {
+            localStorage.removeItem('access-token')
+            state.loading = false
+            state.userInfo = null
+            state.error = null
             state.token = null
         }
     },
@@ -32,13 +37,16 @@ const authSlice = createSlice({
             state.error = null
 
         },
-        [userLogin.fulfilled]: (state) => {
+        [userLogin.fulfilled]: (state, { payload }) => {
             state.loading = false
-            state.token = payload.accessToken
+            state.token = payload.token
+            state.userInfo = payload
+            
 
         },
         [userLogin.rejected]: (state, { payload }) => {
             state.loading = false
+            state.error = payload
         }
     }
 })

@@ -47,6 +47,15 @@ useEffect(() => {
 }, [authSlice])
 
 
+const handleLogout = (e) => {
+  e.preventDefault()
+
+  dispatch(setLogOut())
+
+  navigate('/')
+}
+
+
 
   return (
     <header>
@@ -62,86 +71,32 @@ useEffect(() => {
                     
                         
             {authSlice ? 
-            <Menu as="div" className="relative inline-block text-left">
-      <div>
-        <Menu.Button className="inline-flex w-full justify-center  text-sm font-medium text-gray-700 shadow-sm hover: focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-100">
-            <div className="relative inline-flex items-center justify-center w-10 h-10 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
-              <span className="font-medium text-gray-600 dark:text-gray-300">JL</span>
-            </div>
-        </Menu.Button>
-      </div>
+           <div>
+              <img id="avatarButton" type="button" data-dropdown-toggle="userDropdown" data-dropdown-placement="bottom-start" class="w-10 h-10 rounded-full cursor-pointer" src="https://flowbite.com/docs/images/people/profile-picture-2.jpg" alt="User dropdown"/>
 
-      <Transition
-        as={Fragment}
-        enter="transition ease-out duration-100"
-        enterFrom="transform opacity-0 scale-95"
-        enterTo="transform opacity-100 scale-100"
-        leave="transition ease-in duration-75"
-        leaveFrom="transform opacity-100 scale-100"
-        leaveTo="transform opacity-0 scale-95"
-      >
-        <Menu.Items className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-          <div className="py-1">
-            <Menu.Item>
-              {({ active }) => (
-                <a
-                  href="#"
-                  className={classNames(
-                    active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                    'block px-4 py-2 text-sm'
-                  )}
-                >
-                  Account settings
-                </a>
-              )}
-            </Menu.Item>
-            <Menu.Item>
-              {({ active }) => (
-                <a
-                  href="#"
-                  className={classNames(
-                    active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                    'block px-4 py-2 text-sm'
-                  )}
-                >
-                  Support
-                </a>
-              )}
-            </Menu.Item>
-            <Menu.Item>
-              {({ active }) => (
-                <a
-                  href="#"
-                  className={classNames(
-                    active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                    'block px-4 py-2 text-sm'
-                  )}
-                >
-                  License
-                </a>
-              )}
-            </Menu.Item>
-            <form>
-              <Menu.Item>
-                {({ active }) => (
-                  <button
-                    onClick={dispatch(setLogOut())}
-                    type="submit"
-                    className={classNames(
-                      active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                      'block w-full px-4 py-2 text-left text-sm'
-                    )}
-                  >
-                    Sign out
-                  </button>
-                )}
-              </Menu.Item>
-            </form>
-          </div>
-        </Menu.Items>
-      </Transition>
-    </Menu>  
-                      :
+
+<div id="userDropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
+    <div class="px-4 py-3 text-sm text-gray-900 dark:text-white">
+      <div>Bonnie Green</div>
+      <div class="font-medium truncate">name@flowbite.com</div>
+    </div>
+    <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="avatarButton">
+      <li>
+        <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Dashboard</a>
+      </li>
+      <li>
+        <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Settings</a>
+      </li>
+      <li>
+        <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Earnings</a>
+      </li>
+    </ul>
+    <div class="py-1">
+      <a href="#" onClick={handleLogout} class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Sign out</a>
+    </div>
+</div>
+
+           </div>          :
                        <div>
                           <a href="/login" className="text-gray-800 dark:text-white hover:bg-gray-50 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 dark:hover:bg-gray-700 focus:outline-none dark:focus:ring-gray-800">Log in</a>
                           <a href="/register" className="text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800">Get started</a>

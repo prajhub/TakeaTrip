@@ -5,7 +5,7 @@ import { QueryClient, QueryClientProvider, useQuery } from 'react-query'
 import './index.css'
 import { Provider } from 'react-redux'
 import { store } from './Features/store'
-
+import 'flowbite';
 
 const queryClient = new QueryClient()
 
