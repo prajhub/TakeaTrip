@@ -1,13 +1,12 @@
 import React, { useState, useContext, useEffect, Fragment} from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { setLogOut } from '../Features/auth/authSlice';
+import { setLogOut, setCredentials } from '../Features/auth/authSlice';
 import navBarPopOver from './navBarPopOver'
-import { useMutation } from 'react-query';
+import ProfileMenu from './ProfileMenu';
 import { useNavigate } from 'react-router';
-import {Menu, Transition} from '@headlessui/react'
-import { ChevronDownIcon } from '@heroicons/react/20/solid'
-// import { useSendLogOutMutation } from '../Features/auth/authApiSlice'
 
+// import { useSendLogOutMutation } from '../Features/auth/authApiSlice'
+import { useGetUserDetailsQuery } from '../Features/auth/authApiSlice';
 
 
 
@@ -20,40 +19,31 @@ const Navbar = () => {
 
 
 const navigate = useNavigate()
+const [logout, setLogout] = useState(false)
 const dispatch = useDispatch()
-
-// const [sendLogout, {
-//   isLoading,
-//   isSuccess,
-//   isError,
-//   error
-// }] = useSendLogOutMutation()
-
-// useEffect(() => {
-//   if(isSuccess) navigate('/')
-// }, [isSuccess, navigate])
-
-
-// if(isLoading) return <p>Logging Out...</p>
-// if(isError) return <p>Error: {error.message}</p>
-
-
 const authSlice = useSelector((state) => state.auth.token)
 
+const userInfo = useSelector((state) => state.auth.token)
 
+
+  // automatically authenticate user if token is found
+  const { data, isFetching } = useGetUserDetailsQuery('userDetails', {
+    // perform a refetch every 15mins
+      pollingInterval: 900000,
+    })
+
+
+// useEffect(() => {
+//   if(!authSlice) navigate('/')
+// }, [authSlice])
 
 useEffect(() => {
-  if(!authSlice) navigate('/')
-}, [authSlice])
+  if (data) dispatch(setCredentials(data))
+}, [data, dispatch])
 
 
-const handleLogout = (e) => {
-  e.preventDefault()
 
-  dispatch(setLogOut())
 
-  navigate('/')
-}
 
 
 
@@ -70,37 +60,38 @@ const handleLogout = (e) => {
 
                     
                         
-            {authSlice ? 
-           <div>
-              <img id="avatarButton" type="button" data-dropdown-toggle="userDropdown" data-dropdown-placement="bottom-start" class="w-10 h-10 rounded-full cursor-pointer" src="https://flowbite.com/docs/images/people/profile-picture-2.jpg" alt="User dropdown"/>
+            {userInfo !== null ?  <ProfileMenu/>
+//            <div>
+//               <img id="avatarButton" type="button" data-dropdown-toggle="userDropdown" data-dropdown-placement="bottom-start" class="w-10 h-10 rounded-full cursor-pointer" src="https://flowbite.com/docs/images/people/profile-picture-2.jpg" alt="User dropdown"/>
 
 
-<div id="userDropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
-    <div class="px-4 py-3 text-sm text-gray-900 dark:text-white">
-      <div>Bonnie Green</div>
-      <div class="font-medium truncate">name@flowbite.com</div>
-    </div>
-    <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="avatarButton">
-      <li>
-        <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Dashboard</a>
-      </li>
-      <li>
-        <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Settings</a>
-      </li>
-      <li>
-        <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Earnings</a>
-      </li>
-    </ul>
-    <div class="py-1">
-      <a href="#" onClick={handleLogout} class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Sign out</a>
-    </div>
-</div>
+// <div id="userDropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
+//     <div class="px-4 py-3 text-sm text-gray-900 dark:text-white">
+//       <div>asdasd</div>
+//       <div class="font-medium truncate">asdsad</div>
+//     </div>
+//     <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="avatarButton">
+//       <li>
+//         <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Dashboard</a>
+//       </li>
+//       <li>
+//         <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Settings</a>
+//       </li>
+//       <li>
+//         <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Earnings</a>
+//       </li>
+//     </ul>
+//     <div class="py-1">
+//       <a href="#" onClick={handleLogout} class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Sign out</a>
+//     </div>
+// </div>
 
-           </div>          :
+//            </div>        
+                    :
                        <div>
                           <a href="/login" className="text-gray-800 dark:text-white hover:bg-gray-50 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 dark:hover:bg-gray-700 focus:outline-none dark:focus:ring-gray-800">Log in</a>
                           <a href="/register" className="text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800">Get started</a>
-                      </div> }
+                      </div>  }
 
                 
                 <button data-collapse-toggle="mobile-menu-2" type="button" class="inline-flex items-center p-2 ml-1 text-sm text-gray-500 rounded-lg lg:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="mobile-menu-2" aria-expanded="false">

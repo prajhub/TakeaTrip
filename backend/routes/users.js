@@ -1,9 +1,10 @@
 
-const { deleteUser, getUser, getUsers, updateUser} = require('../controllers/userController');
+const { deleteUser, getUser, getUsers, updateUser, getUserProfile} = require('../controllers/userController');
 
-const reqAuth = require('../middleware/reqAuth')
-
+const verify = require('../middleware/verifyJWT')
+const protect = require('../middleware/authMiddleware')
 const express = require('express');
+const verifyAdmin = require('../middleware/verifyAdmin');
 
 const router = express.Router();
 
@@ -18,7 +19,7 @@ function requireAuth(req, res) {
     
 }
 
-router.get("/check-auth", reqAuth, requireAuth)
+router.get("/check-auth",  requireAuth)
 
 //UPDATE
 router.put("/update/:id",  updateUser)
@@ -32,7 +33,10 @@ router.get("/:id",   getUser)
 
 
 //GETALL
-router.get("/",  getUsers)
+router.get("/", verifyAdmin,  getUsers)
+
+//User Profile
+// router.get("/profile", verify,  getUserProfile)
 
 
 module.exports = router;

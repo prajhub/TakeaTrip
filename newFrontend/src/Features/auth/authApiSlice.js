@@ -32,9 +32,15 @@ export const authApiSlice = apiSlice.injectEndpoints({
                 url: '/auth/refresh',
                 method: 'GET'
             })
+        }),
+        getUserDetails: builder.query({
+            query: () => ({
+                url: '/profile',
+                method: 'GET'
+            })
         })
     })
 })
 
 
-export const {useLoginMutation, useSendLogoutMutation, useRefreshMutation} = authApiSlice
+export const {useLoginMutation, useSendLogoutMutation, useRefreshMutation, useGetUserDetailsQuery} = authApiSlice

@@ -32,7 +32,7 @@ const reqAuth = require('./middleware/reqAuth')
 
 const protect = require('./middleware/authMiddleware')
 
-
+const verifyJWT = require('./middleware/verifyJWT')
 
 app.use(cookieParser())
 app.use(express.json())
@@ -51,8 +51,8 @@ app.use('/country', require('./routes/country'))
 app.use('/hotels', require('./routes/hotels'));
 app.use('/foodservice', require('./routes/foodservice'))
 app.use('/rooms', require('./routes/rooms'));
-app.use('/protected', protect, require('./routes/protected') )
-app.use('/users', require('./routes/users'));
+app.use('/profile', verifyJWT, require('./routes/getuserprofile') )
+app.use('/users',   require('./routes/users'));
 app.use('/users/check-auth', require('./routes/users'));
 
 

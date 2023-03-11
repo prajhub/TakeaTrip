@@ -12,7 +12,7 @@ const SignIn = () => {
 
   
 
-  const { loading, error, token } = useSelector((state) => state.auth)
+  const { loading, error, token, userInfo } = useSelector((state) => state.auth)
  
 
   const userRef = useRef()
@@ -30,16 +30,11 @@ const SignIn = () => {
   
   useEffect(() => {
     if(token){
+      // console.log(userInfo)
       navigate('/')
     }
   }, [navigate, token])
-  // useEffect(() => {
-  //   userRef.current.focus()
-  // }, [])
-  
-  // useEffect(() => {
-  //   setErrMsg('')
-  // }, [email, password])
+
   
   const handleUserInput = (e) => setEmail(e.target.value)
   const handlePwdInput = (e) => setPassword(e.target.value)
@@ -49,69 +44,12 @@ const SignIn = () => {
 
     dispatch(userLogin({ email, password }))
 
-
-    // try {
-    //   const { accessToken } = await login({ email, password}).unwrap()
-    //   dispatch(setLogin({ accessToken }))
-    //   console.log(accessToken)
-    //   setEmail('')
-    //   setPassword('')
-    //   navigate('/')
-    // } catch (error) {
-    //   if(!error.status){
-    //     setErrMsg('No server response')
-    //   } else if (error.status === 400) {
-    //     setErrMsg('Missing email or password')
-    //   } else if (error.status === 401) {
-    //     setErrMsg('Unauthored')
-    //   } else {
-    //     setErrMsg(error.data?.message)
-    //   }
-    //   errRef.current.focus()
-    // }
+    
   }
   
-  
-  // if(isLoading) return <p>Loading...</p>
-
-
-  // const [navigate, setNavigate] = useState(false)
-
-  // const mainData = {
-  //   email,
-  //   password,
-  // }
 
 
 
-//   const {mutate, data} = useMutation(
-//     userData => axios.post('http://localhost:5000/auth', userData ),
-//     {
-//       onSuccess: () => {
-        
-//           console.log(data)
-//           // dispatch(
-//           //   setLogin({
-//           //     user: data.data.sameUser,
-//           //     token: data.data.accessToken        
-//           //   })
-//           // )
-
-//           // navigate('/')
-
-//       }
-//     }
-// )
-
-// const handleSubmit = (e) => {
-//   e.preventDefault()
-//   mutate(mainData)
-//   console.log(mainData)
-// }
-
-// if(navigate) {
-//   return <Navigate to='/'/>
-// }
 
 
 

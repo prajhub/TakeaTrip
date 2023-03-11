@@ -34,19 +34,21 @@ const login = asynchHandler( async (req, res) => {
 
                 
                     "userId": sameUser._id, 
-                    // "roles": sameUser.roles,
+                    
+                    "roles": sameUser.roles,
                     
                     
             
             },
-            process.env.ACCESS_TOKEN_SECRET, { expiresIn: '15m' }
+            process.env.ACCESS_TOKEN_SECRET, { expiresIn: '2d' }
             
             )
 
             //Generate the refresh token
             const refreshToken = jwt.sign(
                 {
-                    "userId": sameUser._id
+                    "userId": sameUser._id,
+                    "roles": sameUser.roles
                 },
                 process.env.REFRESH_TOKEN_SECRET, { expiresIn: '7d' }
                 
@@ -71,9 +73,9 @@ const login = asynchHandler( async (req, res) => {
             res.json({ 
 
                 _id: sameUser._id,
-                firstName: sameUser.firstName,
-                lastName: sameUser.lastName,
-                email: sameUser.email,
+                // firstName: sameUser.firstName,
+                // lastName: sameUser.lastName,
+                // email: sameUser.email,
                 role: sameUser.roles,
                 token: accessToken
             })
