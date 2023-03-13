@@ -5,9 +5,19 @@ const CountrySchema = new mongoose.Schema({
 
     name: {
         type: String,
-        required: true,
+        
 
     },
+    type: String,
+    
+    latitude: Number,
+    longitude: Number,
+    photos: [
+        {
+          id: { type: String, required: true },
+          url: { type: String, required: true },
+        },
+      ],
     locations: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'locations'

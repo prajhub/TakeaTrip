@@ -48,12 +48,14 @@ app.use('/auth', require('./routes/auth'));
 
 app.use('/location', require('./routes/location'))
 app.use('/country', require('./routes/country'))
+app.use('/cities', require('./routes/city'))
 app.use('/hotels', require('./routes/hotels'));
 app.use('/foodservice', require('./routes/foodservice'))
 app.use('/rooms', require('./routes/rooms'));
 app.use('/profile', verifyJWT, require('./routes/getuserprofile') )
 app.use('/users',   require('./routes/users'));
 app.use('/users/check-auth', require('./routes/users'));
+
 
 
 

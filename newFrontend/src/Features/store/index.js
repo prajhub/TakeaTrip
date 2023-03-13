@@ -10,27 +10,30 @@ import usersReducer from '../users/userSlice'
 const persistConfig = {
 
     key: 'root',
-    version: 1,
+
     storage,
+   
 }
 
 
-// const reducer = combineReducers({
-//     favorites: 
-// })
 
+const rootReducer = combineReducers({
+    auth: authReducer,
+    users: usersReducer,
+    location: locationReducer,
+    [apiSlice.reducerPath]: apiSlice.reducer,
+  });
+  
+
+  const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 export const store = configureStore({
 
-    reducer: {
-        auth: authReducer,
-        users: usersReducer,
-        location: locationReducer,
-        [apiSlice.reducerPath]: apiSlice.reducer
-
-    },
+    reducer: persistedReducer,
     devTools: process.env.NODE_ENV !== 'production',
     middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(apiSlice.middleware),
 });
 
+
+export const persistor = persistStore(store);

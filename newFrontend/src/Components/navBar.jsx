@@ -37,9 +37,9 @@ const userInfo = useSelector((state) => state.auth.token)
 //   if(!authSlice) navigate('/')
 // }, [authSlice])
 
-useEffect(() => {
-  if (data) dispatch(setCredentials(data))
-}, [data, dispatch])
+// useEffect(() => {
+//   if (data) dispatch(setCredentials(data))
+// }, [data, dispatch])
 
 
 

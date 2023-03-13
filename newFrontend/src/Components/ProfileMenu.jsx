@@ -22,7 +22,7 @@ const ProfileMenu = () => {
     const navigate = useNavigate()
 
     const userInfo = useSelector((state) => state.auth.userInfo)
-    const { roles } = userInfo
+    const { role } = userInfo
     
   
 
@@ -50,7 +50,7 @@ const handleAdminDashboard = (e) => {
   <MenuList bg='brand.800'>
     <MenuGroup title='Profile' bg='brand.800'>
       <MenuItem>My Account</MenuItem>
-      {roles === "Admin" ? 
+      {role === "Admin" ? 
 
       
       <MenuItem onClick={handleAdminDashboard}>Dashboard</MenuItem> :  <MenuItem>Land</MenuItem>  

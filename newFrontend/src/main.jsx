@@ -4,7 +4,8 @@ import App from './App'
 import { QueryClient, QueryClientProvider, useQuery } from 'react-query'
 import './index.css'
 import { Provider } from 'react-redux'
-import { store } from './Features/store'
+import { PersistGate } from 'redux-persist/integration/react'
+import { store, persistor } from './Features/store'
 import 'flowbite';
 import { ChakraProvider } from '@chakra-ui/react'
 
@@ -31,7 +32,9 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     <Provider store={store}>
     <QueryClientProvider client={queryClient}>
     <ChakraProvider theme={theme}>
+      <PersistGate persistor={persistor}>
       <App />
+      </PersistGate>
       </ChakraProvider>  
       </QueryClientProvider>
       </Provider>

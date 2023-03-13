@@ -8,6 +8,7 @@ import SignUp from './Pages/SignUp';
 import Protected from './Pages/Protected';
 import SignIn from './Pages/SignIn';
 import SuccessModal from './Components/SuccessModal';
+import Explore from './Pages/Explore';
 import './App.css';
 import AdminRoute from './Components/AdminComponents/AdminRoute';
 import Sucsacc from './Components/Sucsacc';
@@ -26,6 +27,7 @@ function App() {
             <Route path='/successreg' element={<SuccessModal/>} />
             <Route path='/login' element={<SignIn/>} />
             <Route path='/accreation' element={<Sucsacc/>} />
+            <Route path='/explore' element={<Explore/>} />
           <Route element={<AdminRoute/>}>
             <Route path='/adashboard' element={<AdminDashboard/>} />
             <Route path='/adashboard/user' element={<UserCRUD/>} />

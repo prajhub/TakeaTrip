@@ -78,7 +78,7 @@ const User = () => {
                 </th>
             </tr>
         </thead>
-        <UserList/>
+        <UserList users={data}/>
     </table>
 </div>
 
