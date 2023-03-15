@@ -7,10 +7,11 @@ const citySchema = new mongoose.Schema({
     country: String, 
     latitude: Number,
     longitude: Number,
+   
     photos: [
       {
-        id: { type: String, required: true },
-        url: { type: String, required: true },
+        id: String,
+        type: String
       },
     ],
 

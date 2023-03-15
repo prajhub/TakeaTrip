@@ -7,7 +7,7 @@ import axios from 'axios';
 import { Navigate } from 'react-router';
 
 
-import Header from '../Components/header';
+import Header from '../Components/LocationLanding/header';
 
 const SignUp = () => {
 

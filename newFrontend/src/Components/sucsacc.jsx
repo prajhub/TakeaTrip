@@ -1,5 +1,5 @@
 import React from 'react'
-import Header from './header'
+import Header from '../Components/LocationLanding/header'
 
 import { useState } from 'react'
 import { Navigate } from 'react-router'

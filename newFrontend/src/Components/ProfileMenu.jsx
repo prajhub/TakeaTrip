@@ -44,7 +44,7 @@ const handleAdminDashboard = (e) => {
    <>
    
    <Menu>
-  <MenuButton as={Button} >
+  <MenuButton >
     <Avatar name='Dan Abrahmov' src='https://bit.ly/dan-abramov' />
   </MenuButton>
   <MenuList bg='brand.800'>

@@ -30,8 +30,8 @@ const getCity = async (req, res) => {
         const response = await axios.get(`https://api.roadgoat.com/api/v2/destinations/auto_complete?q=${cityName}`, { headers })
         
         const cityData = response.data.data[0]
-        if (!cityData) {
-            return res.status(404).json({ message: 'Location not found'});
+        if (cityData) {
+            return res.status(404).json(cityData);
         }
 
         let model = null;
@@ -64,6 +64,8 @@ const getCity = async (req, res) => {
                 return res.json(existingData);
             }
 
+            
+
 
         const newCity = new model({
                 name: cityData.attributes.short_name,
@@ -80,23 +82,15 @@ const getCity = async (req, res) => {
 
               });
 
+              if (cityData.relationships.featured_photo && cityData.relationships.featured_photo.data) {
+                newCity.photos = cityData.relationships.featured_photo.data.map((photo) => ({
+                  id: photo.id,
+                  type: photo.type
+                }))};
 
-            //   if (cityData.relationships.featured_photo) {
-            //     if (Array.isArray(cityData.relationships.featured_photo.data)) {
-            //       newCity.photos = cityData.relationships.featured_photo.data.map((photo) => ({
-            //         id: photo.id,
-            //         url: `https://api.roadgoat.com/api/v2/photos/${photo.id}?size=medium`,
-            //       }));
-            //     } else if (typeof cityData.relationships.featured_photo.data === 'object') {
-            //       const photo = cityData.relationships.featured_photo.data;
-            //       newCity.photos = [{
-            //         id: photo.id,
-            //         url: `https://api.roadgoat.com/api/v2/photos/${photo.id}?size=medium`,
-            //       }];
-            //     }
-            //   }
-              
+            
 
+             
         
         
         await newCity.save();
