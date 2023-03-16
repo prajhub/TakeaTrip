@@ -8,6 +8,7 @@ import SignUp from './Pages/SignUp';
 import Protected from './Pages/Protected';
 import SignIn from './Pages/SignIn';
 import SuccessModal from './Components/SuccessModal';
+import Landing from './Pages/ListPlace.jsx/landing'
 import Explore from './Pages/Explore';
 import './App.css';
 import AdminRoute from './Components/AdminComponents/AdminRoute';
@@ -33,6 +34,7 @@ function App() {
             <Route path='/adashboard/user' element={<UserCRUD/>} />
           </Route>
             <Route path='/protected' element={<Protected/>}/>
+            <Route path='/addlisting' element={<Landing/>}/>
           </Routes>
         </div>
       </Router>

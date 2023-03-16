@@ -42,7 +42,10 @@ module.exports = {
         'Segoe UI Emoji', 
         'Segoe UI Symbol', 
         'Noto Color Emoji'
-      ]
+      ],
+      'open-san': ['"Open Sans"', 'sans-serif'],
+      'open-san-normal': ['"Open Sans"', 'sans-serif']
+
     }
   },
   plugins: [require('@tailwindcss/forms'),  require('flowbite/plugin')],

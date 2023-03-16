@@ -17,9 +17,9 @@ const header = () => {
   return (
     <>
       <header>
-      <nav class="w-full border-gray-200 px-4 absolute z-20 text-white sm:px-4 py-2.5 rounded dark:bg-gray-900">
+      <nav class="w-full border-gray-200 px-4 absolute bg-primary-200  text-black sm:px-5  rounded dark:bg-gray-900">
 
-        <div class="container flex flex-wrap items-center max-w-[1400px] mt-6 justify-between mx-auto">
+        <div class=" flex flex-wrap items-center max-w-[1400px]  mt-4 justify-between mx-auto">
 
 
             <button onClick={toggleHidden} className={!isHidden ? 'hidden': '' }>
@@ -48,13 +48,13 @@ const header = () => {
             <div class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-cta">
     <ul class="flex flex-col items-center p-4 mt-4 border  rounded-lg md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0  dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
       <li>
-        <a href="#" class="block py-2 pl-3 pr-4 text-white rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-white dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700 font-bold text-[18px]">Destinations</a>
+        <a href="#" class="block py-2 pl-3 pr-4 text-black rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-white dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700 font-bold text-[18px]">Destinations</a>
       </li>
       <li>
-        <a href="#" class="block py-2 pl-3 pr-4 text-white rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-white dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700 font-bold text-[18px]">Reviews</a>
+        <a href="#" class="block py-2 pl-3 pr-4 text-black rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-white dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700 font-bold text-[18px]">Reviews</a>
       </li>
       <li>
-        <a href="#" class="block py-2 pl-3 pr-4 text-white rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-white dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"><CiBellOn className='text-2xl font-bold'/></a>
+        <a href="#" class="block py-2 pl-3 pr-4 text-black rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-white dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"><CiBellOn className='text-2xl font-bold'/></a>
       </li>
       <li>
           <ProfileMenu/>

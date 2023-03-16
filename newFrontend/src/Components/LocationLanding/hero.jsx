@@ -6,9 +6,9 @@ const hero = () => {
   return (
     <>
     
-        <div className='w-full h-screen relative'>
+        <div className='w-full  relative'>
 
-        <img className='w-full object-cover h-full' src={ExplorePage}  />
+        <img className='w-full object-cover h-[550px] ' src={ExplorePage}  />
         
         </div>
     
