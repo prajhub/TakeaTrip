@@ -10,10 +10,16 @@ import SignIn from './Pages/SignIn';
 import SuccessModal from './Components/SuccessModal';
 import Landing from './Pages/ListPlace.jsx/landing'
 import Explore from './Pages/Explore';
+import Accomodation from './Pages/Accomodation/Accomodation';
 import './App.css';
 import AdminRoute from './Components/AdminComponents/AdminRoute';
 import Sucsacc from './Components/Sucsacc';
 const queryClient = new QueryClient();
+
+
+
+
+
 function App() {
   
 
@@ -35,6 +41,7 @@ function App() {
           </Route>
             <Route path='/protected' element={<Protected/>}/>
             <Route path='/addlisting' element={<Landing/>}/>
+            <Route path='/addaccomodation' element={<Accomodation/>}/>
           </Routes>
         </div>
       </Router>

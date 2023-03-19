@@ -19,7 +19,7 @@ const header = () => {
       <header>
       <nav class="w-full border-gray-200 px-4 absolute bg-primary-200  text-black sm:px-5  rounded dark:bg-gray-900">
 
-        <div class=" flex flex-wrap items-center max-w-[1400px]  mt-4 justify-between mx-auto">
+        <div class=" flex flex-wrap items-center max-w-[1400px]  mt-2 justify-between mx-auto">
 
 
             <button onClick={toggleHidden} className={!isHidden ? 'hidden': '' }>
