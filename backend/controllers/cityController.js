@@ -30,9 +30,9 @@ const getCity = async (req, res) => {
         const response = await axios.get(`https://api.roadgoat.com/api/v2/destinations/auto_complete?q=${cityName}`, { headers })
         
         const cityData = response.data.data[0]
-        if (cityData) {
-            return res.status(404).json(cityData);
-        }
+        // if (cityData) {
+        //     return res.status(200).json(cityData);
+        // }
 
         let model = null;
 
@@ -82,11 +82,11 @@ const getCity = async (req, res) => {
 
               });
 
-              if (cityData.relationships.featured_photo && cityData.relationships.featured_photo.data) {
-                newCity.photos = cityData.relationships.featured_photo.data.map((photo) => ({
-                  id: photo.id,
-                  type: photo.type
-                }))};
+            //   if (cityData.relationships.featured_photo && cityData.relationships.featured_photo.data) {
+            //     newCity.photos = cityData.relationships.featured_photo.data.map((photo) => ({
+            //       id: photo.id,
+            //       type: photo.type
+            //     }))};
 
             
 
@@ -94,7 +94,7 @@ const getCity = async (req, res) => {
         
         
         await newCity.save();
-        res.json({ message: 'Done'});
+        res.json(newCity);
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: 'Internal server error' });

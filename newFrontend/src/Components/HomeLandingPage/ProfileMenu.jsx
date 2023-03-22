@@ -1,5 +1,5 @@
 import React from 'react'
-import { setLogOut } from '../Features/auth/authSlice'
+import { setLogOut } from '../../Features/auth/authSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router';
 import {

@@ -1,43 +1,43 @@
 const Hotel = require('../model/hotel')
-const Location = require('../model/location')
+
+const City = require('../model/city')
+
 
 const createHotel = async (req, res) => {
 
-    const { name, type, city, address, title, desc } = req.body
+    const { name, type, city, address } = req.body
 
-    if (!name || !type || !city || !address || !title || !desc) {
-        return res.status(400).json({ message: "All field required"})
+    if ( !name || !type || !city || !address ) {
+        res.status(400).json({ message: "Please fill out all the data"})
     }
 
     try {
-        
-        // Check if the location exists
-        const location = await Location.findOne({ name: city });
-        if (!location) {
-        return res.status(404).json({ message: 'Location not found' });
+        // Check if city exists
+        const existingCity = await City.findOne({ name: city });
+        if (!existingCity) {
+          return res.status(404).json({ message: 'City not found' });
         }
-
-        // Check if the hotel already exists
+    
+        // Check if hotel already exists
         const existingHotel = await Hotel.findOne({ name });
         if (existingHotel) {
-        return res.status(409).json({ message: 'Hotel already exists' });
+          return res.status(400).json({ message: 'Hotel already exists' });
         }
-
-       
-
-        const newHotel = new Hotel({ name, desc, title, address, type,  city: location.name });
+    
+        // Create new hotel
+        const newHotel = new Hotel({ name, type, address, city });
         await newHotel.save();
     
-        // Add the hotel to the location
-        location.hotels.push(newHotel);
-        await location.save();
+        // Add hotel to city's hotel array
+        existingCity.hotels.push(newHotel);
+        await existingCity.save();
     
         res.status(201).json(newHotel);
+      } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server error' });
+      }
 
-
-    } catch (error) {
-        res.status(500).json(error)
-    }
 }
 
 const updateHotel = async (req, res) => {

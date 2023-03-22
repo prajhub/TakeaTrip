@@ -1,12 +1,12 @@
 import React, { useState, useContext, useEffect, Fragment} from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { setLogOut, setCredentials } from '../Features/auth/authSlice';
-import navBarPopOver from './navBarPopOver'
+import { setLogOut, setCredentials } from '../../Features/auth/authSlice';
+
 import ProfileMenu from './ProfileMenu';
 import { useNavigate } from 'react-router';
 
-// import { useSendLogOutMutation } from '../Features/auth/authApiSlice'
-import { useGetUserDetailsQuery } from '../Features/auth/authApiSlice';
+
+import { useGetUserDetailsQuery } from '../../Features/auth/authApiSlice';
 
 
 

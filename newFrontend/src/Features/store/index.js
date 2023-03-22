@@ -1,10 +1,12 @@
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import storage from "redux-persist/lib/storage";
-
+import jwt_decode from "jwt-decode";
 import { persistReducer, persistStore } from 'redux-persist'
-import authReducer from '../auth/authSlice'
+import authReducer, { setLogOut } from '../auth/authSlice'
 import locationReducer from '../location/locationSlice'
 import { apiSlice } from "../api/apiSlice";
+import checkTokenExpirationMiddleware from "../auth/authMiddleware";
+
 import usersReducer from '../users/userSlice'
 
 const persistConfig = {
@@ -12,8 +14,11 @@ const persistConfig = {
     key: 'root',
 
     storage,
+    
    
 }
+
+
 
 
 
@@ -32,7 +37,7 @@ export const store = configureStore({
     reducer: persistedReducer,
     devTools: process.env.NODE_ENV !== 'production',
     middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(apiSlice.middleware),
+    getDefaultMiddleware().concat(apiSlice.middleware,  checkTokenExpirationMiddleware),
 });
 
 

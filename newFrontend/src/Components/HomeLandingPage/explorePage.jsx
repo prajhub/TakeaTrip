@@ -2,7 +2,7 @@ import React from 'react'
 import './explorePage.css'
 import {motion} from 'framer-motion'
 import { useRef, useState, useEffect } from 'react'
-import Images from '../assets/carouselImages/carouselImages';
+import Images from '../../assets/carouselImages/carouselImages';
 
 
 const Yexplore = () => {

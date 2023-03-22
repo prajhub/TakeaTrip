@@ -7,7 +7,7 @@ const citySchema = new mongoose.Schema({
     country: String, 
     latitude: Number,
     longitude: Number,
-   
+    hotels: [String],
     photos: [
       {
         id: String,

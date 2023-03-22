@@ -1,12 +1,12 @@
 import { useRef, useState,  useEffect} from 'react'
 import { useNavigate, Link } from 'react-router-dom'
-import MainLogo from '../assets/mainlogo.png'
-import { userLogin } from '../Features/auth/authActions'
+import MainLogo from '../../assets/mainlogo.png'
+import { userLogin } from '../../Features/auth/authActions'
 import { useDispatch, useSelector } from 'react-redux'
-import { setLogin } from '../Features/auth/authSlice'
-import { useLoginMutation } from '../Features/auth/authApiSlice'
+import { setLogin } from '../../Features/auth/authSlice'
+import { useLoginMutation } from '../../Features/auth/authApiSlice'
 
-import Error from '../Components/Error'
+import Error from '../../Components/Reusables/Error'
 
 const SignIn = () => {
 
@@ -23,7 +23,7 @@ const SignIn = () => {
 
   const navigate = useNavigate()
   const dispatch = useDispatch()
-  const [login, { isLoading }] = useLoginMutation()
+  const [ { isLoading }, login] = useLoginMutation()
 
   // const errClass = errMsg ? "errmsg" : "offscreen"
 
@@ -68,7 +68,7 @@ const SignIn = () => {
       </p>
     </div>
     {error && <Error>{error}</Error>}
-    {/* <p ref={errRef} className={errClass} aria-live='assertive'>{errMsg}</p> */}
+  
     <form className="mt-8 space-y-6" onSubmit={handleSubmit}  >
       <input type="hidden" name="remember" value="true"/>
       <div className="-space-y-px rounded-md shadow-sm">

@@ -1,5 +1,5 @@
 import React from 'react'
-import Header from '../Components/LocationLanding/header'
+
 
 import { useState } from 'react'
 import { Navigate } from 'react-router'
@@ -20,7 +20,7 @@ const Sucsacc = () => {
 
   return (
     <>
-        <Header/>
+        
         <div className='flex flex-col items-center justify-center  h-[400px]'>
             <h1 className='text-4xl font-bold my-4'>Your Account has been created</h1>
             <p>Thank you for creating your account at TakeaTrip</p>

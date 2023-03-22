@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-const location = require('./location')
+
 
 const HotelSchema = new mongoose.Schema({
     name: {
@@ -12,7 +12,7 @@ const HotelSchema = new mongoose.Schema({
     },
     city: {
         type: mongoose.Schema.Types.String,
-        ref: 'locations'
+      
     },
     address: {
         type: String,
@@ -23,13 +23,10 @@ const HotelSchema = new mongoose.Schema({
         type: [String],
         
     },
-    title: {
-        type: String,
-        required: true
-    },
+   
     desc: {
         type: String,
-        required: true
+            
     },
     amenities: {
         type: [String]
@@ -50,7 +47,13 @@ const HotelSchema = new mongoose.Schema({
     featured: {
         type: Boolean,
         default: false,
+    },
+
+    verified: {
+        type: Boolean,
+        default: false
     }
+
 })
 
 

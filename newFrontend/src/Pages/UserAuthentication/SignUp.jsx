@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react'
 import { Formik, Form } from 'formik';
-import { TextField } from '../Components/TextField';
+import { TextField } from '../../Components/FormInputs/TextField';
 import * as Yup from 'yup';
 import { useMutation } from 'react-query';
 import axios from 'axios';
 import { Navigate } from 'react-router';
 
 
-import Header from '../Components/LocationLanding/header';
+
 
 const SignUp = () => {
 
@@ -64,7 +64,7 @@ if(navigate) {
   >
     {formik => (
       <div class="bg-gray-100 min-h-screen flex flex-col">
-        <Header/>
+      
         <div class="container max-w-sm mx-auto flex-1 flex flex-col items-center justify-center px-2">
         <div class="bg-white  px-6 py-8 rounded shadow-md text-black w-full">
         <h1 className="mb-4 font-bold text-3xl">Create an Account</h1>

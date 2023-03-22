@@ -1,5 +1,5 @@
 import React from 'react'
-import ExplorePage from '../../assets/explorepage.jpg'
+import ExplorePage from '../../../assets/explorepage.jpg'
 
 
 const hero = () => {

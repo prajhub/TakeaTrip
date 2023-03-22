@@ -40,7 +40,7 @@ const login = asynchHandler( async (req, res) => {
                     
             
             },
-            process.env.ACCESS_TOKEN_SECRET, { expiresIn: '2d' }
+            process.env.ACCESS_TOKEN_SECRET, { expiresIn: '7d' }
             
             )
 

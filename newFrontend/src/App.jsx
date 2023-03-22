@@ -3,17 +3,17 @@ import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
 import { QueryClientProvider, QueryClient} from 'react-query';
 import AdminDashboard from './Pages/Admin/AdminDashboard';
 import UserCRUD from './Pages/Admin/UserCRUD';
-import Homepage from './Pages/Homepage';
-import SignUp from './Pages/SignUp';
-import Protected from './Pages/Protected';
-import SignIn from './Pages/SignIn';
-import SuccessModal from './Components/SuccessModal';
+import Homepage from './Pages/LandingPage/Homepage';
+import SignUp from './Pages/UserAuthentication/SignUp';
+
+import SignIn from './Pages/UserAuthentication/SignIn';
 import Landing from './Pages/ListPlace.jsx/landing'
-import Explore from './Pages/Explore';
-import Accomodation from './Pages/Accomodation/Accomodation';
+import Explore from './Pages/LocationDisplay/Country/Explore';
+
 import './App.css';
 import AdminRoute from './Components/AdminComponents/AdminRoute';
-import Sucsacc from './Components/Sucsacc';
+
+import Sucsacc from './Components/InfoModals/Sucsacc';
 const queryClient = new QueryClient();
 
 
@@ -31,7 +31,7 @@ function App() {
           <Routes>
             <Route path='/' element={<Homepage/>} />
             <Route path='/register' element={<SignUp/>} />
-            <Route path='/successreg' element={<SuccessModal/>} />
+            
             <Route path='/login' element={<SignIn/>} />
             <Route path='/accreation' element={<Sucsacc/>} />
             <Route path='/explore' element={<Explore/>} />
@@ -39,9 +39,10 @@ function App() {
             <Route path='/adashboard' element={<AdminDashboard/>} />
             <Route path='/adashboard/user' element={<UserCRUD/>} />
           </Route>
-            <Route path='/protected' element={<Protected/>}/>
+        
             <Route path='/addlisting' element={<Landing/>}/>
-            <Route path='/addaccomodation' element={<Accomodation/>}/>
+            
+          
           </Routes>
         </div>
       </Router>

@@ -1,5 +1,11 @@
 import React, { useState, useEffect } from 'react'
+import { useCreateHotelMutation } from '../../../Features/hotels/hotelsApiSlice'
+import PhoneInput from 'react-phone-number-input'
+import { useGetUserDetailsQuery } from '../../../Features/auth/authApiSlice'
+import { useNavigate, Link } from 'react-router-dom'
+import 'react-phone-number-input/style.css'
 import {
+
   Modal,
   ModalOverlay,
   ModalContent,
@@ -16,15 +22,15 @@ const accomodationbody = () => {
   const { isOpen, onOpen, onClose } = useDisclosure()
 
   const accommodationTypes = [
-    { name: "Hotels", icon: "🏨" },
-    { name: "Resorts", icon: "🏝️" },
-    { name: "Vacation Rentals", icon: "🏠" },
-    { name: "Apartments", icon: "🏢" },
-    { name: "Guesthouses", icon: "🏡" },
-    { name: "Hostels", icon: "🛏️" },
-    { name: "Motels", icon: "🏩" },
-    { name: "Inns", icon: "🏚️" },
-    { name: "Villas", icon: "🏰" },
+    { name: "Hotel", icon: "🏨" },
+    { name: "Resort", icon: "🏝️" },
+    { name: "Vacation Rental", icon: "🏠" },
+    { name: "Apartment", icon: "🏢" },
+    { name: "Guesthouse", icon: "🏡" },
+    { name: "Hostel", icon: "🛏️" },
+    { name: "Motel", icon: "🏩" },
+    { name: "Inn", icon: "🏚️" },
+    { name: "Villa", icon: "🏰" },
     { name: "Bed and Breakfast", icon: "🛌" },
   ];
 
@@ -78,14 +84,17 @@ const accomodationbody = () => {
   
   const [placeName, setPlaceName] = useState('')
   const [country, setCountry] = useState('')
+  const [street, setStreet] = useState('')
+  const [tele, setTele] = useState('')
+  const [city , setCity] = useState('')
   const [selectedType, setSelectedType] = useState(null);
   const [numRooms, setNumRooms] = useState("");
   const [selectedAmenities, setSelectedAmenities] = useState([]);
   const [selectedOption, setSelectedOption] = useState(onSiteStaffOptions[0].value);
   const [hasFrontDesk, setHasFrontDesk] = useState(null);
   const [hasCheckIn, setHasCheckIn] = useState(null);
-  const [checkInFrom, setCheckInFrom] = useState("12:00 pm");
-  const [checkInTo, setCheckInTo] = useState("12:00 pm");
+  const [checkInFrom, setCheckInFrom] = useState("6:00 AM");
+  const [checkInTo, setCheckInTo] = useState("5:30 AM");
   const [checkoutTime, setCheckoutTime] = useState('12:00 PM');
 
   const handlePlaceName = (e) => {
@@ -94,15 +103,23 @@ const accomodationbody = () => {
     
   }
 
+  const handleCity = (e) => {
+    setCity(e.target.value)
+  }
+
   const handleCountryName = (e) => {
   
     setCountry(e.target.value)
     
   }
 
-  // useEffect(() => {
-  //   console.log(placeName);
-  // }, [placeName]);
+  const handleStreetName = (e) => {
+  
+    setStreet(e.target.value)
+    
+  }
+
+ 
 
   const handleCheckInFromChange = (event) => {
     setCheckInFrom(event.target.value);
@@ -124,6 +141,11 @@ const accomodationbody = () => {
     setSelectedType(type);
     console.log(selectedType)
   };
+
+  //   useEffect(() => {
+  //   console.log(selectedType);
+  // }, [selectedType]);
+
 
   const handleNumRoomsChange = (event) => {
     setNumRooms(event.target.value);
@@ -147,6 +169,35 @@ const accomodationbody = () => {
     const answer = event.target.value === "yes";
     setHasCheckIn(answer);
   };
+
+
+  const [createHotel, { isLoading, isError, error, isSuccess }] = useCreateHotelMutation()
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const { data } = await createHotel({ name: placeName, type: selectedType.name, address: street, city: city})
+      if(!data){
+        console.log('la shet bhonta')
+      }
+      console.log(data)
+    } catch (error) {
+      console.error(error);
+    }
+
+    
+  };
+
+  const { data } = useGetUserDetailsQuery()
+  console.log(data)
+
+  const navigate = useNavigate()
+
+  const navigateBack = () => {
+    navigate('/addlisting')
+  }
+
 
   return (
     <>
@@ -200,6 +251,24 @@ const accomodationbody = () => {
                           placeholder="www.example.com"
                         />
                       </div>
+                    </div>
+                    <div className="col-span-3 sm:col-span-2">
+                      <label htmlFor="telephone" className="block text-sm font-medium leading-6 mb-2 text-gray-900">
+                        Telephone 
+                      </label>
+                      <PhoneInput
+                      placeholder='Enter phone number'
+                      value={tele}
+                      onChange={setTele}/>
+                      {/* <input
+                        type="text"
+                        
+                        name="telephone"
+                        id="telephone"
+                        
+                        autoComplete="family-name"
+                        className="mt-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-600 sm:text-sm sm:leading-6"
+                      /> */}
                     </div>
                   </div>
 
@@ -305,6 +374,7 @@ const accomodationbody = () => {
                       <input
                         type="text"
                         name="first-name"
+                        placeholder={data ? data.firstName : ''}
                         id="first-name"
                         autoComplete="given-name"
                         className="mt-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-600 sm:text-sm sm:leading-6"
@@ -329,6 +399,7 @@ const accomodationbody = () => {
                         Email address
                       </label>
                       <input
+                        placeholder={data ? data.email : ''}
                         type="text"
                         name="email-address"
                         id="email-address"
@@ -345,7 +416,7 @@ const accomodationbody = () => {
                         type="text"
                         name="city"
                         id="city"
-                        autoComplete="address-level2"
+                        
                         className="mt-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-600 sm:text-sm sm:leading-6"
                       />
                     </div>
@@ -461,6 +532,8 @@ const accomodationbody = () => {
                       </label>
                       <input
                         type="text"
+                        value={street}
+                        onChange={handleStreetName}
                         name="street-address"
                         id="street-address"
                         autoComplete="street-address"
@@ -475,8 +548,10 @@ const accomodationbody = () => {
                       <input
                         type="text"
                         name="city"
+                        value={city}
+                        onChange={handleCity}
                         id="city"
-                        autoComplete="address-level2"
+                        
                         className="mt-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-600 sm:text-sm sm:leading-6"
                       />
                     </div>
@@ -585,7 +660,7 @@ const accomodationbody = () => {
           type="number"
           className="border-gray-400 border py-2 px-4 rounded ml-2"
           value={numRooms}
-          // onChange={}
+          onChange={handleNumRoomsChange}
         />
       </div>
                   </fieldset>
@@ -621,6 +696,7 @@ const accomodationbody = () => {
                     
       <div className="flex gap-2 mb-4">
         <button
+        id='front-desk'
           className={`px-4 py-2 font-semibold rounded-full ${
             hasFrontDesk === true ? "bg-primary-600 text-white" : "bg-gray-200 text-gray-700"
           }`}
@@ -630,6 +706,7 @@ const accomodationbody = () => {
           Yes
         </button>
         <button
+        id='front-desk'
           className={`px-4 py-2 font-semibold rounded-full ${
             hasFrontDesk === false ? "bg-primary-600 text-white" : "bg-gray-200 text-gray-700"
           }`}
@@ -688,8 +765,9 @@ const accomodationbody = () => {
                     
       <div className="flex gap-2">
         <button
+        id='check-in'
           className={`px-4 py-2 font-semibold rounded-full ${
-            hasFrontDesk === true ? "bg-primary-600 text-white" : "bg-gray-200 text-gray-700"
+            hasCheckIn === true ? "bg-primary-600 text-white" : "bg-gray-200 text-gray-700"
           }`}
           onClick={secondhandleButtonClick}
           value="yes"
@@ -698,7 +776,7 @@ const accomodationbody = () => {
         </button>
         <button
           className={`px-4 py-2 font-semibold rounded-full ${
-            hasFrontDesk === false ? "bg-primary-600 text-white" : "bg-gray-200 text-gray-700"
+            hasCheckIn === false ? "bg-primary-600 text-white" : "bg-gray-200 text-gray-700"
           }`}
           onClick={secondhandleButtonClick}
           value="no"
@@ -709,7 +787,10 @@ const accomodationbody = () => {
                     </div>
                   </fieldset>
                 </div>
-                <div className="bg-gray-50 px-4 py-3 text-right sm:px-6">
+                <div className="bg-gray-50 px-4 py-3 text-right sm:px-6 items-center">
+                <Button onClick={navigateBack} colorScheme='teal' className='mr-5 underline' variant='link'>
+                  Go back
+                </Button> 
                   <Button
                     type="submit"
                     onClick={onOpen}
@@ -719,53 +800,57 @@ const accomodationbody = () => {
                     Save
                   </Button>
                   <Modal isOpen={isOpen} onClose={onClose} size='4xl'>
+                  <form onSubmi={handleSubmit}>
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>Please review this information before submitting</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             <section>
+            
             <div className="grid grid-cols-2 gap-4">
             <div className="font-medium">What kind of place is this?:</div>
               <div>Accommodation</div>
             <div className="font-medium">Official place name:</div>
               <div><p className='text-black'>{placeName}</p></div>
             <div className="font-medium">City/Town, State/Province/Region:</div>
-              <div>Starboy</div>
+              <div><p className='text-black'>{city}</p></div>
             <div className="font-medium">Country:</div>
               <div>Starboy</div>
             <div className="font-medium">Street address (50 character maximum):</div>
-              <div>Starboy</div>
+              <div><p className='text-black'>{street}</p></div>
             <div className="font-medium">Telephone:</div>
-              <div>Starboy</div>
+              <div><p className='text-black'>{tele}</p></div>
             <div className="font-medium">What accommodation type best describes this property?:</div>
-              <div>Starboy</div>
+              <div> {selectedType && <p className="text-black">{selectedType.name}</p>}</div>
             <div className="font-medium">How many rooms or units does the property have?:</div>
-              <div>Starboy</div>
-            <div className="font-medium">How frequently is the front desk or check-in location staffed?:</div>
-              <div>Starboy</div> 
+              <div>{numRooms}</div>
+            <div className="font-medium">Is the front desk location staffed?:</div>
+              <div><p className='text-black'>{hasFrontDesk ? "Yes" : "No"}</p></div> 
             <div className="font-medium">What are the check-in hours? Start time:</div>
-              <div>Starboy</div>
+              <div><p className='text-black'>{checkInFrom}</p></div>
             <div className="font-medium">End time:</div>
-              <div>Starboy</div> 
+              <div><p className='text-black'>{checkInTo}</p></div> 
             <div className="font-medium">What is the check-out time?:</div>
-              <div>Starboy</div> 
+              <div><p className='text-black'>{checkoutTime}</p></div> 
             <div className="font-medium">Are there onsite staff?:</div>
               <div>Starboy</div>
             <div className="font-medium">Is the check-in location on the property?:</div>
-              <div>Starboy</div>
+              <div><p className='text-black'>{hasCheckIn ? "Yes" : "No"}</p></div>
             </div>
             </section>
            
           </ModalBody>
 
           <ModalFooter>
+          
             <Button colorScheme='blue' mr={3} onClick={onClose}>
               Close
             </Button>
-            <Button variant='ghost'>Secondary Action</Button>
+            <Button variant='ghost' onClick={handleSubmit}>Submit</Button>
           </ModalFooter>
         </ModalContent>
+        </form>
       </Modal>
                 </div>
               </div>
