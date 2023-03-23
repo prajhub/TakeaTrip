@@ -33,6 +33,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-dropzone": "^14.2.3",
+    "react-hook-form": "^7.43.7",
     "react-icons": "^4.7.1",
     "react-phone-number-input": "^3.2.19",
     "react-query": "^3.39.3",
@@ -42,7 +43,8 @@
     "react-router-dom": "^6.7.0",
     "redux-persist": "^6.0.0",
     "styled-components": "^5.3.6",
-    "yup": "^0.32.11"
+    "yup": "^0.32.11",
+    "zod": "^3.21.4"
   },
   "devDependencies": {
     "@tailwindcss/forms": "^0.5.3",

@@ -47,23 +47,15 @@ const handleAdminDashboard = (e) => {
   <MenuButton >
     <Avatar name='Dan Abrahmov' src='https://bit.ly/dan-abramov' />
   </MenuButton>
-  <MenuList bg='brand.800'>
-    <MenuGroup title='Profile' bg='brand.800'>
-      <MenuItem>My Account</MenuItem>
-      {role === "Admin" ? 
+  <MenuList  >
+      <MenuItem>Profile Settings</MenuItem>
+          {role === "Admin" ? 
 
       
-      <MenuItem onClick={handleAdminDashboard}>Dashboard</MenuItem> :  <MenuItem>Land</MenuItem>  
+            <MenuItem onClick={handleAdminDashboard}>Dashboard</MenuItem> :  <MenuItem>Land</MenuItem>  
       
-      }
-      
-     
-    </MenuGroup>
-    <MenuDivider />
-    <MenuGroup title='Help' bg='brand.800'>
-      <MenuItem>Docs</MenuItem>
-      <MenuItem onClick={handleLogout}>Sign Out</MenuItem>
-    </MenuGroup>
+          }
+          <MenuItem>Sign Out</MenuItem>
   </MenuList>
 </Menu>
    

@@ -9,7 +9,7 @@ import SignUp from './Pages/UserAuthentication/SignUp';
 import SignIn from './Pages/UserAuthentication/SignIn';
 import Landing from './Pages/ListPlace.jsx/landing'
 import Explore from './Pages/LocationDisplay/Country/Explore';
-
+import AddAccommodation from './Pages/AddAcccommodation/AddAccommodation';
 import './App.css';
 import AdminRoute from './Components/AdminComponents/AdminRoute';
 
@@ -39,7 +39,7 @@ function App() {
             <Route path='/adashboard' element={<AdminDashboard/>} />
             <Route path='/adashboard/user' element={<UserCRUD/>} />
           </Route>
-        
+            <Route path='/addaccommodation' element={<AddAccommodation/>}/>
             <Route path='/addlisting' element={<Landing/>}/>
             
           

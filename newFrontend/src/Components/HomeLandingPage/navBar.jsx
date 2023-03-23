@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect, Fragment} from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { setLogOut, setCredentials } from '../../Features/auth/authSlice';
 
-import ProfileMenu from './ProfileMenu';
+import ProfileMenu from '../Reusables/ProfileMenu';
 import { useNavigate } from 'react-router';
 
 
@@ -41,7 +41,7 @@ const userInfo = useSelector((state) => state.auth.token)
 
   return (
     <header>
-    <nav className="border-gray-200 w-full px-4 lg:px-6 py-2.5 dark:bg-gray-800 absolute z-10 text-white">
+    <nav className="border-gray-200 w-full px-4 lg:px-6 py-2.5  absolute z-10 text-white">
         <div className="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl mt-2">
             <a href="/" className="flex items-center">
                 {/* <img src='../assets/mainlogo.png"' class="mr-3 h-6 sm:h-9" alt="TakeaTrip Logo" /> */}
