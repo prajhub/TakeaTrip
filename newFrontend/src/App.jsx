@@ -5,11 +5,12 @@ import AdminDashboard from './Pages/Admin/AdminDashboard';
 import UserCRUD from './Pages/Admin/UserCRUD';
 import Homepage from './Pages/LandingPage/Homepage';
 import SignUp from './Pages/UserAuthentication/SignUp';
-
+import OnBoarding from './Pages/AddAcccommodation/FInalOnboarding/FinalOnboarding'
 import SignIn from './Pages/UserAuthentication/SignIn';
 import Landing from './Pages/ListPlace.jsx/landing'
 import Explore from './Pages/LocationDisplay/Country/Explore';
 import AddAccommodation from './Pages/AddAcccommodation/AddAccommodation';
+
 import './App.css';
 import AdminRoute from './Components/AdminComponents/AdminRoute';
 
@@ -41,7 +42,7 @@ function App() {
           </Route>
             <Route path='/addaccommodation' element={<AddAccommodation/>}/>
             <Route path='/addlisting' element={<Landing/>}/>
-            
+            <Route path='/onboarding' element={<OnBoarding/>}/>
           
           </Routes>
         </div>

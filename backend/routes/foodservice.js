@@ -1,18 +1,18 @@
-const express = require('express');
+// const express = require('express');
 
-const { createNewFoodService, updateFoodService, deleteFoodService } = require('../controllers/foodServiceController')
+// const { createNewFoodService, updateFoodService, deleteFoodService } = require('../controllers/foodServiceController')
 
-const router = express.Router()
+// const router = express.Router()
 
-//CREATE
-router.post('/', createNewFoodService)
-
-
-//UPDATE
-router.put("/:id",  updateFoodService)
-
-//DELETE
-router.delete("/:id",  deleteFoodService)
+// //CREATE
+// router.post('/', createNewFoodService)
 
 
-module.exports = router;
+// //UPDATE
+// router.put("/:id",  updateFoodService)
+
+// //DELETE
+// router.delete("/:id",  deleteFoodService)
+
+
+// module.exports = router;

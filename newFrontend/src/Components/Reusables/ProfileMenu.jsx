@@ -55,7 +55,7 @@ const handleAdminDashboard = (e) => {
             <MenuItem onClick={handleAdminDashboard}>Dashboard</MenuItem> :  <MenuItem>Land</MenuItem>  
       
           }
-          <MenuItem>Sign Out</MenuItem>
+          <MenuItem onClick={handleLogout}>Sign Out</MenuItem>
   </MenuList>
 </Menu>
    

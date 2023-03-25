@@ -1,97 +1,104 @@
-const Location = require('../model/location')
-const Country = require('../model/country')
 require('dotenv').config();
+const axios = require('axios');
+const City = require('../model/city')
+const Continent = require('../model/continent')
+const State = require('../model/state')
+const Region = require('../model/region')
+const Country = require('../model/country')
 
 
-const createLocation = async (req, res) => {
+const controlLocation = async (req, res) => {
+    const username = process.env.ROADGOAT_API_KEY;
+    const password = process.env.ROADGOAT_SECRET_KEY;
 
-    const {country, name,  desc, hotels, restaurants, thingstodo } = req.body
+    const auth = Buffer.from(`${username}:${password}`).toString('base64')
 
-    if (!country || !name || !desc) {
-        return res.status(400).json({ message: "All field required"})
-    }
-
-    try {
-        
-       const findCountry = await Country.findOne({ name: country })
-       if(!findCountry){
-            return res.sendStatus(404).json({ message: 'Country not found cuh'})
-       }
-
-       const newLocation = await Location.create({
-        name,
-        desc,
-        country: findCountry
-       })
-
-       findCountry.locations.push(newLocation)
-       await findCountry.save()
-
-      //  await Location.findById(newLocation._id).populate('country').exec();
-
-       return res.status(201).json(newLocation)
-
-
-
-    } catch (error) {
-        res.status(500).json(error)
-        console.log(error)
-    }
-
+    const headers = {
+        'Authorization': `Basic ${auth}`,
+        'Content-Type': 'application/json'
+    };
     
-}
-
-const getSingleLocation = async (req, res) => {
-    const { name, locationId } = req.params;
-  
+    const cityName = req.params.name;
     try {
-      // Find the Country document that matches the name
-      const country = await Country.findOne({ name });
-  
-      if (!country) {
-        return res.status(404).json({ message: 'Country not found' });
-      }
-  
-      // Find all the Location documents that have the country's _id as a reference
-      const location = await Location.find({ _id: locationId, country: country._id });
+        // Check if the data already exists
+        const city = await City.findOne({ name: cityName });
+        if(city){
+            return res.json(city);
+        }
 
-      if (!location) {
-        return res.status(404).json({ message: 'Location not found' });
-      }
+        // If data does not exist, make an API request and store in db
+        const response = await axios.get(`https://api.roadgoat.com/api/v2/destinations/auto_complete?q=${cityName}`, { headers })
+        
+        const cityData = response.data.data[0]
+        // if (cityData) {
+        //     return res.status(200).json(cityData);
+        // }
+
+        let model = null;
+
+        switch(cityData.attributes.destination_type) {
+            case "Continent":
+                model = Continent;
+                break;
+            case "Country":
+                model = Country;
+                break;
+            case "State":
+                model = State;
+                break;
+            case "Region":
+                model = Region;
+                break;
+            case "City":
+                model = City;
+                break;
+
+            default:
+                return res.status(500).json({ error: "Invalid destination type" });
+            
+        }
+
+        const existingData = await model.findOne({ name: cityData.attributes.short_name });
+            if (existingData) 
+            {
+                return res.json(existingData);
+            }
+
+            
 
 
-      res.status(200).json(location);
+        const newCity = new model({
+                name: cityData.attributes.short_name,
+                country: cityData.attributes.name.split(", ").pop(),
+                type: cityData.attributes.destination_type,
+                latitude: cityData.attributes.latitude,
+                longitude: cityData.attributes.longitude,
+                photos: []
+
+                
+
+
+
+
+              });
+
+            //   if (cityData.relationships.featured_photo && cityData.relationships.featured_photo.data) {
+            //     newCity.photos = cityData.relationships.featured_photo.data.map((photo) => ({
+            //       id: photo.id,
+            //       type: photo.type
+            //     }))};
+
+            
+
+             
+        
+        
+        await newCity.save();
+        res.json(newCity);
     } catch (error) {
-      res.status(500).json(error);
-      
+        console.error(error);
+        res.status(500).json({ error: 'Internal server error' });
     }
-  };
+};
 
-  const deleteLocation = async (req, res) => {
-    const { countryId, locationId } = req.params;
-
-    try {
-      // find the location in the database
-      const location = await Location.findById(locationId)
-      if (!location) {
-        return res.status(404).json({ message: 'Location not found' });
-      }
-  
-      // delete the location
-      await location.remove();
-  
-      // remove the location from the country
-      const country = await Country.findById(countryId);
-      country.locations.pull(locationId);
-      await country.save();
-  
-      res.json({ message: 'Location deleted successfully' });
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ message: 'Server error' });
-    }
-  
-  }
-
-
-module.exports = { createLocation, getSingleLocation, deleteLocation }
+module.exports = { controlLocation };

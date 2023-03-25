@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-const location = require('./location').schema
+
 
 const CountrySchema = new mongoose.Schema({
 
@@ -18,10 +18,7 @@ const CountrySchema = new mongoose.Schema({
           url: { type: String, required: true },
         },
       ],
-    locations: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'locations'
-    }],
+    
     desc: {
         type: String,
         

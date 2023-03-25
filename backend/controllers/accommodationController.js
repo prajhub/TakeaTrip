@@ -1,32 +1,68 @@
-const Hotel = require('../model/hotel')
-
+const Accommodation = require('../model/accommodation')
+const Country = require('../model/country')
 const City = require('../model/city')
+const cloudinary = require('../utils/cloudinary')
+const axios = require('axios');
 
 
-const createHotel = async (req, res) => {
+const createAccommodation = async (req, res) => {
 
-    const { name, type, city, address } = req.body
+    const username = process.env.ROADGOAT_API_KEY;
+    const password = process.env.ROADGOAT_SECRET_KEY;
 
-    if ( !name || !type || !city || !address ) {
+    const auth = Buffer.from(`${username}:${password}`).toString('base64')
+
+    const headers = {
+        'Authorization': `Basic ${auth}`,
+        'Content-Type': 'application/json'
+    };
+
+
+
+    const { name, type, city, address, country, img } = req.body
+  
+
+    if ( !name || !type || !city || !address || !country ) {
         res.status(400).json({ message: "Please fill out all the data"})
     }
 
     try {
+        const existingCountry = await Country.findOne({ name: country });
+        if (!existingCountry) {
+            // const response = await axios.get(`https://api.roadgoat.com/api/v2/destinations/auto_complete?q=${country}`, { headers })
+            // const countryData = response.data.data[0]
+            
+            // const newCountry = new Country({ name: countryData.attributes.short_name})
+            // console.log(newCountry)
+        }
+        
         // Check if city exists
         const existingCity = await City.findOne({ name: city });
         if (!existingCity) {
           return res.status(404).json({ message: 'City not found' });
         }
-    
+
+        
+        
         // Check if hotel already exists
-        const existingHotel = await Hotel.findOne({ name });
-        if (existingHotel) {
+        const existingAccommodation = await Accommodation.findOne({ name });
+        if (existingAccommodation) {
           return res.status(400).json({ message: 'Hotel already exists' });
         }
+
+        //uploading image to cloudniary
+        const result = await cloudinary.uploader.upload(img, {
+            folder: "property"
+        })
+
+        
     
         // Create new hotel
-        const newHotel = new Hotel({ name, type, address, city });
-        await newHotel.save();
+        const newAccommodation = new Hotel({ name, type, address, city, photos: {
+            public_id: result.public_id,
+            url: result.secure_url
+        } });
+        await newAccommodation.save();
     
         // Add hotel to city's hotel array
         existingCity.hotels.push(newHotel);
@@ -116,4 +152,4 @@ const getHotelsByLocation = async (req, res) => {
     }
 }
     
-module.exports = { createHotel, updateHotel, deleteHotel, getHotel, getHotels, getHotelsByLocation };
+module.exports = { createAccommodation, updateHotel, deleteHotel, getHotel, getHotels, getHotelsByLocation };

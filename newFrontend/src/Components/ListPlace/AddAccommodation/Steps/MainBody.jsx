@@ -1,23 +1,69 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { BiChevronLeft } from 'react-icons/bi'
 import { useForm } from 'react-hook-form'
-import { z } from 'zod'
+import { zodResolver } from '@hookform/resolvers/zod'
+import z from 'zod'
+import axios from 'axios'
+import { useNavigate } from 'react-router'
+import OnBoarding from '../../FinalOnboarding/mainBody'
 
- 
+import { AutoComplete } from 'antd'
+
+
+    const schema = z.object({
+        country: z.string().nonempty('Field required')
+    })
+
+   
+
 
 
     const maxStep = 3
 
+    const MainBody = () => {
 
-const MainBody = () => {
+   
 
     const [formStep, setFormStep] = useState(0)
 
-    const { watch, register, formState: {errors} } = useForm({ mode: "all",
+    const [selectedCountry, setSelectedCountry] = useState('');
+    const [streetAdd, setStreetAdd] = useState('')
+    const [city, setCity] = useState('')
+    const [zipCode, setZipCode] = useState('')
+    const [propertyName, setPropertyName] = useState('')
+    const [propertyType, setPropertyType] = useState('')
 
+    const navigate = useNavigate()
     
 
+    const { watch, register, formState: {errors} } = useForm({ 
+        resolver: zodResolver(schema),
     })
+
+    const [ countryData, setCountryData ] = useState([])
+
+
+    const fetchData = async (searchText) => {
+        const response = await axios.get(`https://restcountries.com/v3.1/name/${searchText}`);
+        return response.data;
+
+      }
+
+      const handleSearch = async (value) => {
+        const data = await fetchData(value);
+        
+        setCountryData(data);
+       
+      }
+ 
+      console.log(selectedCountry)
+      console.log(streetAdd)
+      console.log(city)
+      console.log(zipCode)
+      console.log(propertyName)
+      console.log(propertyType)
+
+      const preDetails = [selectedCountry]
 
     const completeStep = () => {
             setFormStep(curr => curr + 1)
@@ -27,6 +73,12 @@ const MainBody = () => {
         setFormStep(curr => curr - 1)
     }
 
+
+    const hanldeSubmit = () => {
+        navigate('/onboarding'),
+       <OnBoarding details = {preDetails}/>
+    }
+
     const renderButton = () => {
         if (formStep > 3) {
             return undefined
@@ -34,7 +86,7 @@ const MainBody = () => {
         }else if ( formStep === 3){
             return (
                 
-                    <button type="button" onClick={completeStep} class="text-white bg-primary-700 hover:bg-primary-800 mt-8 w-full focus:ring-4 focus:ring-primary-300 font-medium  text-sm px-5 py-2.5 mr-2 mb-2 ">Submit</button>
+                    <button type="button" onClick={hanldeSubmit} class="text-white bg-primary-700 hover:bg-primary-800 mt-8 w-full focus:ring-4 focus:ring-primary-300 font-medium  text-sm px-5 py-2.5 mr-2 mb-2 ">Submit</button>
             )
         }
         else {
@@ -61,15 +113,25 @@ const MainBody = () => {
                     {formStep === 0 && (
                         <section>
                             <h2 className='text-2xl font-open-san font-semibold'>Where is your property located?</h2>
-                            <input
+                            {/* <input
                                 type='text'
                                 id='location'
                                 {...register("location")}
                                 name='location'
                                 className='text-input mt-4 w-full'
                             
-                            />
-                            {/* {errors.location && <p>{errors.location.message}</p>} */}
+                            /> */}
+                            <AutoComplete className='text-black mt-4'
+                                options={countryData.map((country) => ({ label: country.name.common, value: country.name.common }))}
+                                getOptionLabel={(option) => option.label}
+                                onChange={(event, value) => setSelectedCountry(value.value)}
+                                onSearch={handleSearch}
+                                style={{ width: 400 }}
+                                placeholder="Where are you"
+                               
+                                />
+                                
+                               
                         </section>
                     )}
 
@@ -79,6 +141,7 @@ const MainBody = () => {
                             <label htmlFor='street-address' className='mt-5'>Street Adress</label>
                             <input
                                 type='text'
+                                onChange={(e) => setStreetAdd(e.target.value)}
                                 id='street-address'
                                 name='street-address'
                                 className='text-input mb-6 w-full'
@@ -89,6 +152,7 @@ const MainBody = () => {
                                 type='text'
                                 id='city'
                                 name='city'
+                                onChange={(e) => setCity(e.target.value)}
                                 className='text-input mb-6 w-full'
                             
                             />
@@ -96,6 +160,7 @@ const MainBody = () => {
                             <input
                                 type='text'
                                 id='state'
+
                                 name='state'
                                 className='text-input mb-6  w-full'
                             
@@ -104,6 +169,7 @@ const MainBody = () => {
                             <input
                                 type='text'
                                 id='zipcode'
+                                onChange={(e) => setZipCode(e.target.value)}
                                 name='zipcode'
                                 placeholder='ZIP Code'
                                 className='text-input mt-2 w-full'
@@ -121,6 +187,7 @@ const MainBody = () => {
                                 id='property-name'
                                 placeholder='Property name'
                                 name='property-name'
+                                onChange={(e) => setPropertyName(e.target.value)}
                                 className='text-input mt-4 mb-7 w-full'
                             
                             />
@@ -130,6 +197,7 @@ const MainBody = () => {
                                 id='property-type'
                                 placeholder='Property type'
                                 name='property-type'
+                                onChange={(e) => setPropertyType(e.target.value)}
                                 className='text-input mb-7 w-full'
                             
                             />

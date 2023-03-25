@@ -1,12 +1,12 @@
 const express = require('express');
-const { createHotel, deleteHotel, updateHotel, getHotel, getHotels, getHotelsByLocation } = require('../controllers/hotelController');
+const { createAccommodation, deleteHotel, updateHotel, getHotel, getHotels, getHotelsByLocation } = require('../controllers/accommodationController');
 
 
 const router = express.Router();
 
 
 //CREATE
-router.post("/",  createHotel);
+router.post("/",  createAccommodation);
 
 
 //UPDATE

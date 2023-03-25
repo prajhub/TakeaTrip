@@ -1,15 +1,8 @@
 const express = require('express')
-const { createLocation, getSingleLocation, deleteLocation } = require('../controllers/locationController')
+const { controlLocation } = require('../controllers/locationController')
 
 const router = express.Router()
 
-router.post('/', createLocation)
-router.get('/:name/:locationId', getSingleLocation )
-router.delete('/delete/:countryId/:locationId', deleteLocation)
+router.get('/:name', controlLocation)
 
-
-
-
-
-
-module.exports = router;
+module.exports = router

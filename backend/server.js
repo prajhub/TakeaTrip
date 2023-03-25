@@ -46,11 +46,10 @@ app.use(cors({
 app.use('/register', require('./routes/register'));
 app.use('/auth', require('./routes/auth'));
 
-app.use('/location', require('./routes/location'))
 app.use('/country', require('./routes/country'))
-app.use('/cities', require('./routes/city'))
-app.use('/hotels', require('./routes/hotels'));
-app.use('/foodservice', require('./routes/foodservice'))
+app.use('/location', require('./routes/location'))
+app.use('/accommodation', require('./routes/accommodation'));
+// app.use('/foodservice', require('./routes/foodservice'))
 app.use('/rooms', require('./routes/rooms'));
 app.use('/profile', verifyJWT, require('./routes/getuserprofile') )
 app.use('/users',   require('./routes/users'));

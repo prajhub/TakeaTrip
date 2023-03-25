@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 
 
-const HotelSchema = new mongoose.Schema({
+const AccommodationSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true
@@ -14,13 +14,21 @@ const HotelSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.String,
       
     },
+    country:{
+        type: String
+    },
     address: {
         type: String,
         required: true
     },
     
     photos: {
-        type: [String],
+        public_id: {
+            type: String
+        },
+        url: {
+            type: String
+        }
         
     },
    
@@ -59,4 +67,4 @@ const HotelSchema = new mongoose.Schema({
 
 
 
-module.exports = mongoose.model('hotels', HotelSchema);
+module.exports = mongoose.model('accommodation', AccommodationSchema);

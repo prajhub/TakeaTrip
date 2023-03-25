@@ -1,5 +1,5 @@
 const Country = require('../model/country')
-const Location = require('../model/location')
+
 require('dotenv').config();
 
 
@@ -47,18 +47,18 @@ const getSingleCountry = async (req, res) => {
     }
   };
   
-  const deleteCountry = async (req, res) => {
-    try {
-      const countryName = req.params.name;
-      const deletedCountry = await Country.findOneAndDelete({ name: countryName });
-      if (!deletedCountry) {
-        return res.status(404).json({ message: `Country with name ${countryName} not found.` });
-      }
-      await Location.deleteMany({ _id: { $in: deletedCountry.locations } });
-      res.status(200).json({ message: `Deleted country ${countryName} and its associated locations.` });
-    } catch (error) {
-      res.status(500).json({ error: error.message });
-    }
-  };
+  // const deleteCountry = async (req, res) => {
+  //   try {
+  //     const countryName = req.params.name;
+  //     const deletedCountry = await Country.findOneAndDelete({ name: countryName });
+  //     if (!deletedCountry) {
+  //       return res.status(404).json({ message: `Country with name ${countryName} not found.` });
+  //     }
+  //     await Location.deleteMany({ _id: { $in: deletedCountry.locations } });
+  //     res.status(200).json({ message: `Deleted country ${countryName} and its associated locations.` });
+  //   } catch (error) {
+  //     res.status(500).json({ error: error.message });
+  //   }
+  // };
 
-module.exports = { createCountry, getAllCountries, getSingleCountry, deleteCountry }
+module.exports = { createCountry, getAllCountries, getSingleCountry }

@@ -1,6 +1,6 @@
 import React from 'react'
 import Header from '../../Components/Reusables/header'
-import MainBody from '../../Components/ListPlace/AddAccommodation/Steps/MainBody'
+import MainBody from '../../Components/ListPlace/AddAccommodation/accomodationbody'
 
 const AddAccommodation = () => {
   return (
