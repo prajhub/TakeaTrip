@@ -1,18 +1,16 @@
 const express = require('express')
 const dotenv = require('dotenv').config()
 const port = process.env.PORT 
-const passport = require('passport')
+
 const cookieParser = require('cookie-parser')
-const mongoose = require('mongoose')
-const session = require('express-session')
+
 const bodyParser = require('body-parser')
 const cors = require('cors')
-const jwt = require('jsonwebtoken')
+
 
 
 //Connecting to DB
 const connectDB = require('./config/db')
-const bcrypt = require('bcrypt');
 
 connectDB();
 
@@ -21,20 +19,13 @@ require('./model/user')
 
 const app = express();
 
-const reqAuth = require('./middleware/reqAuth')
 
-
-
-
-
-
-
-
-const protect = require('./middleware/authMiddleware')
 
 const verifyJWT = require('./middleware/verifyJWT')
 
 app.use(cookieParser())
+app.use(bodyParser.json({ limit: '50mb' }));
+app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 app.use(cors({

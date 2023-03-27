@@ -57,9 +57,8 @@ const AccommodationSchema = new mongoose.Schema({
         default: false,
     },
 
-    verified: {
-        type: Boolean,
-        default: false
+    owner: {
+        type: String
     }
 
 })

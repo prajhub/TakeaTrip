@@ -1,12 +1,12 @@
 const express = require('express');
 const { createAccommodation, deleteHotel, updateHotel, getHotel, getHotels, getHotelsByLocation } = require('../controllers/accommodationController');
-
+const verifyJWT = require('../middleware/verifyJWT')
 
 const router = express.Router();
 
 
 //CREATE
-router.post("/",  createAccommodation);
+router.post("/", verifyJWT, createAccommodation);
 
 
 //UPDATE

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useCreateHotelMutation } from '../../../Features/hotels/hotelsApiSlice'
+import { useCreateAccommodationMutation } from '../../../Features/accommodations/accommodationApiSlice'
 import PhoneInput from 'react-phone-number-input'
 import { useGetUserDetailsQuery } from '../../../Features/auth/authApiSlice'
 import { useNavigate, Link } from 'react-router-dom'
@@ -113,6 +113,7 @@ const accomodationbody = () => {
       reader.readAsDataURL(file)
       reader.onloadend = () => {
         setImage(reader.result)
+        // console.log(reader.result)
       }
     }
 
@@ -126,11 +127,13 @@ const accomodationbody = () => {
 
   const handleCity = (e) => {
     setCity(e.target.value)
+    console.log(e.target.value)
   }
 
   const handleCountryName = (e) => {
   
     setCountry(e.target.value)
+    console.log(e.target.value)
     
   }
 
@@ -188,17 +191,17 @@ const accomodationbody = () => {
   };
 
 
-  const [createHotel, { isLoading, isError, error, isSuccess }] = useCreateHotelMutation()
+  const [createAccommodation, { isLoading, isError, error, isSuccess }] = useCreateAccommodationMutation()
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-  
+    
 
     try {
-      const { data } = await createHotel({ name: placeName, type: selectedType.name, address: street, city: city, img: image})
+      const { data } = await createAccommodation({ name: placeName, country: country, type: selectedType.name, address: street, city: city, img: image, })
       if(!data){
-        console.log('la shet bhonta')
+        console.log('error ayo')
       }
       console.log(data)
     } catch (error) {
@@ -208,9 +211,6 @@ const accomodationbody = () => {
     
   };
 
-  if(isSuccess){
-    console.log('Success')
-  }
 
 
 
@@ -343,7 +343,7 @@ const accomodationbody = () => {
                   <div className="col-span-full">
                   <div className="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
                 <div className="text-center">
-                        <input type='file' name='file-upload' multiple  onChange={handleImage}/>
+                        <input type='file' name='file-upload' multiple onChange={handleImage} />
                   </div>
                   </div>
                     
@@ -388,9 +388,9 @@ const accomodationbody = () => {
                       </label>
                       <input
                         type="text"
-                        name="city"
+                        name="country"
                         value={country}
-                        id="city"
+                        id="country"
 
                         onChange={handleCountryName}
                         className="mt-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-600 sm:text-sm sm:leading-6"
@@ -689,7 +689,7 @@ const accomodationbody = () => {
             <div className="font-medium">City/Town, State/Province/Region:</div>
               <div><p className='text-black'>{city}</p></div>
             <div className="font-medium">Country:</div>
-              <div>Starboy</div>
+              <div>{country}</div>
             <div className="font-medium">Street address (50 character maximum):</div>
               <div><p className='text-black'>{street}</p></div>
             <div className="font-medium">Telephone:</div>

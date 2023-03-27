@@ -30,10 +30,7 @@ const controlLocation = async (req, res) => {
         const response = await axios.get(`https://api.roadgoat.com/api/v2/destinations/auto_complete?q=${cityName}`, { headers })
         
         const cityData = response.data.data[0]
-        // if (cityData) {
-        //     return res.status(200).json(cityData);
-        // }
-
+       
         let model = null;
 
         switch(cityData.attributes.destination_type) {
@@ -54,50 +51,30 @@ const controlLocation = async (req, res) => {
                 break;
 
             default:
-                return res.status(500).json({ error: "Invalid destination type" });
+             return res.status(500).json({ error: "Invalid destination type" });
             
         }
 
         const existingData = await model.findOne({ name: cityData.attributes.short_name });
-            if (existingData) 
-            {
-                return res.json(existingData);
-            }
-
-            
-
+        if (existingData) 
+        {
+            return res.json(existingData);
+        }
 
         const newCity = new model({
-                name: cityData.attributes.short_name,
-                country: cityData.attributes.name.split(", ").pop(),
-                type: cityData.attributes.destination_type,
-                latitude: cityData.attributes.latitude,
-                longitude: cityData.attributes.longitude,
-                photos: []
+            name: cityData.attributes.short_name,
+            country: cityData.attributes.name.split(", ").pop(),
+            type: cityData.attributes.destination_type,
+            latitude: cityData.attributes.latitude,
+            longitude: cityData.attributes.longitude,
+            photos: []
+        });
 
-                
-
-
-
-
-              });
-
-            //   if (cityData.relationships.featured_photo && cityData.relationships.featured_photo.data) {
-            //     newCity.photos = cityData.relationships.featured_photo.data.map((photo) => ({
-            //       id: photo.id,
-            //       type: photo.type
-            //     }))};
-
-            
-
-             
-        
-        
         await newCity.save();
-        res.json(newCity);
+        return res.json(newCity);
     } catch (error) {
         console.error(error);
-        res.status(500).json({ error: 'Internal server error' });
+        return res.status(500).json({ error: 'Internal server error' });
     }
 };
 

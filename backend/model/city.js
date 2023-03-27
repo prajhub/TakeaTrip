@@ -7,7 +7,12 @@ const citySchema = new mongoose.Schema({
     country: String, 
     latitude: Number,
     longitude: Number,
-    hotels: [String],
+    accommodations: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'accommodation',
+      },
+    ],
     photos: [
       {
         id: String,

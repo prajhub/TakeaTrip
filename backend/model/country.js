@@ -18,21 +18,19 @@ const CountrySchema = new mongoose.Schema({
           url: { type: String, required: true },
         },
       ],
-    
+    cities: [String],
     desc: {
         type: String,
         
     },
-    hotels: {
+    accommodations: {
         type: [String],
 
     },
     photos: {
         type: [String]
     },
-    restaurants: {
-        type: [String],
-    },
+    
     thingstodo: {
         type: [String]
     }
