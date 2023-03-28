@@ -10,7 +10,7 @@ import SignIn from './Pages/UserAuthentication/SignIn';
 import Landing from './Pages/ListPlace.jsx/landing'
 import Explore from './Pages/LocationDisplay/Country/Explore';
 import AddAccommodation from './Pages/AddAcccommodation/AddAccommodation';
-
+import UserProfileMain from './Pages/UserSettings/MainPage'
 import './App.css';
 import AdminRoute from './Components/AdminComponents/AdminRoute';
 
@@ -43,6 +43,7 @@ function App() {
             <Route path='/addaccommodation' element={<AddAccommodation/>}/>
             <Route path='/addlisting' element={<Landing/>}/>
             <Route path='/onboarding' element={<OnBoarding/>}/>
+            <Route path='/account' element={<UserProfileMain/>}/>
           
           </Routes>
         </div>

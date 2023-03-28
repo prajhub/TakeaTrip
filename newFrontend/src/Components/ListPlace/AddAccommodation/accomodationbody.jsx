@@ -13,6 +13,7 @@ import {
   ModalFooter,
   ModalBody,
   useDisclosure,
+  Spinner,
   Button,
   ModalCloseButton,
 } from '@chakra-ui/react'
@@ -20,6 +21,11 @@ import {
 const accomodationbody = () => {
 
   const { isOpen, onOpen, onClose } = useDisclosure()
+  const [openSecond, setOpenSecond] = useState(false)
+
+  const onSecondOpen = () => setOpenSecond(true)
+  const onSecondClose = () => setOpenSecond(false)
+
 
   const accommodationTypes = [
     { name: "Hotel", icon: "🏨" },
@@ -196,6 +202,8 @@ const accomodationbody = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+
+
     
 
     try {
@@ -208,8 +216,14 @@ const accomodationbody = () => {
       console.error(error);
     }
 
+    // onSecondOpen()
     
   };
+
+  // if(isLoading){
+  //   <Spinner/>
+  // }
+ 
 
 
 
@@ -727,6 +741,32 @@ const accomodationbody = () => {
       </Modal>
 
        {/* Modal for final details closed */}
+
+       {/* Modal for success message */}
+       <Modal isOpen={openSecond} onClose={onSecondClose} size='3xl'>
+          <ModalOverlay />
+            <ModalContent>
+              <ModalHeader>Thankyou for telling us about {placeName}</ModalHeader>
+              <ModalCloseButton />
+              <ModalBody>
+                <div>
+                  <p className='font-open-san mb-3'>To ensure travellers benefit from the most accurate listing information, we screen requests to ensure all content complies with policies and formatting requirements.</p>
+                  <h3 className='font-semibold text-lg py-4'>Would you like to view your listing?</h3>
+                </div>
+              </ModalBody>
+              <ModalFooter>
+                <div className='flex  w-[800px] justify-between'>
+              <Button colorScheme='teal' variant='link'>
+                  No, continue browsing
+                </Button>
+                <Button colorScheme='teal' variant='solid'>
+                  View
+                </Button>
+                </div>
+              </ModalFooter>
+              </ModalContent>
+       </Modal>
+
 
 
                 </div>
