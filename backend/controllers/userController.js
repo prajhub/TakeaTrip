@@ -99,8 +99,8 @@ const getUserProfile = asyncHandler(async (req, res) => {
       try {
         const user = await User.findById(userId);
         if (user) {
-          const { _id, email } = user;
-          res.json({ id: _id, email });
+          const { _id, email, firstName, lastName } = user;
+          res.json({ id: _id, email, firstName, lastName });
         } else {
           res.status(404).json({ message: 'User not found' });
         }

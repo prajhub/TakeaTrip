@@ -6,7 +6,6 @@ import ProfileMenu from '../Reusables/ProfileMenu';
 import { useNavigate } from 'react-router';
 
 
-import { useGetUserDetailsQuery } from '../../Features/auth/authApiSlice';
 
 
 
@@ -27,10 +26,10 @@ const userInfo = useSelector((state) => state.auth.token)
 
 
   // automatically authenticate user if token is found
-  const { data, isFetching } = useGetUserDetailsQuery('userDetails', {
-    // perform a refetch every 15mins
-      pollingInterval: 900000,
-    })
+//   const { data, isFetching } = useLazySendUserDetailQuery('userDetails', {
+//     // perform a refetch every 15mins
+//       pollingInterval: 900000,
+//     })
 
 
 

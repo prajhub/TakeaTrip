@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux'
 import { NavLink, Outlet } from 'react-router-dom'
-import UnauthorizedError from './UnauthorizedError'
+import UnauthorizedError from '../Components/AdminComponents/UnauthorizedError'
 
 const AdminRoute = () => {
   const { userInfo } = useSelector((state) => state.auth)

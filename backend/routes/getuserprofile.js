@@ -6,12 +6,13 @@ const User = require('../model/user')
 router.get('/',  async (req, res) => {
 
     const userId = req.user.userId;
+    
     if (userId) {
       try {
         const user = await User.findById(userId);
         if (user) {
-          const { _id, email, firstName,  roles } = user;
-          res.json({ id: _id, email, firstName, roles });
+          const { _id, email, firstName,  lastName } = user;
+          res.json({ id: _id, email, firstName, lastName });
         } else {
           res.status(404).json({ message: 'User not found' });
         }

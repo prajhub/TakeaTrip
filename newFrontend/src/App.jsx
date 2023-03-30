@@ -12,7 +12,8 @@ import Explore from './Pages/LocationDisplay/Country/Explore';
 import AddAccommodation from './Pages/AddAcccommodation/AddAccommodation';
 import UserProfileMain from './Pages/UserSettings/MainPage'
 import './App.css';
-import AdminRoute from './Components/AdminComponents/AdminRoute';
+import AdminRoute from './Protection/AdminRoute';
+import UseRoute from './Protection/UserRoute';
 
 import Sucsacc from './Components/InfoModals/Sucsacc';
 const queryClient = new QueryClient();
@@ -40,10 +41,13 @@ function App() {
             <Route path='/adashboard' element={<AdminDashboard/>} />
             <Route path='/adashboard/user' element={<UserCRUD/>} />
           </Route>
+          <Route element={<UseRoute/>}>
             <Route path='/addaccommodation' element={<AddAccommodation/>}/>
             <Route path='/addlisting' element={<Landing/>}/>
             <Route path='/onboarding' element={<OnBoarding/>}/>
+
             <Route path='/account' element={<UserProfileMain/>}/>
+          </Route>
           
           </Routes>
         </div>

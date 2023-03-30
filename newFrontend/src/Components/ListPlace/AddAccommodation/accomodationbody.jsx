@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useCreateAccommodationMutation } from '../../../Features/accommodations/accommodationApiSlice'
 import PhoneInput from 'react-phone-number-input'
-import { useGetUserDetailsQuery } from '../../../Features/auth/authApiSlice'
+
 import { useNavigate, Link } from 'react-router-dom'
 import 'react-phone-number-input/style.css'
 import {
