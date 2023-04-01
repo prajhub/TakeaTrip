@@ -7,10 +7,11 @@ const { hashPassword } = require('../utils/helpers');
 
 const updateUser = asyncHandler(async (req, res) => {
 
-    const { id, email, roles,  password} = req.body;
+    const { email,   password, firstName, lastName} = req.body;
+    const { id } = req.params
 
     //Confirm data
-    if(!id || !email || !Array.isArray(roles) || !roles.length || typeof active !== 'boolean'){
+    if(!id || !email || !password){
         res.status(400).json({ message: 'All fields are required'})
     }
 
@@ -31,7 +32,7 @@ const updateUser = asyncHandler(async (req, res) => {
     user.firstName = firstName
     user.lastName = lastName
     user.email = email
-    user.roles = roles
+    
 
 
     if(password) {

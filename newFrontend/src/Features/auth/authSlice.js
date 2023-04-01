@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { userLogin } from './authActions'
+import { updateUser } from './updateAction'
 
 const token = localStorage.getItem('access-token') ? localStorage.getItem('access-token') : null
 
@@ -50,7 +51,24 @@ const authSlice = createSlice({
         [userLogin.rejected]: (state, { payload }) => {
             state.loading = false
             state.error = payload
-        }
+        },
+
+        //For updating User
+        [updateUser.pending]: (state) => {
+            state.loading = true
+            state.error = null
+        },
+        [updateUser.fulfilled]: (state) => {
+            state.loading = false
+            
+        },
+        [updateUser.rejected]: (state) => {
+            state.loading = false
+            state.error = payload
+        },
+        
+
+
     }
 })
 

@@ -26,18 +26,28 @@ export const apiSlice = createApi({
          
         }),
       endpoints: (builder) => ({
-    getUserDetails: builder.query({
-      query: () => ({
-        url: '/users',
-        method: 'GET',
-      }),
+    
+    userLogin: builder.mutation({
+      query: credentials => ({
+        url: '/auth',
+        method: 'POST',
+        body: {...credentials}
+      })
     }),
+    getUserProfile: builder.query({
+      query: () => '/profile',
+      transformErrorResponse: (response) => {
+        // Replace this with the actual response parsing code
+        const { id, email, firstName, lastName } = response;
+        return { id, email, firstName, lastName };
+      },
+    })
     
-    
+     
 
   }),
 
 })
 
 
-export const {useGetUserDetailsQuery, useUserLoginMutation } = apiSlice
+export const { useUserLoginMutation, useGetUserProfileQuery } = apiSlice

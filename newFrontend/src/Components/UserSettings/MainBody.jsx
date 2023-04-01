@@ -1,18 +1,57 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Avatar } from 'antd'
 import { MdEmail } from 'react-icons/md'
+import { useDispatch, useSelector } from 'react-redux'
+import { updateUser } from '../../Features/auth/updateAction'
+import {
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  Button,
+  useDisclosure,
+  ModalCloseButton,
+} from '@chakra-ui/react'
 import { BsFillTelephoneFill, BsGlobe } from 'react-icons/bs'
-import { useGetUserDetailsQuery } from '../../Features/api/apiSlice'
+import { useGetUserProfileQuery, useUserLoginMutation } from '../../Features/api/apiSlice'
 // import { useUserLoginMutation } from '../../Features/api/apiSlice'
+
 
 const MainBody = () => {
 
-  const { data, isLoading, error, isFetching } = useGetUserDetailsQuery()
-  console.log(data)
+  const dispatch = useDispatch()
+
+  const { isOpen, onOpen, onClose } = useDisclosure()
+
+  const [login, { isLoading }] = useUserLoginMutation()
+
+  const { data, error, isFetching } = useGetUserProfileQuery('userDetails', {
+    pollingInterval: 1000, //1 secs
+  })
+
+  const id = data.id
+  // console.log(id)
+
+
+
+  //States for Edit user Modal
+
+  const [firstName, setFirstName] = useState('')
+  const [lastName, setLastName] = useState('')
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+ 
+
+  const handleUpdate = (e) => {
+    e.preventDefault()
+
+    dispatch(updateUser({ firstName, lastName, email, password, id}))
+    
+  }
 
   
-
-
   
   return (
     <>
@@ -47,12 +86,12 @@ const MainBody = () => {
                     color: '#f56a00',
                   }}
                 >
-                  PM
+                  {data.firstName[0]}{data.lastName[0]}
                 </Avatar>
                 <div className='flex flex-col '>
-                  <h1 className="text-2xl font-bold">Prajwal Magar</h1>
+                  <h1 className="text-2xl font-bold">{data.firstName} {data.lastName}</h1>
              
-                  <p className="text-gray-500 mt-4 text-sm flex items-center"><MdEmail className='mr-1'/> prajwalmagar@example.com</p>
+                  <p className="text-gray-500 mt-4 text-sm flex items-center"><MdEmail className='mr-1'/>{data.email}</p>
                   <p className="text-gray-500 mt-4 text-sm flex items-center"><BsFillTelephoneFill className='mr-1'/>: 123-456-7890</p>
                 </div>
               </div>
@@ -63,12 +102,62 @@ const MainBody = () => {
                 <li className='ml-5'>English (US)</li>
               </ul>
 
-              <button onClick={() => {
-                
-              }}>submit</button>
+              
             </div>
+            
           </div>           
+          <Button  type="button"  colorScheme='lime' onClick={onOpen} className="text-white mt-20 ml-10 bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2">Edit Profile</Button>
 
+          {/* Edit User Modal*/}
+              <Modal isOpen={isOpen} onClose={onClose} size='xl'>
+            <ModalOverlay />
+            <ModalContent>
+              <ModalHeader>Edit your profile</ModalHeader>
+              <ModalCloseButton />
+              <ModalBody>
+                  <section>
+                    <form>
+                  <div class="grid gap-4 mb-4 sm:grid-cols-2">
+                    <div>
+                        <label className="block mb-2 text-sm font-medium text-gray-900 ">First Name</label>
+                        <input type="text" name="firstName" id="name" value={firstName} onChange={(e) => setFirstName(e.target.value)} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5  " placeholder={data.firstName}/>
+                    </div>
+                    <div>
+                        <label className="block mb-2 text-sm font-medium text-gray-900 ">Last Name</label>
+                        <input type="text" name="lastName" id="name" value={lastName} onChange={(e) => setLastName(e.target.value)}  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 " placeholder={data.lastName}/>
+                    </div>
+                    <div>
+                        <label  className="block mb-2 text-sm font-medium text-gray-900 ">Email</label>
+                        <input type="text" name="email" id="email" value={email} onChange={(e) => setEmail(e.target.value)}  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 " placeholder={data.email}/>
+                    </div>
+                    <div>
+                        <label  className="block mb-2 text-sm font-medium text-gray-900 ">Password</label>
+                        <input type="text" name="password" id="password" value={password} onChange={(e) => setPassword(e.target.value)}  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 " />
+                    </div>
+                    <div>
+                        <label  className="block mb-2 text-sm font-medium text-gray-900 ">Phone Number</label>
+                        <input type="number" value="399" name="phoneNumber" id="phoneNumber" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5   " placeholder="$299"/>
+                    </div>
+                    
+                    <div className="sm:col-span-2">
+                        <label  className="block mb-2 text-sm font-medium text-gray-900 ">Description</label>
+                        <textarea id="description" rows="5" className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500  " placeholder="Write a description..."></textarea>                    
+                    </div>
+                </div>
+                <div className="flex items-center space-x-4">
+                    <button type="submit" onClick={handleUpdate} className="text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center ">
+                        Update 
+                    </button>
+                    
+                </div>
+                </form>
+                  </section>
+               
+              </ModalBody>
+
+              
+            </ModalContent>
+          </Modal>
             </div>
         {/* Profile Card */}
 
