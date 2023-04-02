@@ -6,7 +6,7 @@ import Explore from '../../Components/HomeLandingPage/explore'
 import TopDestinations from '../../Components/HomeLandingPage/TopDestinations'
 import Features from '../../Components/HomeLandingPage/Features'
 import Footer from '../../Components/HomeLandingPage/Footer'
-
+import Trending from '../../Components/HomeLandingPage/Trending'
 
 const Homepage = () => {
   return (
@@ -15,7 +15,7 @@ const Homepage = () => {
         <Hero/>
         <Explore/>
         <TopDestinations/>
-        <Features/>
+        <Trending/>
         <Footer/>
     </div>
   )
