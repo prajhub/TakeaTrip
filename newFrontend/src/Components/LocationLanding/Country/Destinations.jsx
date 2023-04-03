@@ -68,7 +68,7 @@ const TopDestinations = () => {
    <>
    
    <div className="container mx-auto my-8">
-      <h2 className="text-2xl font-bold mb-4">Destinations</h2>
+      <h2 className="text-2xl font-bold mb-4 ml-10">Destinations</h2>
       <Slider {...settings}>
         {destinations.map((destination) => (
           <div key={destination.name} className="p-4">

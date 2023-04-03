@@ -44,7 +44,7 @@ const userInfo = useSelector((state) => state.auth.token)
         <div className="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl mt-2">
             <a href="/" className="flex items-center">
                 {/* <img src='../assets/mainlogo.png"' class="mr-3 h-6 sm:h-9" alt="TakeaTrip Logo" /> */}
-                <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white">TakeaTrip</span>
+                <span className="self-center text-3xl font-semibold whitespace-nowrap dark:text-white">TakeaTrip</span>
             </a>
             <div className="flex items-center lg:order-2">
                
