@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import {AiOutlineBell, AiOutlineClose, AiOutlineMenu} from 'react-icons/ai'
 import {BsList} from 'react-icons/bs'
-
+import Search from './HeaderSearch'
 import ProfileMenu from './ProfileMenu'
 import { useSelector, useDispatch } from 'react-redux'
 
@@ -23,27 +23,13 @@ const header = () => {
                     <div >
                             <a href="/" class="flex items-center hidden md:block ">
                     
-                                <span class="self-center text-3xl font-open-san-normal font-semibold whitespace-nowrap dark:text-white">TakeaTrip</span>
+                                <span class="self-center text-3xl font-open-san-normal mr-4 font-semibold whitespace-nowrap dark:text-white">TakeaTrip</span>
                             </a>
                     </div>
 
                     {/* Search Input Field  */}
             
-                    <div className=" w-48 md:w-9/12 ml-4 hidden md:block">
-                            <form className="relative" >
-                            <svg className="h-6 w-6 absolute left-3 top-1/4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                                    <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                                </svg>
-                                <input 
-                            type="text" 
-                            placeholder="Where to?"
-                            className="bg-white rounded-full w-full pl-12 py-2 shadow-xl focus:outline-none" 
-                        
-                        
-                       
-                                    />
-                            </form>
-                        </div>
+                        <Search/>
 
                     {/* Search Input Field end */}
                 </div>

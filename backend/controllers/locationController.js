@@ -18,22 +18,30 @@ const controlLocation = async (req, res) => {
         'Content-Type': 'application/json'
     };
     
-    const cityName = req.params.name;
+    const locationName = encodeURIComponent(req.params.name);
     try {
-        // Check if the data already exists
-        const city = await City.findOne({ name: cityName });
-        if(city){
-            return res.json(city);
-        }
+      // Check if the data already exists
+      let existingData = await Promise.all([
+        City.findOne({ name: locationName }),
+        State.findOne({ name: locationName }),
+        Country.findOne({ name: locationName }),
+        Region.findOne({ name: locationName }),
+        Continent.findOne({ name: locationName })
+    ]);
+    existingData = existingData.filter(data => data !== null);
+
+    if (existingData.length > 0) {
+        return res.json(existingData[0]);
+    }
 
         // If data does not exist, make an API request and store in db
-        const response = await axios.get(`https://api.roadgoat.com/api/v2/destinations/auto_complete?q=${cityName}`, { headers })
+        const response = await axios.get(`https://api.roadgoat.com/api/v2/destinations/auto_complete?q=${locationName}`, { headers })
         
-        const cityData = response.data.data[0]
+        const locationData = response.data.data[0]
        
         let model = null;
 
-        switch(cityData.attributes.destination_type) {
+        switch(locationData.attributes.destination_type) {
             case "Continent":
                 model = Continent;
                 break;
@@ -55,23 +63,19 @@ const controlLocation = async (req, res) => {
             
         }
 
-        const existingData = await model.findOne({ name: cityData.attributes.short_name });
-        if (existingData) 
-        {
-            return res.json(existingData);
-        }
+       
 
-        const newCity = new model({
-            name: cityData.attributes.short_name,
-            country: cityData.attributes.name.split(", ").pop(),
-            type: cityData.attributes.destination_type,
-            latitude: cityData.attributes.latitude,
-            longitude: cityData.attributes.longitude,
+        const newLocation = new model({
+            name: locationData.attributes.short_name,
+            country: locationData.attributes.name.split(", ").pop(),
+            type: locationData.attributes.destination_type,
+            latitude: locationData.attributes.latitude,
+            longitude: locationData.attributes.longitude,
             photos: []
         });
 
-        await newCity.save();
-        return res.json(newCity);
+        await newLocation.save();
+        return res.json(newLocation);
     } catch (error) {
         console.error(error);
         return res.status(500).json({ error: 'Internal server error' });

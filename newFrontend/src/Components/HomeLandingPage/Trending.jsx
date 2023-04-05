@@ -15,7 +15,8 @@ const Trending = () => {
     <>
 
             {/* Trending in Travel Section */}
-            <div className="container mx-auto px-4 py-10">
+            <div className="mx-auto max-w-screen-xl px-4 py-10">
+                
                 <h2 className="font-bold text-xl md:text-2xl my-5">
                     Trending in Travel
                 </h2>

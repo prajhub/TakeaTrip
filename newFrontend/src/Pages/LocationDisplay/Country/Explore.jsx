@@ -8,6 +8,8 @@ import Description from '../../../Components/LocationLanding/Country/description
 import TopAttractions from '../../../Components/LocationLanding/Country/TopAttractions/TopAttractions'
 import ToStay from '../../../Components/LocationLanding/Country/ToDo/ToStay'
 import ToEat from '../../../Components/LocationLanding/Country/ToDo/ToEat'
+import Footer from '../../../Components/HomeLandingPage/Footer'
+
 
  const Explore = () => {
   return (
@@ -19,7 +21,7 @@ import ToEat from '../../../Components/LocationLanding/Country/ToDo/ToEat'
         <TopAttractions/>
         <ToStay/>
         <ToEat/>
-
+        <Footer/>
 
     </>
   )
