@@ -1,8 +1,8 @@
 const express = require('express')
-const { controlLocation } = require('../controllers/locationController')
+const { getLocation } = require('../controllers/locationController')
 
 const router = express.Router()
 
-router.get('/:name', controlLocation)
+router.get('/locations', getLocation)
 
 module.exports = router

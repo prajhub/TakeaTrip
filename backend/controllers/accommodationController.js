@@ -159,5 +159,7 @@ const getHotelsByLocation = async (req, res) => {
         res.status(401).json(error)
     }
 }
+
+
     
 module.exports = { createAccommodation, updateHotel, deleteHotel, getHotel, getHotels, getHotelsByLocation };
