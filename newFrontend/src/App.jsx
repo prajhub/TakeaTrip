@@ -14,8 +14,13 @@ import UserProfileMain from './Pages/UserSettings/MainPage'
 import './App.css';
 import AdminRoute from './Protection/AdminRoute';
 import UseRoute from './Protection/UserRoute';
-
+import StaysLandingPage from './Pages/StaysLanding/StaysLandingPage';
 import Sucsacc from './Components/InfoModals/Sucsacc';
+import StaysSearched from './Pages/StaysSearched/StaysSearched'
+import Accommodation from './Pages/AccommodationDisplay/Accommodation';
+import ListService from './Pages/ListService/ListService';
+
+
 const queryClient = new QueryClient();
 
 
@@ -44,8 +49,11 @@ function App() {
           <Route element={<UseRoute/>}>
             <Route path='/addaccommodation' element={<AddAccommodation/>}/>
             <Route path='/addlisting' element={<Landing/>}/>
+            <Route path='/listservice' element={<ListService/>}/>
             <Route path='/onboarding' element={<OnBoarding/>}/>
-
+            <Route path='/stays' element={<StaysLandingPage/>}/>
+            <Route path='/hotels' element={<StaysSearched/>}/>
+            <Route path='/accommodation/:id' element={<Accommodation/>}/>
             <Route path='/account' element={<UserProfileMain/>}/>
           </Route>
           

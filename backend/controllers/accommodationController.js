@@ -1,17 +1,17 @@
 const Accommodation = require('../model/accommodation')
 const Country = require('../model/country')
 const User = require('../model/user')
+
 const City = require('../model/city')
 const cloudinary = require('../utils/cloudinary')
-const axios = require('axios');
-const createLocation =  require('../utils/locationCreator')
+
 
 const createAccommodation = async (req, res) => {
 
 
 
 
-    const { name, type, city, address, country, img } = req.body
+    const { name, type, city, address, country, img, cheapestPrice } = req.body
 
     const userId = req.user.userId;
   
@@ -27,18 +27,10 @@ const createAccommodation = async (req, res) => {
         const user = await User.findById(userId)
 
 
-        const existingCountry = await Country.findOne({ name: country });
-        if (!existingCountry) {
-            return res.status(404).json({ message: 'Country not found'})
-        }
+      
         
         
-         // Check if city exists
-         const existingCity = await City.findOne({ name: city });
-         if (!existingCity) {
-          return res.status(404).json({ message: 'City not found' });
-         }
- 
+       
 
 
 
@@ -61,18 +53,14 @@ const createAccommodation = async (req, res) => {
         
     
         // Create new hotel
-        const newAccommodation = new Accommodation({ name, type, address, city, country,  owner: user._id, photos: {
+        const newAccommodation = new Accommodation({ name, type, cheapestPrice, address, city, country,  owner: user._id, photos: {
             public_id: result.public_id,
             url: result.secure_url
         }
          });
         await newAccommodation.save();
     
-        // Add hotel to the country / city's  accommodation array 
-        existingCity.accommodations.push(newAccommodation._id);
-                await existingCity.save();
-        existingCountry.accommodations.push(newAccommodation._id);
-        await existingCountry.save();
+   
              
          
     
@@ -110,10 +98,10 @@ const deleteHotel = async (req, res) => {
     }
 }
 
-const getHotel = async (req, res) => {
+const getAccommodation = async (req, res) => {
 
     try {
-        const hotel = await Hotel.findById(req.params.id)
+        const hotel = await Accommodation.findById(req.params.id)
         res.status(200).json(hotel)
     } catch (error) {
 
@@ -123,17 +111,29 @@ const getHotel = async (req, res) => {
     }
 }
 
-const getHotels = async (req, res) => {
+const getAccommodations = async (req, res, next) => {
 
+    const { city, min, max } = req.query;
     try {
-        const hotels = await Hotel.find()
-        res.status(200).json(hotels)
-    } catch (error) {
-
-        next(error)
-        
-    }
+        let hotels;
+        if (min && max) {
+          hotels = await Accommodation.find({
+            city,
+            cheapestPrice: { $gt: min | 1, $lt: max || 999 },
+          }).limit(req.query.limit);
+        } else {
+          hotels = await Accommodation.find({
+            city,
+          });
+        }
+        res.status(200).json(hotels);
+      } catch (err) {
+        next(err);
+      }
 }
+
+
+
 
 
 const getHotelsByLocation = async (req, res) => {
@@ -162,4 +162,4 @@ const getHotelsByLocation = async (req, res) => {
 
 
     
-module.exports = { createAccommodation, updateHotel, deleteHotel, getHotel, getHotels, getHotelsByLocation };
+module.exports = { createAccommodation, updateHotel, deleteHotel, getAccommodation, getAccommodations, getHotelsByLocation };

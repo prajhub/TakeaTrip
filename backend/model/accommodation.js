@@ -11,9 +11,10 @@ const AccommodationSchema = new mongoose.Schema({
         required: true
     },
     city: {
-        type: mongoose.Schema.Types.String,
+        type: String,
       
     },
+    
     country:{
         type: String
     },
@@ -45,6 +46,10 @@ const AccommodationSchema = new mongoose.Schema({
         min:0,
         max:10,
     },
+    cheapestPrice: {
+        type: Number,
+        
+      },
     rooms: {
         type: [String]
     },

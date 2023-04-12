@@ -31,7 +31,7 @@ const MainBody = () => {
     pollingInterval: 1000, //1 secs
   })
 
-  const id = data.id
+const id = data.id
   // console.log(id)
 
 
@@ -56,9 +56,7 @@ const MainBody = () => {
   return (
     <>
 
-    
-    
-    <div class="pl-0 md:pl-64 transition-all" id="main">
+<div class="pl-0 md:pl-64 transition-all" id="main">
         <div className='p-6 mt-4 border-b shadow-sm'>
             <h1 className='font-open-san text-3xl font-semibold'>My profile</h1>
         </div>
@@ -217,6 +215,8 @@ const MainBody = () => {
 
         </section>
     </div>
+    
+   
 
 
     </>

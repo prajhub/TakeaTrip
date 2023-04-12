@@ -1,5 +1,5 @@
 const express = require('express');
-const { createAccommodation, deleteHotel, updateHotel, getHotel, getHotels, getHotelsByLocation } = require('../controllers/accommodationController');
+const { createAccommodation, deleteHotel, updateHotel, getAccommodation, getAccommodations, getHotelsByLocation } = require('../controllers/accommodationController');
 const verifyJWT = require('../middleware/verifyJWT')
 
 const router = express.Router();
@@ -17,13 +17,14 @@ router.put("/:id",  updateHotel)
 router.delete("/:id",  deleteHotel)
 
 //GET
-router.get("/:id",  getHotel)
+router.get("/:id",  getAccommodation)
 
 
 //Just GETALL
-router.get("/",  getHotels)
-router.get("/countByCity",  getHotels)
-router.get("/countByType",  getHotels)
+router.get("/",  getAccommodations)
+
+router.get("/countByCity",  getAccommodations)
+router.get("/countByType",  getAccommodations)
 
 //Get hotels by the Location
 router.get("/location/:locationId", getHotelsByLocation )

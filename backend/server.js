@@ -39,8 +39,10 @@ app.use('/auth', require('./routes/auth'));
 
 app.use('/country', require('./routes/country'))
 app.use('/location', require('./routes/location'))
+
 app.use('/suggestion', require('./routes/serviceSuggestion.js'))
 app.use('/accommodation', require('./routes/accommodation'));
+app.use('/foodservice', require('./routes/foodservice'));
 // app.use('/foodservice', require('./routes/foodservice'))
 app.use('/rooms', require('./routes/rooms'));
 app.use('/profile', verifyJWT, require('./routes/getuserprofile') )

@@ -36,12 +36,15 @@ export const apiSlice = createApi({
     }),
     getUserProfile: builder.query({
       query: () => '/profile',
-      transformErrorResponse: (response) => {
-        // Replace this with the actual response parsing code
-        const { id, email, firstName, lastName } = response;
-        return { id, email, firstName, lastName };
-      },
-    })
+      transformErrorResponse: (response) =>response.data  
+    }),
+    getAccommodationsByCity: builder.query({
+      query: (city) => `/accommodation?city=${city}`
+    }),
+    // new endpoint for getting accommodation by id
+    getAccommodationById: builder.query({
+      query: (id) => `/accommodation/${id}`,
+    }),
     
      
 
@@ -50,4 +53,4 @@ export const apiSlice = createApi({
 })
 
 
-export const { useUserLoginMutation, useGetUserProfileQuery } = apiSlice
+export const { useUserLoginMutation, useGetUserProfileQuery, useGetAccommodationByIdQuery, useGetAccommodationsByCityQuery } = apiSlice
