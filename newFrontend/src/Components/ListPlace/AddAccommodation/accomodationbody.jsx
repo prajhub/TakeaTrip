@@ -239,13 +239,13 @@ const accomodationbody = () => {
   return (
     <>
     
-    <div className='max-w-[1400px]  mx-auto py-32'>
+    <div className='max-w-[1400px]   mx-auto py-32'>
         <div>
             <h1 className='font-open-san text-4xl font-semibold mb-9'>How can we find you?</h1>
         </div>
        <div >
-        <div className="md:grid md:grid-cols-3 md:gap-6">
-          <div className="md:col-span-1">
+        <div className="md:grid md:grid-cols-3 md:gap-6 ">
+          <div className="md:col-span-1 ">
             <div className="px-4 sm:px-0">
               <h3 className="text-base font-semibold leading-6 text-gray-900">Name & Description</h3>
               <p className="mt-1 text-sm text-gray-600">
@@ -253,7 +253,7 @@ const accomodationbody = () => {
               </p>
             </div>
           </div>
-          <div className="mt-5 md:col-span-2 md:mt-0">
+          <div className="mt-5 md:col-span-2 md:mt-0 ">
             
               <div className="shadow sm:overflow-hidden sm:rounded-md">
                 <div className="space-y-6 bg-white px-4 py-5 sm:p-6">

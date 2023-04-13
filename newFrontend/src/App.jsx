@@ -5,7 +5,7 @@ import AdminDashboard from './Pages/Admin/AdminDashboard';
 import UserCRUD from './Pages/Admin/UserCRUD';
 import Homepage from './Pages/LandingPage/Homepage';
 import SignUp from './Pages/UserAuthentication/SignUp';
-import OnBoarding from './Pages/AddAcccommodation/FInalOnboarding/FinalOnboarding'
+import Onboarding from './Pages/ListService/Onboarding/Onboarding';
 import SignIn from './Pages/UserAuthentication/SignIn';
 import Landing from './Pages/ListPlace.jsx/landing'
 import Explore from './Pages/LocationDisplay/Country/Explore';
@@ -50,7 +50,7 @@ function App() {
             <Route path='/addaccommodation' element={<AddAccommodation/>}/>
             <Route path='/addlisting' element={<Landing/>}/>
             <Route path='/listservice' element={<ListService/>}/>
-            <Route path='/onboarding' element={<OnBoarding/>}/>
+            <Route path='/listonboarding' element={<Onboarding/>}/>
             <Route path='/stays' element={<StaysLandingPage/>}/>
             <Route path='/hotels' element={<StaysSearched/>}/>
             <Route path='/accommodation/:id' element={<Accommodation/>}/>
