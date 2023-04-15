@@ -26,7 +26,7 @@ const login = asynchHandler( async (req, res) => {
     
         const check = comparePassword(password, sameUser.password)
     
-        if(!check) return res.status(401).json({ message: 'Unauthorized'}) 
+        if(!check) return res.status(401).json({ message: 'Invalid Password'}) 
     
         //Generate the accessToken
         const accessToken = jwt.sign(

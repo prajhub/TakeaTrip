@@ -1,8 +1,10 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Avatar } from 'antd'
 import { MdEmail } from 'react-icons/md'
 import { useDispatch, useSelector } from 'react-redux'
 import { updateUser } from '../../Features/auth/updateAction'
+import PropertyDisplayTable from './PropertyDisplayTable'
+import Error from '../Reusables/Error'
 import {
   Modal,
   ModalOverlay,
@@ -25,16 +27,16 @@ const MainBody = () => {
 
   const { isOpen, onOpen, onClose } = useDisclosure()
 
-  const [login, { isLoading }] = useUserLoginMutation()
+  
 
-  const { data, error, isFetching } = useGetUserProfileQuery('userDetails', {
-    pollingInterval: 1000, //1 secs
+  const { data,  isFetching } = useGetUserProfileQuery('userDetails', {
+    pollingInterval: 2000, //1 secs
   })
 
-const id = data.id
-  // console.log(id)
 
+  const passId = data.id
 
+  
 
   //States for Edit user Modal
 
@@ -42,21 +44,31 @@ const id = data.id
   const [lastName, setLastName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
- 
+  const [phoneNum, setPhoneNum] = useState('');
+
+
+  const {success, loading, error } = useSelector((state) => state.auth)
 
   const handleUpdate = (e) => {
     e.preventDefault()
 
-    dispatch(updateUser({ firstName, lastName, email, password, id}))
-    
+    dispatch(updateUser({ firstName, lastName, email,  id: passId, currentPassword: password }))
+    onClose()
   }
+
+
+  useEffect(() => {
+    if (success) {
+      onClose()
+    }
+  }, [success])
 
   
   
   return (
     <>
 
-<div class="pl-0 md:pl-64 transition-all" id="main">
+<div class="pl-0 md:pl-64 " >
         <div className='p-6 mt-4 border-b shadow-sm'>
             <h1 className='font-open-san text-3xl font-semibold'>My profile</h1>
         </div>
@@ -116,6 +128,7 @@ const id = data.id
                   <section>
                     <form>
                   <div class="grid gap-4 mb-4 sm:grid-cols-2">
+                  
                     <div>
                         <label className="block mb-2 text-sm font-medium text-gray-900 ">First Name</label>
                         <input type="text" name="firstName" id="name" value={firstName} onChange={(e) => setFirstName(e.target.value)} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5  " placeholder={data.firstName}/>
@@ -130,11 +143,11 @@ const id = data.id
                     </div>
                     <div>
                         <label  className="block mb-2 text-sm font-medium text-gray-900 ">Password</label>
-                        <input type="text" name="password" id="password" value={password} onChange={(e) => setPassword(e.target.value)}  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 " />
+                        <input type="password" name="password" id="password"  onChange={(e) => setPassword(e.target.value)}  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 " />
                     </div>
                     <div>
                         <label  className="block mb-2 text-sm font-medium text-gray-900 ">Phone Number</label>
-                        <input type="number" value="399" name="phoneNumber" id="phoneNumber" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5   " placeholder="$299"/>
+                        <input type="number" value={phoneNum} name="phoneNumber" id="phoneNumber" onChange={(e) => setPhoneNum(e.target.value)} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5   " />
                     </div>
                     
                     <div className="sm:col-span-2">
@@ -190,18 +203,7 @@ const id = data.id
         </thead>
 
         <tbody>
-        <tr className="bg-white border-b hover:bg-gray-50 ">
-            <th scope="row" className="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap ">
-              
-              <div className="pl-3">
-                <div className="text-base font-semibold">Hotel del luna</div>
-                <div className="font-normal text-gray-500">chowk</div>
-              </div>
-            </th>
-            <td className="px-6 py-4">
-              <p>Owner</p>
-            </td>
-        </tr>
+                  <PropertyDisplayTable id={passId}/>
         </tbody>
         
     </table>

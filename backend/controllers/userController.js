@@ -11,7 +11,7 @@ const updateUser = asyncHandler(async (req, res) => {
     const { id } = req.params
 
     //Confirm data
-    if(!id || !email || !password){
+    if(!id || !email ){
         res.status(400).json({ message: 'All fields are required'})
     }
 
@@ -20,6 +20,14 @@ const updateUser = asyncHandler(async (req, res) => {
     if(!user){
         return res.status(400).json({ message: 'User not found'})
     }
+
+    // Check if the provided password matches the stored password
+  if (password) {
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      return res.status(401).json({ message: "Invalid password" });
+    }
+  }
 
     //Checking for same usr
 
@@ -35,9 +43,7 @@ const updateUser = asyncHandler(async (req, res) => {
     
 
 
-    if(password) {
-        user.password = await hashPassword(password)
-    }
+   
 
     const updatedUser = await user.save()
 
@@ -70,16 +76,16 @@ const deleteUser = asyncHandler(async (req, res) => {
 
 const getUser = async (req, res) => {
 
-    // try {
-    //     // const decodedUser = req.user._id
-    //     const user = await User.findById(decodedUser)
-    //     res.status(200).json(user)
-    // } catch (error) {
+    try {
+        const decodedUser = req.params.id
+        const user = await User.findById(decodedUser)
+        res.status(200).json(user)
+    } catch (error) {
 
-    //     res.status(500).json(error)
-    //     console.log(error)
+        res.status(400).json({ message: 'Invalid Password'})
         
-    // }
+        
+    }
 }
 
 const getUsers = asyncHandler(async (req, res) => {

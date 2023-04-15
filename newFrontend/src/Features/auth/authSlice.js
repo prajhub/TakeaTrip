@@ -60,6 +60,7 @@ const authSlice = createSlice({
         },
         [updateUser.fulfilled]: (state) => {
             state.loading = false
+            state.success = true
             
         },
         [updateUser.rejected]: (state) => {

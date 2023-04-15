@@ -39,10 +39,19 @@ const UserSchema = new mongoose.Schema({
         default: 'User'
     }
     ,
-    accesToken: String,
-    refreshToken: {
-        type: [refreshToken]
-    },
+    services: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Service'
+      }],
+      isServiceProvider: {
+        type: Boolean,
+        default: false
+      },
+      properties: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'accommodation'
+    }],
+   
     followers: {
         type: Array,
         default: [],

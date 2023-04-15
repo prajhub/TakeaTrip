@@ -6,71 +6,75 @@ const City = require('../model/city')
 const cloudinary = require('../utils/cloudinary')
 
 
-const createAccommodation = async (req, res) => {
+    const createAccommodation = async (req, res) => {
 
 
 
 
-    const { name, type, city, address, country, img, cheapestPrice } = req.body
+        const { name, type, city, address, country, img, cheapestPrice } = req.body
 
-    const userId = req.user.userId;
-  
+        const userId = req.user.userId;
+    
 
-    if ( !name || !type || !city || !address || !country ) {
-        return res.status(400).json({ message: "Please fill out all the data"})
+        if ( !name || !type || !city || !address || !country ) {
+            return res.status(400).json({ message: "Please fill out all the data"})
+        }
+        
+
+        try {
+
+            //Finding the user who is posting the accommodation
+            const user = await User.findById(userId)
+
+
+        
+            
+            
+        
+
+
+
+        
+            
+            
+            // Check if hotel already exists
+            const existingAccommodation = await Accommodation.findOne({ name });
+            if (existingAccommodation) {
+            return res.status(400).json({ message: 'Hotel already exists' });
+            }
+
+            //uploading image to cloudniary
+            const result = await cloudinary.uploader.upload(img, {
+                folder: "property",
+                width: 300,
+                crop: 'scale'
+            })
+
+            
+        
+            // Create new hotel
+            const newAccommodation = new Accommodation({ name, type, cheapestPrice, address, city, country,  owner: user._id, photos: {
+                public_id: result.public_id,
+                url: result.secure_url
+            }
+            });
+            await newAccommodation.save();
+
+            // Saving the newly created accommodation in the user's properties array
+                user.properties.push(newAccommodation);
+                await user.save();
+        
+    
+                
+            
+        
+        return res.status(201).json(newAccommodation);
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ message: 'Server error' });
+        }
+
     }
-    
-
-    try {
-
-        //Finding the user who is posting the accommodation
-        const user = await User.findById(userId)
-
-
-      
-        
-        
-       
-
-
-
-     
-        
-        
-        // Check if hotel already exists
-        const existingAccommodation = await Accommodation.findOne({ name });
-        if (existingAccommodation) {
-          return res.status(400).json({ message: 'Hotel already exists' });
-        }
-
-        //uploading image to cloudniary
-        const result = await cloudinary.uploader.upload(img, {
-            folder: "property",
-            width: 300,
-            crop: 'scale'
-        })
-
-        
-    
-        // Create new hotel
-        const newAccommodation = new Accommodation({ name, type, cheapestPrice, address, city, country,  owner: user._id, photos: {
-            public_id: result.public_id,
-            url: result.secure_url
-        }
-         });
-        await newAccommodation.save();
-    
-   
-             
-         
-    
-       return res.status(201).json(newAccommodation);
-      } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: 'Server error' });
-      }
-
-}
 
 const updateHotel = async (req, res) => {
 
@@ -113,25 +117,30 @@ const getAccommodation = async (req, res) => {
 
 const getAccommodations = async (req, res, next) => {
 
-    const { city, min, max } = req.query;
+    const { location } = req.query;
     try {
-        let hotels;
-        if (min && max) {
-          hotels = await Accommodation.find({
-            city,
-            cheapestPrice: { $gt: min | 1, $lt: max || 999 },
-          }).limit(req.query.limit);
-        } else {
-          hotels = await Accommodation.find({
-            city,
+        const accommodations  = await Accommodation.find({
+            $or: [
+                { city: location },
+                { country: location }
+            ]
           });
+
+          if (!accommodations.length) {
+            return res.status(404).json('No accommodations found');
         }
-        res.status(200).json(hotels);
-      } catch (err) {
+
+          res.status(200).json(accommodations );
+    } catch (error) {
         next(err);
-      }
+    }
+    
+
 }
 
+
+
+  
 
 
 
@@ -162,4 +171,4 @@ const getHotelsByLocation = async (req, res) => {
 
 
     
-module.exports = { createAccommodation, updateHotel, deleteHotel, getAccommodation, getAccommodations, getHotelsByLocation };
+module.exports = { createAccommodation,  updateHotel, deleteHotel, getAccommodation, getAccommodations, getHotelsByLocation };

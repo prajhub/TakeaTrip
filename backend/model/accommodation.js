@@ -23,7 +23,7 @@ const AccommodationSchema = new mongoose.Schema({
         required: true
     },
     
-    photos: {
+    photos: [{
         public_id: {
             type: String
         },
@@ -31,7 +31,7 @@ const AccommodationSchema = new mongoose.Schema({
             type: String
         }
         
-    },
+    }],
    
     desc: {
         type: String,

@@ -24,7 +24,11 @@ router.get("/:id",  getAccommodation)
 router.get("/",  getAccommodations)
 
 router.get("/countByCity",  getAccommodations)
+
 router.get("/countByType",  getAccommodations)
+
+
+
 
 //Get hotels by the Location
 router.get("/location/:locationId", getHotelsByLocation )

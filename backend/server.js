@@ -43,8 +43,10 @@ app.use('/location', require('./routes/location'))
 app.use('/suggestion', require('./routes/serviceSuggestion.js'))
 app.use('/accommodation', require('./routes/accommodation'));
 app.use('/foodservice', require('./routes/foodservice'));
+app.use('/accbyId', require('./routes/getAccoById'));
 // app.use('/foodservice', require('./routes/foodservice'))
 app.use('/rooms', require('./routes/rooms'));
+app.use('/service', require('./routes/service'));
 app.use('/profile', verifyJWT, require('./routes/getuserprofile') )
 app.use('/users',   require('./routes/users'));
 app.use('/users/check-auth', require('./routes/users'));

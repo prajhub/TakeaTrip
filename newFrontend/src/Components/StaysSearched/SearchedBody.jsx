@@ -29,7 +29,7 @@ const SearchedBody = () => {
 
 
     const handleClick = () => {
-        const url = `http://localhost:5000/accommodation?city=${destination}&min=${min || 0 }&max=${max || 999}`
+        const url = `http://localhost:5000/accommodation?location=${destination}&min=${min || 0 }&max=${max || 999}`
         refetch({endpoint: url})
     }
 
@@ -85,7 +85,7 @@ const SearchedBody = () => {
                         {isLoading ? "Loading..." :
                         <>
                             {data.map(item=> (
-                                <SearchItem min={min} max={max} item={item} key={item._id}/>
+                                <SearchItem  item={item} key={item._id}/>
                             ))}
                         </>}
                         

@@ -10,13 +10,13 @@ const SearchItem = ({item, min, max}) => {
     navigate(`/accommodation/${item._id}`)
   }
 
-  const priceInRange = (typeof min === 'undefined' || item.cheapestPrice >= min) && (typeof max === 'undefined' || item.cheapestPrice <= max);
+ console.log(item)
 
 
   return (
     <>
 
-        {priceInRange && <div className='border border-solid border-gray-300 p-3 rounded-lg flex justify-between gap-5 mb-20'>
+         <div className='border border-solid border-gray-300 p-3 rounded-lg flex justify-between gap-5 mb-20'>
             <img 
                 src='https://images.unsplash.com/photo-1618773928121-c32242e63f39?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80'
                 alt=''
@@ -51,8 +51,8 @@ const SearchItem = ({item, min, max}) => {
             </div>
             
             
-        </div>}
-    
+        </div>
+  
     </>
   )
 }

@@ -10,8 +10,11 @@ export const accommodationApiSlice  = apiSlice.injectEndpoints({
                 body,
             })
         
-        })
+        }),
+       
+        
+       
     })
 })
 
-export const {useCreateAccommodationMutation} = accommodationApiSlice
+export const {useCreateAccommodationMutation } = accommodationApiSlice

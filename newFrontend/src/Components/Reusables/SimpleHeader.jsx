@@ -18,7 +18,7 @@ const simpleheader = () => {
   return (
     <>
         <header className=' h-[70px] bg-primary-600'>
-            <nav class="flex justify-between  items-center max-w-[1650px] mx-auto py-2">
+            <nav class="flex justify-between  items-center max-w-[1400px] mx-auto py-2">
                 <div className='w-[650px] flex items-center '>
                     <div >
                             <a href="/" class="flex items-center hidden md:block ">

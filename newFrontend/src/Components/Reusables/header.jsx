@@ -17,13 +17,13 @@ const header = () => {
 
   return (
     <>
-        <header className=' h-[70px]'>
+        <header  className=' h-[70px]  border-b border-gray-200  '>
             <nav class="flex justify-between  items-center max-w-[1400px] mx-auto py-2">
                 <div className='w-[650px] flex items-center '>
                     <div >
                             <a href="/" class="flex items-center hidden md:block ">
                     
-                                <span class="self-center text-3xl font-open-san-normal mr-4 font-semibold whitespace-nowrap dark:text-white">TakeaTrip</span>
+                                <span class="self-center text-3xl font-open-san-normal mr-4 font-semibold whitespace-nowrap ">TakeaTrip</span>
                             </a>
                     </div>
 
