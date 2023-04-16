@@ -1,18 +1,21 @@
 import React from 'react'
-import { useGetAccommodationsByUserIdQuery } from '../../Features/api/apiSlice'
+import {  } from '../../Features/api/apiSlice'
 import { useSelector } from 'react-redux'
 
-
+import {  useGetAccommodationByUserIDQuery } from '../../Features/api/apiSlice'
 
 const PropertyDisplayTable = ({ id }) => {
 
     const userInfo = useSelector((state) => state.auth.userInfo)
  
   const userId = userInfo._id
-
-    const { data } = useGetAccommodationsByUserIdQuery(userId)
+  
+  const { data } = useGetAccommodationByUserIDQuery(userId,  {
+    refetchOnMountOrArgChange: true,
+    refetchInterval: 5000, // Refetch every 5 seconds
+  })
+  
     console.log(data)
-   
     
   return (
     <>

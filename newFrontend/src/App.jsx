@@ -22,6 +22,7 @@ import ListService from './Pages/ListService/ListService';
 import ThingsToDo from './Pages/ThingsToDo/thingsToDo';
 import MainPropertyDetails from './Pages/UserSettings/PropertyDetails.jsx/Main';
 
+import CreateRoom from './Pages/UserSettings/PropertyDetails.jsx/CreateRoom/CreateRoom';
 
 
 const queryClient = new QueryClient();
@@ -58,6 +59,7 @@ function App() {
             <Route path='/stays' element={<StaysLandingPage/>}/>
             <Route path='/account/properties' element={<MainPropertyDetails/>}/>
             <Route path='/hotels' element={<StaysSearched/>}/>
+            <Route path='/account/properties/:accommodationId/createRoom' element={<CreateRoom/>}/>
             <Route path='/accommodation/:id' element={<Accommodation/>}/>
             <Route path='/account' element={<UserProfileMain/>}/>
           </Route>

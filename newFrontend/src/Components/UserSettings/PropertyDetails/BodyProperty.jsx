@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react'
-import { Avatar } from 'antd'
-import { MdEmail } from 'react-icons/md'
+
 import { useDispatch, useSelector } from 'react-redux'
+
+import EditPropery from './EditPropery'
 
 
 import {
@@ -15,10 +16,9 @@ import {
   useDisclosure,
   ModalCloseButton,
 } from '@chakra-ui/react'
-import { BsFillTelephoneFill, BsGlobe } from 'react-icons/bs'
 
-
-
+import { useGetAccommodationByUserIDQuery } from '../../../Features/api/apiSlice'
+import { useNavigate } from 'react-router'
 
 const BodyProperty = () => {
 
@@ -26,18 +26,31 @@ const BodyProperty = () => {
 
   const { isOpen, onOpen, onClose } = useDisclosure()
 
+  const [selectedProperty, setSelectedProperty] = useState(null)
   
 
  
+const navigate = useNavigate()
 
-
-
+  const userId = useSelector((state) => state.auth.userInfo)
   
-
-
-
-
   
+  const { data} = useGetAccommodationByUserIDQuery(userId._id,  {
+    refetchOnMountOrArgChange: true,
+    refetchInterval: 5000, // Refetch every 5 seconds
+  })
+  
+  console.log(data)
+  
+  const accommodations = data
+
+
+
+  const handleAddRoom = () =>{
+
+    navigate(`/account/properties/${selectedProperty._id}/createRoom`, {state: { selectedProperty }})
+
+  }
   
   
   return (
@@ -48,55 +61,57 @@ const BodyProperty = () => {
         
         <section className='bg-gray-200 w-full h-screen flex flex-col'>
 
-          {/* Profile Card */}
+          
 
-            <div className="w-full max-w-4xl py-5 h-[300px] bg-white border m-7 mt-20  border-gray-200 rounded-lg shadow ">
-
-            <div className="grid grid-cols-5 gap-4 items-center">
-            <div className="col-span-3">
-              <div className="flex items-center space-x-6 ml-7">
-                <Avatar
-                size={{
-                    xs: 24,
-                    sm: 32,
-                    md: 40,
-                    lg: 64,
-                    xl: 80,
-                    xxl: 100,
-                  }}
-                  style={{
-                    backgroundColor: '#fde3cf',
-                    color: '#f56a00',
-                  }}
-                >
-                 
-                </Avatar>
-                <div className='flex flex-col '>
-                  <h1 className="text-2xl font-bold"></h1>
-             
-                  <p className="text-gray-500 mt-4 text-sm flex items-center"><MdEmail className='mr-1'/></p>
-                  <p className="text-gray-500 mt-4 text-sm flex items-center"><BsFillTelephoneFill className='mr-1'/>: 123-456-7890</p>
+        <div className="ml-9 mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
+          {accommodations.map((accommodation) => (
+            <div key={accommodation._id} onClick={()=> {
+              setSelectedProperty(accommodation)
+              onOpen()
+            }} className="group relative">
+              <div className="min-h-80  w-full overflow-hidden rounded-md bg-gray-200  group-hover:opacity-75 lg:h-80">
+                <img
+                  src={accommodation.photos[0].url}
+                  alt=''
+                  className="h-full w-full object-cover object-center lg:h-full lg:w-full"
+                />
+              </div>
+              <div className="mt-4 flex justify-between">
+                <div>
+                  <h3 className="text-sm text-gray-700">
+                    <span href=''>
+                      <span  className=" font-semibold absolute inset-0" />
+                      <p className='font-semibold'>
+                      {accommodation.name}
+                      </p>
+                    </span>
+                  </h3>
+                  <p className="mt-1 text-sm  text-gray-500">{accommodation.address}</p>
                 </div>
+                <p className="text-sm font-medium text-gray-900">{accommodation.type}</p>
               </div>
             </div>
-            <div className="col-span-1">
-              <ul className="">
-                <li className='flex items-center'><BsGlobe className='mr-1'/> English (US)</li>
-                <li className='ml-5'>English (US)</li>
-              </ul>
+          ))}
+        </div>
 
-              
-            </div>
-            
-          </div>           
-         
-            </div>
-        {/* Profile Card */}
-
-
-
-
-
+        
+        {selectedProperty && (
+      <Modal isOpen={isOpen} onClose={onClose} size="6xl">
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>{selectedProperty.name}</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <EditPropery/>
+            <button onClick={handleAddRoom} type="button" className="text-white  bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 mt-5 mr-2 mb-2">Add Room</button>
+          </ModalBody>
+          <ModalFooter>
+          
+          <button onClick={onClose} type="button" className="text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2">Close</button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+    )}
         </section>
     </div>
     

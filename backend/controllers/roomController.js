@@ -1,16 +1,22 @@
 const Room = require('../model/room');
-const Hotel = require('../model/accommodation')
+const Accommodation = require('../model/accommodation')
+
 
 const createRoom = async (req, res, next) => {
 
     const hotelId = req.params.hotelId;
-    const newRoom = new Room(req.body)
+
+    const { type, roomclass, price } = req.body;
+
+    
 
     try {
+
+        const newRoom = new Room({type , roomclass, price, property: hotelId })
         
         const savedRoom = await newRoom.save()
         try {
-            await Hotel.findByIdAndUpdate(hotelId, {$push : {rooms: savedRoom.id}})
+            await Accommodation.findByIdAndUpdate(hotelId, {$push : {rooms: savedRoom.id}})
         } catch (error) {
             res.status(400).json(error)
         }

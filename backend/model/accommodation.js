@@ -37,9 +37,28 @@ const AccommodationSchema = new mongoose.Schema({
         type: String,
             
     },
+    numofRooms: {
+        type: String,
+    },
+    checkinTime: {
+        type: String,
+    },
+    checkoutTime: {
+        type: String
+    },
+    frontDesk:{
+        type: Boolean,
+    },
+    checkInProperty: {
+        type: Boolean
+    },
     amenities: {
         type: [String]
     },
+   selfCheckIn: {
+    type: Boolean,
+   },
+   
     rating: {
         type: Number,
         

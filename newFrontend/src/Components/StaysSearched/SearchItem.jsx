@@ -10,7 +10,8 @@ const SearchItem = ({item, min, max}) => {
     navigate(`/accommodation/${item._id}`)
   }
 
- console.log(item)
+
+
 
 
   return (

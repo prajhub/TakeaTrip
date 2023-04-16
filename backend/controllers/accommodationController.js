@@ -11,7 +11,7 @@ const cloudinary = require('../utils/cloudinary')
 
 
 
-        const { name, type, city, address, country, img, cheapestPrice } = req.body
+        const { name, type, city, address, country, img, cheapestPrice, amenities } = req.body
 
         const userId = req.user.userId;
     
@@ -53,7 +53,7 @@ const cloudinary = require('../utils/cloudinary')
             
         
             // Create new hotel
-            const newAccommodation = new Accommodation({ name, type, cheapestPrice, address, city, country,  owner: user._id, photos: {
+            const newAccommodation = new Accommodation({ name, amenities, type, cheapestPrice, address, city, country,  owner: user._id, photos: {
                 public_id: result.public_id,
                 url: result.secure_url
             }

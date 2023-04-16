@@ -12,6 +12,10 @@ import addPhotoReducer from '../serviceListing/onboarding/photosSlice'
 import usersReducer from '../users/userSlice'
 import locationReducer from '../serviceListing/onboarding/locationInfoSlice'
 import experiences from '../serviceListing/onboarding/experienceSlice'
+import addRoomBasicReducer from '../roomControl/onboarding/basicInfoSlice'
+import addAmenitiesReducer from '../roomControl/onboarding/amenitiesSlice'
+import addBasicRateReducer from '../roomControl/onboarding/rateSlice'
+
 
 const persistConfig = {
 
@@ -33,6 +37,9 @@ const rootReducer = combineReducers({
     insertLocation: locationReducer,
     experience: experiences,
     addPublicInfo: addPublicInfoReducer,
+    addRoomBasic: addRoomBasicReducer,
+    addRoomAmenities: addAmenitiesReducer,
+    addBasicRate: addBasicRateReducer,
     [apiSlice.reducerPath]: apiSlice.reducer,
   });
   

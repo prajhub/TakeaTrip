@@ -17,7 +17,7 @@ const simpleheader = () => {
 
   return (
     <>
-        <header className=' h-[70px] bg-primary-600'>
+        <header className=' h-[70px] border border-b'>
             <nav class="flex justify-between  items-center max-w-[1400px] mx-auto py-2">
                 <div className='w-[650px] flex items-center '>
                     <div >
@@ -27,25 +27,7 @@ const simpleheader = () => {
                             </a>
                     </div>
 
-                    {/* Search Input Field  */}
-            
-                    <div className=" w-48 md:w-7/12 ml-4 hidden md:block">
-                            <form className="relative" >
-                            <svg className="h-6 w-6 absolute left-3 top-1/4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                                    <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                                </svg>
-                                <input 
-                            type="text" 
-                            placeholder=""
-                            className="bg-white rounded-full w-full pl-12 py-2 shadow-xl focus:outline-none" 
-                        
-                        
-                       
-                                    />
-                            </form>
-                        </div>
-
-                    {/* Search Input Field end */}
+                    
                 </div>
                 <div className='flex items-center mr-4'>
                 <ul className='hidden md:flex items-center'>

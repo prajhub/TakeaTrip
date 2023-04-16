@@ -106,6 +106,7 @@ const accomodationbody = () => {
 
 
 
+
     const handleImage = (e) => {
 
       const file = e.target.files[0]
@@ -186,6 +187,8 @@ const accomodationbody = () => {
     }
   };
 
+  
+
   const handleButtonClick = (event) => {
     const answer = event.target.value === "yes";
     setHasFrontDesk(answer);
@@ -207,16 +210,22 @@ const accomodationbody = () => {
     
 
     try {
-      const { data } = await createAccommodation({ name: placeName, country: country, type: selectedType.name, address: street, city: city, img: image, })
+      const { data } = await createAccommodation({ name: placeName, country: country, type: selectedType.name, address: street, city: city, img: image, amenities: selectedAmenities,    })
       if(!data){
-        console.log('error ayo')
+        console.log('error ')
       }
       console.log(data)
     } catch (error) {
       console.error(error);
     }
 
-    // onSecondOpen()
+  //  useEffect(() => {
+  //    if(data){
+  //     onClose()
+  //    }
+   
+  //  }, [data])
+   
     
   };
 
@@ -468,9 +477,9 @@ const accomodationbody = () => {
                     </div>
                     <div className='col-span-6 sm:col-span-3 '>
                       
-                        <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="user_avatar">Business registration documents</label>
-                        <input className="block w-full text-sm text-primary-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" aria-describedby="user_avatar_help" id="user_avatar" type="file"/>
-                        <div className="mt-3 text-sm text-gray-500 dark:text-gray-300" id="user_avatar_help">Registered legal license to operate.</div>
+                        <label className="block mb-2 text-sm font-medium text-gray-900 ">Business registration documents</label>
+                        <input className="block w-full text-sm text-primary-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 " aria-describedby="user_avatar_help" id="user_avatar" type="file"/>
+                        <div className="mt-3 text-sm text-gray-500 " id="user_avatar_help">Registered legal license to operate.</div>
 
                     </div>
                   </div>
@@ -673,13 +682,13 @@ const accomodationbody = () => {
                   </section>
                 </div>
                 <div className="bg-gray-50 px-4 py-3 text-right sm:px-6 items-center">
-                <Button onClick={navigateBack} colorScheme='teal' className='mr-5 underline' variant='link'>
+                <Button onClick={navigateBack} colorScheme='lime' className='mr-5 underline' variant='link'>
                   Go back
                 </Button> 
                   <Button
                     type="button"
                     onClick={onOpen}
-                    colorScheme='teal'
+                    colorScheme='lime'
                     className="inline-flex justify-center rounded-md bg-primary-600 py-2 px-3 text-sm font-semibold text-white shadow-sm hover:bg-primary-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
                   >
                     Save
