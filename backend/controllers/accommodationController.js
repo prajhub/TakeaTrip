@@ -25,17 +25,7 @@ const cloudinary = require('../utils/cloudinary')
 
             //Finding the user who is posting the accommodation
             const user = await User.findById(userId)
-
-
         
-            
-            
-        
-
-
-
-        
-            
             
             // Check if hotel already exists
             const existingAccommodation = await Accommodation.findOne({ name });

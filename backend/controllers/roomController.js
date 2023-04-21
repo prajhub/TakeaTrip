@@ -4,15 +4,35 @@ const Accommodation = require('../model/accommodation')
 
 const createRoom = async (req, res, next) => {
 
-    const hotelId = req.params.hotelId;
+    const accoId = req.params.accoId;
 
-    const { type, roomclass, price } = req.body;
+    const {
+        type,
+        roomclass,
+            
+        
+        price,
+       
+      } = req.body;
 
-    
+      
+      if (!type || !roomclass || !price) {
+        return res
+          .status(400)
+          .json({ message: "Please fill out all the required data" });
+      }
 
     try {
 
-        const newRoom = new Room({type , roomclass, price, property: hotelId })
+        const newRoom = new Room({
+            type,
+            roomclass,
+           
+            property : accoId, 
+            price,
+            
+          });
+          
         
         const savedRoom = await newRoom.save()
         try {

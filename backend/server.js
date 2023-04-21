@@ -33,6 +33,8 @@ app.use(cors({
     credentials: true,
 }))
 
+
+
 //routes
 app.use('/register', require('./routes/register'));
 app.use('/auth', require('./routes/auth'));

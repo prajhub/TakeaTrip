@@ -1,32 +1,48 @@
 const FoodService = require('../model/foodservice')
-// const Location = require('../model/location')
+const User = require('../model/user')
 
-const createNewFoodService = async ( req, res ) => {
 
-    const { name, location, address, contact, type } = req.body
+const createNewFoodService = async ( req, res )  => {
 
-    if (!name || !location || !address || !contact || !type){
-        res.sendStatus(400).json({ message: 'Please enter all fields'})
+    const { name, country, city, address, contact, type, images  } = req.body
+    console.log(images)
+
+    const userId = req.user.userId;
+
+    if (!name || !country || !city || !address || !contact || !type){
+        return res.status(400).json({ message: 'Please enter all fields'})
     }
 
     try {
-        const foundLocation = await Location.findOne({ name: location})
-        if (!foundLocation) {
-            return res.status(404).json({ message: 'Location not found' });
-            }
 
-
+        // Finding the user and declaring it owner
+        const user = await User.findById(userId)
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+          }
+    
             const existingFoodService = await FoodService.findOne({ name })
             if(existingFoodService){
                 return res.status(409).json({ message: 'The place already exists' });
             }
 
 
-            const newFoodService = new FoodService({ name, location: foundLocation.name, address, contact, type });
+        
+               
+            
+            
+                
+
+
+            const newFoodService = new FoodService({ name, country, city,  address, contact, type, owner: user._id, photos: images });
             await newFoodService.save();
 
-            foundLocation.restaurants.push(newFoodService)
-            await foundLocation.save()
+         
+
+
+             
+            user.foodservices.push(newFoodService);
+            await user.save();
 
             res.status(200).json(newFoodService)
 
@@ -34,7 +50,7 @@ const createNewFoodService = async ( req, res ) => {
 
 
     } catch (error) {
-        res.sendStatus(400).json(error)
+        res.status(400).json({error: error.message})
     }
 
 

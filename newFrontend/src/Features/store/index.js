@@ -17,6 +17,12 @@ import addAmenitiesReducer from '../roomControl/onboarding/amenitiesSlice'
 import addBasicRateReducer from '../roomControl/onboarding/rateSlice'
 
 
+import foodBasicInfoSlice from "../foodService/foodBasicInfoSlice";
+import foodLocInfoSlice from "../foodService/foodLocInfoSlice";
+import foodPhotoSlice from "../foodService/foodPhotoSlice";
+
+
+
 const persistConfig = {
 
     key: 'root',
@@ -40,6 +46,13 @@ const rootReducer = combineReducers({
     addRoomBasic: addRoomBasicReducer,
     addRoomAmenities: addAmenitiesReducer,
     addBasicRate: addBasicRateReducer,
+
+    //FoodService Reducers
+    listFoodService: foodBasicInfoSlice,
+    foodLocInfo: foodLocInfoSlice,
+    foodPhotos: foodPhotoSlice,
+
+    
     [apiSlice.reducerPath]: apiSlice.reducer,
   });
   

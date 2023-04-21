@@ -6,45 +6,44 @@ import Preview from './CreationSteps/Preview'
 import { useLocation } from 'react-router'
 
 import { useSelector } from 'react-redux'
-import { useCreateRoomMutation } from '../../../../Features/roomControl/onboarding/postRoom'
+import {useCreateRoomMutation} from '../../../../Features/api/apiSlice'
 
 const RoomBody = () => {
 
+  const [createRoom , { isLoading, isError, isSuccess}] = useCreateRoomMutation()
+
   const location = useLocation()
 
-  const id = location.state.selectedProperty._id;
+  const accoId = location.state.selectedProperty._id;
 
-
+console.log(accoId)
   
 
   const basicInfo = useSelector((state) => state.addRoomBasic.basicInfo)
   
-  const typeOfRoom = basicInfo.selectedOption
+  const type = basicInfo.selectedOption
   
 
-  const classofRoom = basicInfo.roomClass
-  console.log(classofRoom)
+  const roomClass = basicInfo.roomClass
+
 
   const amenitiesInfo = useSelector((state) => state.addRoomAmenities.amenities)
   
   const rateInfo = useSelector((state) => state.addBasicRate.basicRate)
-  const rate = rateInfo.baseRate
-  console.log(rate)
+  const price = rateInfo.baseRate
+
   
   
   const roomType = basicInfo.selectedOption;  
   const bedRoom = basicInfo.numOfBedRooms
 
-  const roomData = {
-    type: typeOfRoom,
-    class: classofRoom,
-    price: rate,
-}
+ 
 
   
    const previewData = [ roomType, bedRoom]
 
-   const [createRoom, { isError, isSuccess, isLoading, error}] = useCreateRoomMutation()
+   
+
 
    
    const handleSubmit = async(e) =>{
@@ -53,7 +52,11 @@ const RoomBody = () => {
 
 
       try {
-        const { data } = await createRoom(id, { type: typeOfRoom,  roomclass: classofRoom, price: rate})
+
+        const { data } = await createRoom(accoId, {
+          type, roomclass: roomClass, price
+        })
+       
         if(!data){
           console.log('error ayo')
         }

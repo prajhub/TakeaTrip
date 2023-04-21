@@ -26,7 +26,7 @@ const handleNewUser = asyncHandler(async (req, res) => {
         return res.status(400).json({ message: "User exist"})
     } else {
 
-        const password = await hashPassword(req.body.password)
+        const password =  hashPassword(req.body.password)
         const newUser = await User.create({ firstName, lastName, email, password})
         
         res.sendStatus(201).json({ newUser})

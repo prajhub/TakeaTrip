@@ -51,11 +51,21 @@ export const apiSlice = createApi({
    getAccommodationByUserID:  builder.query({
     query: (id) => `/accbyId/${id}`,
     
-  }), 
+  }),
+  
+  //Query for Rooms
+
+  createRoom: builder.mutation({
+    query: (accoId, room) => ({
+      url: `/rooms/${accoId}`,
+      method: 'POST',
+      body: room
+    })
+  })
 
   }),
 
 })
 
 
-export const { useUserLoginMutation, useGetUserProfileQuery, useGetAccommodationByIdQuery, useGetAccommodationByUserIDQuery,  useGetAccommodationsByCityQuery } = apiSlice
+export const { useUserLoginMutation, useGetUserProfileQuery, useGetAccommodationByIdQuery, useGetAccommodationByUserIDQuery,  useGetAccommodationsByCityQuery, useCreateRoomMutation } = apiSlice

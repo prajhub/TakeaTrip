@@ -30,6 +30,10 @@ const UserSchema = new mongoose.Schema({
         type: mongoose.SchemaTypes.String,
         // required: true
     },
+    foodservices: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'foodservice'
+    }],
     isAdmin: {
         type: Boolean,
         default: false,
@@ -51,6 +55,7 @@ const UserSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'accommodation'
     }],
+    
    
     followers: {
         type: Array,
