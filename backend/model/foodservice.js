@@ -1,21 +1,13 @@
 const mongoose = require('mongoose');
 
-const TableSchema = new mongoose.Schema({
-  tableNumber: {
-    type: Number,
-    required: true
-  },
-  availableDates: {
-    type: [Date],
-    default: []
-  },
-  bookedBy: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'users',
-},
-});
-
 const FoodServiceSchema = new mongoose.Schema({
+
+  foodservice: {
+    type: Boolean,
+    default: true,
+},
+
+
   name: {
     type: String,
     required: true
@@ -35,15 +27,11 @@ const FoodServiceSchema = new mongoose.Schema({
     type: String
 },
 photos: [
-  
-   
        String
-  
-  
 ],
   address: {
     type: String,
-    required: true
+    
   },
   reviews: [{
     type: Number,
@@ -52,9 +40,9 @@ photos: [
       message: 'Value is not an integer'
     }
   }],
-  contact: {
+  number: {
     type: String,
-    required: true
+    
   },
   website: {
     type: String
@@ -63,7 +51,18 @@ photos: [
     type: String,
     required: true
   },
-  tables: [TableSchema]
+  cuisines: [String],
+  foods:[String],
+  features: [String], 
+  minPrice: {
+    type: Number,
+    
+  },
+  maxPrice: {
+    type: Number,
+    
+  },
+ 
 });
 
 module.exports = mongoose.model('foodservice', FoodServiceSchema);

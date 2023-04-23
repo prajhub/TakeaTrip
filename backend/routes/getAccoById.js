@@ -10,7 +10,7 @@ router.get('/:id', verifyJWT, async (req, res) => {
   const userId = req.params.id;
 
   try {
-    const user = await User.findById(userId).populate('properties');
+    const user = await User.findById(userId).populate('properties').populate('foodservices');
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
     }
@@ -20,8 +20,10 @@ router.get('/:id', verifyJWT, async (req, res) => {
     if (!accommodations) {
       return res.status(404).json({ message: 'Accommodations not found' });
     }
+    
+    const foodservices = user.foodservices
 
-    return res.status(200).json(accommodations);
+    return res.status(200).json({accommodations, foodservices});
 
     
   } catch (error) {

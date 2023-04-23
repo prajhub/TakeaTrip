@@ -2,6 +2,10 @@ const mongoose = require('mongoose')
 
 
 const AccommodationSchema = new mongoose.Schema({
+    accommodation: {
+        type: Boolean,
+        default: true,
+    },
     name: {
         type: String,
         required: true
@@ -14,6 +18,7 @@ const AccommodationSchema = new mongoose.Schema({
         type: String,
       
     },
+
     
     country:{
         type: String
@@ -23,15 +28,9 @@ const AccommodationSchema = new mongoose.Schema({
         required: true
     },
     
-    photos: [{
-        public_id: {
-            type: String
-        },
-        url: {
-            type: String
-        }
-        
-    }],
+    photos: [
+        String
+ ],
    
     desc: {
         type: String,

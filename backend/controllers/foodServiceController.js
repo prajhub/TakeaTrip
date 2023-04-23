@@ -34,7 +34,7 @@ const createNewFoodService = async ( req, res )  => {
                 
 
 
-            const newFoodService = new FoodService({ name, country, city,  address, contact, type, owner: user._id, photos: images });
+            const newFoodService = new FoodService({ name, country, city,  address, number: contact, type, owner: user._id, photos: images });
             await newFoodService.save();
 
          
@@ -58,16 +58,29 @@ const createNewFoodService = async ( req, res )  => {
 
 
 const updateFoodService = async (req, res) => {
-
     try {
-        const updatedFoodService = await FoodService.findByIdAndUpdate(req.params.id, { $set: req.body}, {new: true})
-        res.status(200).json(updatedFoodService)
-    } catch (error) {
+        const foodServiceId = req.params.id;
+        console.log(foodServiceId)
 
-        res.status(500).json(error)
-        console.log(error)
-        
-    }
+        const { address, description, number, website, cuisines, foods, features, minPrice, maxPrice } = req.body;
+        console.log(cuisines)
+        const updatedFoodService = await FoodService.findByIdAndUpdate(foodServiceId, {
+          address,
+          description,
+          number,
+          website,
+          cuisines,
+          foods,
+          features,
+          minPrice,
+          maxPrice
+        }, { new: true });
+    
+        res.status(200).json(updatedFoodService);
+      } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server error' });
+      }
 }
 
 const getFoodServices = async (req, res) => {

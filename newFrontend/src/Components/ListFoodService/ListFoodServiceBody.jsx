@@ -13,7 +13,24 @@ import { MdOutlineLocalActivity } from 'react-icons/md'
 import { useSelector, useDispatch } from 'react-redux'
 import { useCreateFoodServiceMutation } from '../../Features/foodService/addFoodServiceSlice'
 
+
+import {
+
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  useDisclosure,
+  Spinner,
+  Button,
+  ModalCloseButton,
+} from '@chakra-ui/react'
+
 const ListFoodServiceBody = () => {
+
+  const { isOpen, onOpen, onClose } = useDisclosure()
   
   const [selectedListing, setSelectedListing] = useState('');
 
@@ -102,7 +119,7 @@ const ListFoodServiceBody = () => {
     
         try {
          
-          const { data } = await createFoodService({ name, contact, type, city, address, country, images: uploadedImages,})
+          const { data } = await createFoodService({ name, contact, type, city, address, country, images,})
           if(!data){
             console.log('error ayo')
           }
@@ -112,14 +129,14 @@ const ListFoodServiceBody = () => {
         }
     
       
-
-
+        onOpen()
         
       };
 
   return (
     <>  
     <section className='max-w-[1400px]   mx-auto py-5'>
+      <form onSubmit={handleSubmit}>
     
     <section className=' md:py-5'>
 
@@ -194,7 +211,9 @@ const ListFoodServiceBody = () => {
                     
                 
                   </div>
+                  <button onClick={onOpen} type="button" class="py-2.5 px-5 ml-5 mt-4 mb-6 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-full border border-gray-200 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-200">Okay</button>
                 </div>
+
                 
               </div>
             
@@ -210,8 +229,37 @@ const ListFoodServiceBody = () => {
 
     {/* Photo Section*/}
 
+    <Modal onClose={onClose} size='xl' isOpen={isOpen}>
+        <ModalOverlay />
+        <ModalContent>
+          
+          <ModalCloseButton />
+          <ModalBody>
+          
+          <div>
+            <div className='flex flex-col items-center p-11'>
+
+            <svg aria-hidden="true" class="w-8 h-8 text-green-500 dark:text-green-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+            <h3 className='text-2xl font-semibold my-5'>Succesfully added the food service</h3>
+            <div className='flex flex-row  gap-6 items-center'>
+            <button type="button" class="py-2.5 px-5 mr-2 mt-4 mb-2 text-sm font-medium text-white focus:outline-none bg-primary-600 rounded-full border border-gray-200 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-200">
+                View your place
+            </button>
+            <button type="button" class="py-2.5 px-5 mr-2 mt-4 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-full border border-gray-200 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-200">
+                Edit the place
+            </button>
+            </div>
+
+            </div>
+          </div>
+          </ModalBody>
+         
+        </ModalContent>
+      </Modal>
+
         <LocInfo/>
         <button onClick={handleSubmit} type="button" class="text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2   focus:outline-none">Continue</button>
+        </form>
     </section>
     </>
   )

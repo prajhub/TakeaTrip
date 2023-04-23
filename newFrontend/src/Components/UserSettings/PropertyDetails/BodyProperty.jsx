@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 import EditPropery from './EditPropery'
+import UpdateFoodService from './UpdateFoodService/UpdateFoodService'
 
 
 import {
@@ -27,7 +28,7 @@ const BodyProperty = () => {
   const { isOpen, onOpen, onClose } = useDisclosure()
 
   const [selectedProperty, setSelectedProperty] = useState(null)
-  
+  console.log(selectedProperty)
 
  
 const navigate = useNavigate()
@@ -40,17 +41,15 @@ const navigate = useNavigate()
     refetchInterval: 5000, // Refetch every 5 seconds
   })
   
-  console.log(data)
   
-  const accommodations = data
+  
+  const accommodations = data?.accommodations || [];
+    const foodservices = data?.foodservices || [];
+    const allProperties = accommodations.concat(foodservices);
 
+    console.log(allProperties)
 
-
-  const handleAddRoom = () =>{
-
-    navigate(`/account/properties/${selectedProperty._id}/createRoom`, {state: { selectedProperty }})
-
-  }
+  
   
   
   return (
@@ -64,14 +63,14 @@ const navigate = useNavigate()
           
 
         <div className="ml-9 mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
-          {accommodations.map((accommodation) => (
+          {allProperties.map((accommodation) => (
             <div key={accommodation._id} onClick={()=> {
               setSelectedProperty(accommodation)
               onOpen()
             }} className="group relative">
               <div className="min-h-80  w-full overflow-hidden rounded-md bg-gray-200  group-hover:opacity-75 lg:h-80">
                 <img
-                  src={accommodation.photos[0].url}
+                  src={accommodation.photos?.[0]}
                   alt=''
                   className="h-full w-full object-cover object-center lg:h-full lg:w-full"
                 />
@@ -102,8 +101,9 @@ const navigate = useNavigate()
           <ModalHeader>{selectedProperty.name}</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <EditPropery/>
-            <button onClick={handleAddRoom} type="button" className="text-white  bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 mt-5 mr-2 mb-2">Add Room</button>
+            {selectedProperty.accommodation ?<EditPropery selectedProperty={selectedProperty}/> : <UpdateFoodService details={selectedProperty}/> }
+      
+           
           </ModalBody>
           <ModalFooter>
           

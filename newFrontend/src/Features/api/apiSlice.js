@@ -61,11 +61,21 @@ export const apiSlice = createApi({
       method: 'POST',
       body: room
     })
-  })
+  }),
+
+  updateFoodService: builder.mutation({
+    query: ( id, body ) => ({
+        url: `/foodservice/${id}`,
+        method: 'PUT',
+        body
+    })
+}),
 
   }),
+
+
 
 })
 
 
-export const { useUserLoginMutation, useGetUserProfileQuery, useGetAccommodationByIdQuery, useGetAccommodationByUserIDQuery,  useGetAccommodationsByCityQuery, useCreateRoomMutation } = apiSlice
+export const { useUserLoginMutation, useGetUserProfileQuery, useUpdateFoodServiceMutation, useGetAccommodationByIdQuery, useGetAccommodationByUserIDQuery,  useGetAccommodationsByCityQuery, useCreateRoomMutation } = apiSlice

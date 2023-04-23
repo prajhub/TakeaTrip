@@ -51,6 +51,7 @@ const rootReducer = combineReducers({
     listFoodService: foodBasicInfoSlice,
     foodLocInfo: foodLocInfoSlice,
     foodPhotos: foodPhotoSlice,
+    
 
     
     [apiSlice.reducerPath]: apiSlice.reducer,

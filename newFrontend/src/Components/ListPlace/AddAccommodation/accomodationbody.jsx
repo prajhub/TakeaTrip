@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useCreateAccommodationMutation } from '../../../Features/accommodations/accommodationApiSlice'
 import PhoneInput from 'react-phone-number-input'
-
+import axios from 'axios'
 import { useNavigate, Link } from 'react-router-dom'
 import 'react-phone-number-input/style.css'
 import {
@@ -102,28 +102,35 @@ const accomodationbody = () => {
   const [checkInFrom, setCheckInFrom] = useState("6:00 AM");
   const [checkInTo, setCheckInTo] = useState("5:30 AM");
   const [checkoutTime, setCheckoutTime] = useState('12:00 PM');
-  const [image, setImage] = useState('')
+  const [images, setImages] = useState([])
+  console.log(images)
 
 
 
+  let uploadedImages = []
 
-    const handleImage = (e) => {
+  
 
-      const file = e.target.files[0]
-      setFileToBase(file)
-      console.log(file)
-
-    }
-
-    const setFileToBase = (file) => {
-      const reader = new FileReader()
-      reader.readAsDataURL(file)
-      reader.onloadend = () => {
-        setImage(reader.result)
-        // console.log(reader.result)
+  const handleImage = async (e) => {
+    const files = e.target.files;
+    
+  
+    for (let i = 0; i < files.length; i++) {
+      const formData = new FormData();
+      formData.append('file', files[i]);
+      formData.append('upload_preset', 'gqtcjdks');
+  
+      try {
+        const res = await axios.post('https://api.cloudinary.com/v1_1/dhngfjx6o/image/upload', formData);
+        uploadedImages.push(res.data.secure_url);
+      } catch (err) {
+        console.log(err);
       }
     }
+  
+    setImages(uploadedImages);
 
+  }
 
 
   const handlePlaceName = (e) => {
@@ -210,7 +217,7 @@ const accomodationbody = () => {
     
 
     try {
-      const { data } = await createAccommodation({ name: placeName, country: country, type: selectedType.name, address: street, city: city, img: image, amenities: selectedAmenities,    })
+      const { data } = await createAccommodation({ name: placeName, country: country, type: selectedType.name, address: street, city: city, images, amenities: selectedAmenities,    })
       if(!data){
         console.log('error ')
       }
@@ -219,20 +226,9 @@ const accomodationbody = () => {
       console.error(error);
     }
 
-  //  useEffect(() => {
-  //    if(data){
-  //     onClose()
-  //    }
-   
-  //  }, [data])
    
     
   };
-
-  // if(isLoading){
-  //   <Spinner/>
-  // }
- 
 
 
 

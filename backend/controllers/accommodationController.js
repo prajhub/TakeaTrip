@@ -11,7 +11,7 @@ const cloudinary = require('../utils/cloudinary')
 
 
 
-        const { name, type, city, address, country, img, cheapestPrice, amenities } = req.body
+        const { name, type, city, address, country, images, cheapestPrice, amenities,  } = req.body
 
         const userId = req.user.userId;
     
@@ -33,21 +33,12 @@ const cloudinary = require('../utils/cloudinary')
             return res.status(400).json({ message: 'Hotel already exists' });
             }
 
-            //uploading image to cloudniary
-            const result = await cloudinary.uploader.upload(img, {
-                folder: "property",
-                width: 300,
-                crop: 'scale'
-            })
+        
 
             
         
             // Create new hotel
-            const newAccommodation = new Accommodation({ name, amenities, type, cheapestPrice, address, city, country,  owner: user._id, photos: {
-                public_id: result.public_id,
-                url: result.secure_url
-            }
-            });
+            const newAccommodation = new Accommodation({ name, amenities, type, cheapestPrice, address, city, country,  owner: user._id, photos: images });
             await newAccommodation.save();
 
             // Saving the newly created accommodation in the user's properties array
