@@ -62,18 +62,10 @@ const updateFoodService = async (req, res) => {
         const foodServiceId = req.params.id;
         console.log(foodServiceId)
 
-        const { address, description, number, website, cuisines, foods, features, minPrice, maxPrice } = req.body;
-        console.log(cuisines)
+        // const { address, description, number, website, image, cuisines, foods, features, minPrice, maxPrice } = req.body;
+        // console.log(image)
         const updatedFoodService = await FoodService.findByIdAndUpdate(foodServiceId, {
-          address,
-          description,
-          number,
-          website,
-          cuisines,
-          foods,
-          features,
-          minPrice,
-          maxPrice
+          $set: req.body
         }, { new: true });
     
         res.status(200).json(updatedFoodService);
@@ -82,6 +74,25 @@ const updateFoodService = async (req, res) => {
         res.status(500).json({ message: 'Server error' });
       }
 }
+
+const getFoodService = async (req, res) => {
+
+    const id = req.params.id
+
+    try {
+        const foodService = await FoodService.findById(id)
+        if(!foodService){
+            return res.status(400).json({ message: 'Food service not found'})
+        }
+        res.status(200).json(foodService)
+    } catch (error) {
+
+        res.status(500).json(error)
+        console.log(error)
+        
+    }
+}
+
 
 const getFoodServices = async (req, res) => {
 
@@ -115,4 +126,4 @@ const deleteFoodService = async (req, res) => {
 
 
 
-module.exports = { createNewFoodService, updateFoodService, deleteFoodService, getFoodServices }
+module.exports = { createNewFoodService, updateFoodService, getFoodService, deleteFoodService, getFoodServices }

@@ -4,7 +4,7 @@ import axios from 'axios'
 
 import { useDispatch, useSelector } from 'react-redux'
 import { useUpdateFoodServiceMutation } from '../../../../Features/api/apiSlice'
-
+import {updateFoodService}from '../../../../Features/foodService/updateFoodServiceAction'
 
 const UpdateFoodService = ({ details }) => {
 
@@ -17,13 +17,28 @@ const UpdateFoodService = ({ details }) => {
     const [website, setWebsite] = useState('')
     const [minPrice, setMinPrice] = useState('')
     const [maxPrice, setMaxPrice] = useState('')
+    const [formData, setFormData] = useState({
+      address: details.address,
+      id: details._id,
+      description: details.description,
+      number: details.number,
+      website: details.website,
+      cuisines: details.cuisines,
+      foods: details.foods,
+      features: details.features,
+      minPrice: details.minPrice,
+      maxPrice: details.maxPrice,
+      image: details.image,
+    });
+
+    console.log(formData)
 
 
-  console.log(selectedCuisine)
+  
 const id = details._id
 
-
-  const [updateFoodService, {isLoading, isSuccess}] = useUpdateFoodServiceMutation()
+console.log(id)
+  // const [updateFoodService, {isLoading, isSuccess}] = useUpdateFoodServiceMutation()
 
 
     const handleAddress = (event) => {
@@ -98,6 +113,10 @@ const id = details._id
         } else {
             setSelectedCuisine([...selectedCuisine, cuisine]);
         }
+        setFormData({
+          ...formData,
+          cuisines: selectedCuisine.includes(cuisine) ? selectedCuisine.filter((a) => a !== cuisine) : [...selectedCuisine, cuisine],
+        })
       };
 
       const handleFoodsSelect = (food) => {
@@ -106,6 +125,10 @@ const id = details._id
         } else {
             setSelectedFoods([...selectedFoods, food]);
         }
+        setFormData({
+          ...formData,
+          foods: selectedFoods.includes(food) ? selectedFoods.filter((a) => a !== food) : [...selectedFoods, food],
+        })
       };
 
       const handleFeaturesSelect = (feature) => {
@@ -114,11 +137,15 @@ const id = details._id
         } else {
             setSelectedFeatures([...selectedFeatures, feature]);
         }
+        setFormData({
+          ...formData,
+          features: selectedFeatures.includes(feature) ? selectedFeatures.filter((a) => a !== feature) : [...selectedFeatures, feature],
+        })
       };
 
 
       const [images, setImages] = useState([])
-    
+      console.log(images)
   
       let uploadedImages = []
   
@@ -142,29 +169,36 @@ const id = details._id
             console.log(err);
           }
         }
-      
-        setImages(uploadedImages);
+        setFormData({
+          ...formData,
+          image: uploadedImages,
+        })
+        // setImages(uploadedImages);
   
       }
 
       const dispatch = useDispatch()
 
+      
      
+      const handleInputChange = (event) => {
+        setFormData({
+          ...formData,
+          [event.target.name]: event.target.value,
+        });
+      };
     
 const handleSubmit = async(e) => {
   e.preventDefault();
 
-  console.log(id)
+ 
       try {
 
-        const { data } = await updateFoodService(id, {
-          address, description, number, website, minPrice, maxPrice, cuisines: selectedCuisine, foods: selectedFoods, features: selectedFeatures
-        })
-       
-        if(!data){
-          console.log('error ayo')
-        }
-        console.log(data)
+      
+
+         dispatch(updateFoodService(formData))
+
+
       } catch (error) {
         console.error(error);
       }
@@ -181,7 +215,7 @@ const handleSubmit = async(e) => {
                   
                     <div>
                         <label className="block mb-2 text-sm font-medium text-gray-900 ">Phone Number</label>
-                        <input type="number" onChange={handleNumber}  id="number"  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5  " />
+                        <input type="number"  name='number' value={formData.number} onChange={handleInputChange}  id="number"  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5  " />
                        
                     </div>
                     <div>
@@ -195,7 +229,8 @@ const handleSubmit = async(e) => {
                         <div className='flex flex-col'>
                         <input
                           type="text"
-                          onChange={handleWebsite}
+                          name='website'
+                          value={formData.website} onChange={handleInputChange}
                           id="website"
                           className="block w-full flex-1 px-10 rounded-none rounded-r-md border-0 py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-600 sm:text-sm sm:leading-6"
                           placeholder="www.example.com"
@@ -206,7 +241,7 @@ const handleSubmit = async(e) => {
                     </div>
                     <div>
                         <label  className="block mb-2 text-sm font-medium text-gray-900 ">Address</label>
-                        <input type="text" onChange={handleAddress} id="address"  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 " />
+                        <input type="text" name='address' value={formData.address} onChange={handleInputChange} id="address"  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 " />
                        
                     </div>
                     
@@ -217,7 +252,8 @@ const handleSubmit = async(e) => {
                         <input
                             type="number"
                             id='minPrice'
-                            onChange={handleMinPrice}
+                            name='minPrice'
+                            value={formData.minPrice} onChange={handleInputChange}
                             className="mb-2  border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 py-2 px-4  "
                             />
                            
@@ -225,7 +261,8 @@ const handleSubmit = async(e) => {
                             <div className='flex flex-col '>
                             <input
                             type="number"
-                            onChange={handleMaxPrice}
+                            name='maxPrice'
+                            value={formData.maxPrice} onChange={handleInputChange}
                             id='maxPrice'
                             
                             className=" mb-2 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 py-2 px-4 "
@@ -237,7 +274,7 @@ const handleSubmit = async(e) => {
                     
                     <div className="sm:col-span-2">
                         <label  className="block mb-2 text-sm font-medium text-gray-900 ">Description</label>
-                        <input onChange={handleDesc} id="description" rows="5" type='text'  className="block p-5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500  " placeholder="Write a description..."/>                 
+                        <input name='description' value={formData.description} onChange={handleInputChange} id="description" rows="5" type='text'  className="block p-5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500  " placeholder="Write a description..."/>                 
                         
                     </div>
 

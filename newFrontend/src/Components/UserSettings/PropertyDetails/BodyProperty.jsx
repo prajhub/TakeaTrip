@@ -38,7 +38,7 @@ const navigate = useNavigate()
   
   const { data} = useGetAccommodationByUserIDQuery(userId._id,  {
     refetchOnMountOrArgChange: true,
-    refetchInterval: 5000, // Refetch every 5 seconds
+    refetchInterval: 2000, // Refetch every 5 seconds
   })
   
   
@@ -63,14 +63,14 @@ const navigate = useNavigate()
           
 
         <div className="ml-9 mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
-          {allProperties.map((accommodation) => (
-            <div key={accommodation._id} onClick={()=> {
-              setSelectedProperty(accommodation)
+          {allProperties.map((property) => (
+            <div key={property._id} onClick={()=> {
+              setSelectedProperty(property)
               onOpen()
             }} className="group relative">
               <div className="min-h-80  w-full overflow-hidden rounded-md bg-gray-200  group-hover:opacity-75 lg:h-80">
                 <img
-                  src={accommodation.photos?.[0]}
+                  src={property.photos?.[0]}
                   alt=''
                   className="h-full w-full object-cover object-center lg:h-full lg:w-full"
                 />
@@ -81,13 +81,13 @@ const navigate = useNavigate()
                     <span href=''>
                       <span  className=" font-semibold absolute inset-0" />
                       <p className='font-semibold'>
-                      {accommodation.name}
+                      {property.name}
                       </p>
                     </span>
                   </h3>
-                  <p className="mt-1 text-sm  text-gray-500">{accommodation.address}</p>
+                  <p className="mt-1 text-sm  text-gray-500">{property.address}</p>
                 </div>
-                <p className="text-sm font-medium text-gray-900">{accommodation.type}</p>
+                <p className="text-sm font-medium text-gray-900">{property.type}</p>
               </div>
             </div>
           ))}
