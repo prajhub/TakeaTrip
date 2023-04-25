@@ -101,7 +101,7 @@ const navigate = useNavigate()
           <ModalHeader>{selectedProperty.name}</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            {selectedProperty.accommodation ?<EditPropery selectedProperty={selectedProperty}/> : <UpdateFoodService details={selectedProperty}/> }
+            {selectedProperty.accommodation ?<EditPropery selectedProperty={selectedProperty}/> : <UpdateFoodService details={selectedProperty} onClose={onClose}/> }
       
            
           </ModalBody>

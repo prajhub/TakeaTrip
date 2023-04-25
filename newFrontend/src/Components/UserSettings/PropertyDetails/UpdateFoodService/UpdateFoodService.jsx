@@ -1,12 +1,15 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 
-
+import { notification } from 'antd'
+import { handleSuccess } from '../../../Reusables/SuccessMessage'
+import { setClearSuccess } from '../../../../Features/foodService/foodBasicInfoSlice' 
 import { useDispatch, useSelector } from 'react-redux'
 import { useUpdateFoodServiceMutation } from '../../../../Features/api/apiSlice'
 import {updateFoodService}from '../../../../Features/foodService/updateFoodServiceAction'
 
-const UpdateFoodService = ({ details }) => {
+
+const UpdateFoodService = ({ details, onClose }) => {
 
     const [selectedCuisine, setSelectedCuisine] = useState([]);
     const [selectedFoods, setSelectedFoods] = useState([]);
@@ -28,43 +31,43 @@ const UpdateFoodService = ({ details }) => {
       features: details.features,
       minPrice: details.minPrice,
       maxPrice: details.maxPrice,
-      image: details.image,
+      photos: details.photos,
+     
     });
 
-    console.log(formData)
+console.log(formData)
 
 
   
 const id = details._id
-
 console.log(id)
   // const [updateFoodService, {isLoading, isSuccess}] = useUpdateFoodServiceMutation()
 
 
-    const handleAddress = (event) => {
-      setAddress(event.target.value)
+    // const handleAddress = (event) => {
+    //   setAddress(event.target.value)
 
-    }
-    const handleDesc = (event) => {
-      setDescription(event.target.value)
+    // }
+    // const handleDesc = (event) => {
+    //   setDescription(event.target.value)
 
-    }
-    const handleNumber = (event) => {
-      setNumber(event.target.value)
+    // }
+    // const handleNumber = (event) => {
+    //   setNumber(event.target.value)
 
-    }
-    const handleWebsite = (event) => {
-      setWebsite(event.target.value)
+    // }
+    // const handleWebsite = (event) => {
+    //   setWebsite(event.target.value)
 
-    }
+    // }
 
-    const handleMaxPrice = (event) =>{
-      setMaxPrice(event.target.value)
-    }
+    // const handleMaxPrice = (event) =>{
+    //   setMaxPrice(event.target.value)
+    // }
 
-    const handleMinPrice = (event) =>{
-      setMinPrice(event.target.value)
-    }
+    // const handleMinPrice = (event) =>{
+    //   setMinPrice(event.target.value)
+    // }
 
     
 
@@ -103,7 +106,7 @@ console.log(id)
         "Accepts Credit Cards",
         "Family style",
         "Non-smoking restaurants",
-        "Gift Cards Available"
+        "Gift Cards Available",
       ];
 
 
@@ -144,18 +147,17 @@ console.log(id)
       };
 
 
-      const [images, setImages] = useState([])
-      console.log(images)
-  
-      let uploadedImages = []
+
+
+
+      // const [images, setImages] = useState([])
+      // console.log(images)
   
     
-      
-     
-  
+ 
       const handleImage = async (e) => {
         const files = e.target.files;
-        
+        const newPhotos = []
       
         for (let i = 0; i < files.length; i++) {
           const formData = new FormData();
@@ -164,18 +166,21 @@ console.log(id)
       
           try {
             const res = await axios.post('https://api.cloudinary.com/v1_1/dhngfjx6o/image/upload', formData);
-            uploadedImages.push(res.data.secure_url);
+            newPhotos.push(res.data.secure_url);
           } catch (err) {
             console.log(err);
           }
         }
+        const updatedPhotos = [...formData.photos, ...newPhotos]
         setFormData({
           ...formData,
-          image: uploadedImages,
+          photos: updatedPhotos,
         })
         // setImages(uploadedImages);
   
       }
+
+
 
       const dispatch = useDispatch()
 
@@ -187,6 +192,32 @@ console.log(id)
           [event.target.name]: event.target.value,
         });
       };
+
+
+      const { successMessage } = useSelector((state)=> state.listFoodService)
+      const { success } = useSelector((state)=> state.listFoodService)
+
+
+  
+    
+      useEffect(() => {
+        if (success) {
+
+          // Display the alert
+          // alert(successMessage);
+    
+          handleSuccess(success, successMessage)
+          onClose()
+          // Clear the success state
+          dispatch(setClearSuccess());
+        }
+      }, [success, dispatch,onClose, successMessage]);
+
+
+
+
+
+// 
     
 const handleSubmit = async(e) => {
   e.preventDefault();
@@ -210,7 +241,9 @@ const handleSubmit = async(e) => {
     <>
     
         <section>
+          
         <form  >
+          
                   <div class="grid gap-4 mb-4 sm:grid-cols-2">
                   
                     <div>
@@ -327,7 +360,7 @@ const handleSubmit = async(e) => {
                   </section>
 
 
-                  <section>
+                  <section className='sm:col-span-2'>
                     <h2 className='py-2 mb-2 text-sm font-medium text-gray-900'>Select Features.</h2>
                     <div className="grid grid-cols-3 gap-4">
       {foodFeatures.map((feature) => (
@@ -351,12 +384,30 @@ const handleSubmit = async(e) => {
    
 
                   </section>
-                  <div className="mt-3 flex justify-center rounded-lg border border-dashed border-gray-900/25 p-32">
-                <div className="text-center itm">
-                        <input type='file' name='file-upload' multiple onChange={handleImage} />
-                        
+
+                  <section className='sm:col-span-2'>
+                  <div className="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
+                <div className="text-center">
+                        <input type='file' name='file-upload' multiple onChange={handleImage}  />
                   </div>
                   </div>
+                  </section>
+                 
+                  <section className='sm:col-span-2'>
+                 <div className='flex flex-col border p-2'>
+                  <div className='border-b mb-2 '><p className='mb-2 text-gray-600'>Add or update photos</p></div>
+                  <div>
+                  {/* <div className="min-h-80  w-full overflow-hidden rounded-md bg-gray-200  group-hover:opacity-75 lg:h-80">
+                <img
+                  src={formData.photos}
+                  alt=''
+                  className="h-full w-full object-cover object-center lg:h-full lg:w-full"
+                />
+              </div> */}
+                  </div>
+                 </div>
+                  </section>
+                 
                 </div>
                 <button onClick={handleSubmit}  className="text-white  bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 mt-5 mr-2 mb-2">Edit Service</button>
                 </form>
