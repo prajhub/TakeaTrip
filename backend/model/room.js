@@ -5,11 +5,11 @@ const RoomSchema = new mongoose.Schema({
 
     type: {
         type: String,
-        required: true,
+       
     },
     roomclass:{
         type: String,
-        required: true,
+       
     },
     bedrooms: {
         type: String,
@@ -17,16 +17,16 @@ const RoomSchema = new mongoose.Schema({
     livingroom: {
         type: Boolean,
     },
-    numofrooms:{
-        type: String,
-    },
+    
     property: {
         type:String
     },
     price: {
         type: Number,
-        required: true
+       
     },
+    photos: [String],
+    
     bathroom: {
         type: String
     },

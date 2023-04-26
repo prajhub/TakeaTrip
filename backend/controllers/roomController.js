@@ -5,47 +5,28 @@ const Accommodation = require('../model/accommodation')
 const createRoom = async (req, res, next) => {
 
     const accoId = req.params.accoId;
+    console.log(accoId)
 
-    const {
-        type,
-        roomclass,
-            
-        
-        price,
-       
-      } = req.body;
-
-      
-      if (!type || !roomclass || !price) {
-        return res
-          .status(400)
-          .json({ message: "Please fill out all the required data" });
-      }
-
+    const {type, roomclass, price, bathroom, roomview, inroomamenities, kitchenamenities, bedding, inroomrefreshments, photos} = req.body
+ 
+   
+    if ( !price  ) {
+        return res.status(400).json({ message: "Please fill out all the data"})
+    }
+   
     try {
-
-        const newRoom = new Room({
-            type,
-            roomclass,
-           
-            property : accoId, 
-            price,
-            
-          });
-          
-        
-        const savedRoom = await newRoom.save()
-        try {
-            await Accommodation.findByIdAndUpdate(hotelId, {$push : {rooms: savedRoom.id}})
-        } catch (error) {
-            res.status(400).json(error)
-        }
-
-        res.status(200).json(savedRoom)
-
-
-    } catch (error) {
-        res.status(400).json(error)
+      const newRoom = new Room({type, roomclass, price, bathroom, roomview, inroomamenities, kitchenamenities, bedding, inroomrefreshments, photos})
+      const savedRoom = await newRoom.save()
+      try {
+        await Accommodation.findByIdAndUpdate(accoId, {
+          $push: { rooms: savedRoom._id },
+        }).exec();
+      } catch (err) {
+        next(err);
+      }
+      res.status(200).json(savedRoom);
+    } catch (err) {
+      res.status(400).json(err);
     }
 
     

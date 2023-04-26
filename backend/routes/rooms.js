@@ -5,7 +5,7 @@ const router = express.Router();
 const { createRoom, updateRoom, deleteRoom, getRoom, getRooms } = require('../controllers/roomController')
 
 //CREATE
-router.post("/:hotelId",  createRoom);
+router.post("/:accoId",  createRoom);
 
 
 //UPDATE

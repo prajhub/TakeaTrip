@@ -56,10 +56,10 @@ export const apiSlice = createApi({
   //Query for Rooms
 
   createRoom: builder.mutation({
-    query: (accoId, room) => ({
+    query: (accoId, formData) => ({
       url: `/rooms/${accoId}`,
       method: 'POST',
-      body: room
+      body: formData,
     })
   }),
 
