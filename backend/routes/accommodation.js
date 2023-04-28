@@ -12,6 +12,9 @@ router.post("/", verifyJWT, createAccommodation);
 //UPDATE
 router.put("/:id",  updateHotel)
 
+//UPDATE CHEAPEST PRICE
+
+
 
 //DELETE
 router.delete("/:id",  deleteHotel)

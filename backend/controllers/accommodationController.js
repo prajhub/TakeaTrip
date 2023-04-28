@@ -1,7 +1,7 @@
 const Accommodation = require('../model/accommodation')
 const Country = require('../model/country')
 const User = require('../model/user')
-
+const Rooms = require('../model/room')
 const City = require('../model/city')
 const cloudinary = require('../utils/cloudinary')
 
@@ -59,8 +59,11 @@ const cloudinary = require('../utils/cloudinary')
 
 const updateHotel = async (req, res) => {
 
+
+
     try {
-        const updatedHotel = await Hotel.findByIdAndUpdate(req.params.id, { $set: req.body}, {new: true})
+        const id = req.params.id
+        const updatedHotel = await Accommodation.findByIdAndUpdate(id, { $set: req.body}, {new: true})
         res.status(200).json(updatedHotel)
     } catch (error) {
 
@@ -151,5 +154,7 @@ const getHotelsByLocation = async (req, res) => {
 }
 
 
+
+
     
-module.exports = { createAccommodation,  updateHotel, deleteHotel, getAccommodation, getAccommodations, getHotelsByLocation };
+module.exports = { createAccommodation,   updateHotel, deleteHotel, getAccommodation, getAccommodations, getHotelsByLocation };

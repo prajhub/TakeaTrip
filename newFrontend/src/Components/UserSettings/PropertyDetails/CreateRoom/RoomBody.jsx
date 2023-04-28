@@ -22,6 +22,7 @@ import {DevTool} from '@hookform/devtools'
 
 import { useDispatch } from 'react-redux'
 import { addRoom } from '../../../../Features/roomControl/onboarding/postRoomAction'
+import Spinner from '../../../Reusables/Spinner'
 
 const RoomBody = () => {
 
@@ -259,10 +260,11 @@ const RoomBody = () => {
 
      
       const [images, setImages] = useState([])
-      console.log(images)
+      const [isUploading, setIsUploading] = useState(false);
       
   
       const handleImage = async (e) => {
+        setIsUploading(true)
         const files = e.target.files;
         let uploadedImages = []
       
@@ -280,42 +282,36 @@ const RoomBody = () => {
         }
       
         
-        setImages(uploadedImages)
+        
         setValue("photos", uploadedImages);
+        setIsUploading(false)
       }
       
-
-
+     
+      
   
-
-  //Watching the form values
-      const  type = watch("type")
-      const roomclass = watch("roomclass")
-      const bedrooms = watch("bedrooms")
-      const mainPrice = watch("price")
-      const bathroom = watch("bathroom")
-      const inroomamenities = watch("inroomamenities")
-      const roomview = watch("roomview")
-      const kitchenamenities = watch("kitchenamenities")
-      const bedding = watch("bedding")
-      const inroomrefreshments = watch("inroomrefreshments")
-
-      // console.log(type, roomclass, bedrooms,mainPrice, bathroom, inroomamenities, roomview, kitchenamenities, bedding,inroomrefreshments)
-
-      const handleInputChange = (event) => {
-        setFormData({
-          ...formData,
-          [event.target.name]: event.target.value,
-        });
-      };
-
-  
-   const [formData, setFormData] = useState({
-    accoId: accoId,
-    price: "",
+  //  const [formData, setFormData] = useState({
+  //   accoId: accoId,
+  //   price: "",
+  //   type: "",
+  //   roomclass: "",
+  //   bedrooms: "",
+  //   inroomamenities: "",
+  //   bathroom: "",
+  //   roomview: "",
+  //   kitchenamenities: "",
+  //   bedding: "",
+  //   inroomrefreshments: "",
+  //   maxPeople: "",
+  //   photos: ""
+    
     
 
-   })
+  //  }) 
+
+  //  console.log(formData)
+
+
 
 
 
@@ -323,21 +319,34 @@ const dispatch = useDispatch()
 
    const onSumbit = async (data) => {
     
-    const { type, roomclass, bedrooms, bathroom, roomview, inroomamenities, inroomrefreshments, kitchenamenities, bedding, photos, price } = data;
-    console.log(type, roomclass, price)
-
     
-   
     try {
-
-      
-
-      dispatch(addRoom(formData))
-
-
-   } catch (error) {
-     console.log(error);
-   }
+      const { type, roomclass, bedrooms, bathroom, roomview, inroomamenities, inroomrefreshments, kitchenamenities, bedding, photos, price } = data;
+  
+      const formData = {
+        accoId: accoId,
+        price,
+        type,
+        maxPeople: data.maxPeople,
+        roomclass,
+        bedrooms,
+        inroomamenities,
+        inroomrefreshments,
+        kitchenamenities,
+        bedding,
+        photos,
+        roomview,
+        bathroom
+      };
+      console.log(formData)
+  
+     dispatch(addRoom(formData));
+  
+      // Update formData after successfully adding the room
+  
+    } catch (error) {
+      console.log(error);
+    }
    }
 
   return (
@@ -437,6 +446,7 @@ const dispatch = useDispatch()
 
                     {/*Num of Bedroom select */}
 
+
                     {/*Living Room check*/}
 
                     <div className="col-span-3 sm:col-span-2">
@@ -471,7 +481,17 @@ const dispatch = useDispatch()
 
 
                     {/*Living Room check*/}
-
+                    <div className="col-span-3 sm:col-span-2">
+                    <label htmlFor="officialname" className="block text-sm font-medium leading-6 text-gray-900">
+                       How many people allowed?
+                      </label>
+                        <input
+                            type="number"
+                            
+                            {...register("maxPeople")}
+                            className=" mt-2 border-gray-400 border py-2 px-4 rounded "
+                            />
+                    </div>
                     
                     
                   </div>                  
@@ -677,8 +697,8 @@ const dispatch = useDispatch()
                       </label>
                         <input
                             type="number"
-                            name='price'
-                            onChange={handleInputChange}
+                            
+                            {...register("price")}
                             className=" mt-2 border-gray-400 border py-2 px-4 rounded "
                             />
                             <input type='text'
@@ -725,13 +745,13 @@ const dispatch = useDispatch()
               <div className="overflow-hidden shadow sm:rounded-md">
                 <div className=" px-4 py-5 sm:p-6">
                   <div className="col-span-full">
-                  <div className="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
+                  {isUploading ? <Spinner/> : <div className="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
                 <div className="text-center">
                         <input type='file'  multiple onChange={handleImage}   />
                         <input type='file' hidden multiple {...register("photos")}/>
                   </div>
-                  </div>
-                    
+                  </div>}
+                     
 
                     
                     

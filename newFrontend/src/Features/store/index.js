@@ -21,6 +21,8 @@ import foodBasicInfoSlice from "../foodService/foodBasicInfoSlice";
 import foodLocInfoSlice from "../foodService/foodLocInfoSlice";
 import foodPhotoSlice from "../foodService/foodPhotoSlice";
 
+import updateAccoSlice from "../accommodations/updateAccoSlice";
+
 
 
 const persistConfig = {
@@ -51,6 +53,7 @@ const rootReducer = combineReducers({
     listFoodService: foodBasicInfoSlice,
     foodLocInfo: foodLocInfoSlice,
     foodPhotos: foodPhotoSlice,
+    updateAcco: updateAccoSlice,
     
 
     

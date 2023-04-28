@@ -1,85 +1,55 @@
 import React from 'react'
-import { FaBed, FaMountain, FaTv, FaCoffee, FaWifi, FaBath } from 'react-icons/fa';
-import {BiBed} from 'react-icons/bi'
+import {TbPointFilled} from 'react-icons/tb'
 
 const ReserveTable = () => {
+
+  const amenities = [
+    "Hoes everywhere",
+    "Free Self Parking",
+    "Free Breakfast",
+    "Free WiFi"
+  ]
   return (
    <>
    
    <section class="px-4 py-6">
-  <h2 class="text-2xl font-bold mb-4">Availability</h2>
-  <div class="overflow-x-auto">
-    <table class="w-full border-collapse ">
-      <thead>
-        <tr>
-          <th class="text-left py-2 px-4 border border-primary-500">Accommodation Type</th>
-          <th class="text-left py-2 px-4 border border-primary-500">Max Guests</th>
-          <th class="text-left py-2 px-4 border border-primary-500">Price per Night</th>
-          <th class="text-left py-2 px-4 border border-primary-500"></th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td class="py-2 px-4 border border-primary-500">
-          <h3 className="text-lg font-bold mb-1">Double Room</h3>
-                  <span className="flex items-center">
-                   <BiBed/>
-                    1 Queen Bed
-                  </span>
-                  <ul className="text-xs mt-2 flex flex-row border-b border-primary-500 gap-1 flex-wrap">
-                    <li>Private bathroom</li>
-                    <li>Mountain view</li>
-                    <li>Flat-screen TV</li>
-                    <li>Coffee machine</li>
-                    <li>Free WiFi</li>
-                  </ul>
-
-                  <div className="flex flex-wrap mt-2">
-      <div className="w-1/2 md:w-1/2 mb-4 items-center flex">
-        <span className="mr-2"><FaBed /></span>
-        <span>1 queen bed</span>
-      </div>
-      <div className="w-1/2 md:w-1/2 mb-4 items-center flex">
-        <span className="mr-2"><FaMountain /></span>
-        <span>Mountain view</span>
-      </div>
-      <div className="w-1/2 md:w-1/2 mb-4 items-center flex">
-        <span className="mr-2"><FaTv /></span>
-        <span>Flat-screen TV</span>
-      </div>
-      <div className="w-1/2 md:w-1/2 mb-4 items-center flex">
-        <span className="mr-2"><FaCoffee /></span>
-        <span>Coffee machine</span>
-      </div>
-      <div className="w-1/2 md:w-1/2 mb-4 items-center flex">
-        <span className="mr-2"><FaWifi /></span>
-        <span>Free WiFi</span>
-      </div>
-      <div className="w-1/2 md:w-1/2 mb-4 items-center flex">
-        <span className="mr-2"><FaBath /></span>
-        <span>Private bathroom</span>
+   <div className="w-80 border border-gray-200 rounded-md overflow-hidden shadow-md">
+      <img src="https://res.cloudinary.com/dhngfjx6o/image/upload/v1682595506/dutxv35hdej0evyw9x4i.jpg" alt="" className="w-full h-48 object-cover" />
+      <div className="p-4">
+        <h2 className="font-semibold text-lg">Single Room</h2>
+        <div className="flex items-center gap-2 my-2">
+          <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6 text-gray-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M22.5 10H1.5" />
+            <path d="M12 1.5l-3 3v16.5l3 3 3-3V4.5l-3-3z" />
+          </svg>
+          <span>3 guests</span>
+          <span>&bull;</span>
+          <span>2 Beds</span>
+        </div>
+        <p className="text-sm font-semibold text-gray-600 mb-2">2 sq ft</p>
+        <ul className="mb-2 border-b">
+          {amenities.map((amenity) => (
+            
+            <li key={amenity} className='flex items-center mb-2 gap-1'>
+             
+              <TbPointFilled/>
+              <p className='text-sm '>{amenity}</p>
+              
+            </li>
+          ))}
+        </ul>
+        <div className="flex items-center justify-between">
+          <div className='flex flex-col '>
+          <span className="text-xl font-semibold">$222</span>
+          <span className='text-xs mt-1 text-gray-500'>$132 total</span>
+          <span className='text-xs mt-1 text-gray-500'>including taxes & fees</span>
+          </div>
+          <button className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md">
+            Book now
+          </button>
+        </div>
       </div>
     </div>
-          </td>
-          <td class="py-2 px-4 border border-primary-500">2</td>
-          <td class="py-2 px-4 border border-primary-500" >€90</td>
-          <td class="py-2 px-4 border border-primary-500"><button class="bg-primary-500 text-white px-4 py-2 rounded">I'll Reserve</button></td>
-        </tr>
-        <tr>
-          <td class="py-2 px-4 border border-primary-500">Triple Room</td>
-          <td class="py-2 px-4 border border-primary-500">3</td>
-          <td class="py-2 px-4 border border-primary-500">€120</td>
-          
-        </tr>
-        <tr>
-          <td class="py-2 px-4 border border-primary-500">Family Room</td>
-          <td class="py-2 px-4 border border-primary-500">4</td>
-          <td class="py-2 px-4 border border-primary-500">€150</td>
-          
-        </tr>
-      </tbody>
-    </table>
-  </div>
 </section>
 
    

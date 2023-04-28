@@ -2,12 +2,15 @@ import React, { useState } from 'react'
 import { useLocation } from 'react-router'
 import {format} from 'date-fns'
 import { DateRange } from 'react-date-range';
+import {Slider} from 'antd'
 
 import { useGetAccommodationsByCityQuery } from '../../Features/api/apiSlice';
 
 import SearchItem from './SearchItem';
 
 const SearchedBody = () => {
+
+    const dollarFormatter = (value) => `$${value}`
 
     const location = useLocation()
 
@@ -17,10 +20,22 @@ const SearchedBody = () => {
     const [openDate, setOpenDate] = useState(false)
     const [options, setOptions] = useState(location.state.options)
 
+   
+
     const [min, setMin] = useState(0)
     const [max, setMax] = useState(999)
-
     
+
+
+    const onChange = (value) => {
+        console.log('onChange: ', value);
+      };
+      const onAfterChange = (value) => {
+        
+        setMin(value[0])
+        setMax(value[1])
+      };
+
 
 
     const { data, isLoading, isError, refetch} = useGetAccommodationsByCityQuery(destination)
@@ -41,29 +56,30 @@ const SearchedBody = () => {
            
             <div className='flex justify-center mt-5'>
                 <div className=' w-full max-w-5xl flex gap-5'>
-                    <div className=' flex-1 bg-[#febb02] p-3 rounded-md sticky top-3'>
-                        <h1 className=' text-xl text-[#555] mb-3'>Search</h1>
+                    <div className=' flex-1 bg-white p-3 rounded-md border border-gray-300 sticky top-3'>
+                        <h1 className=' text-xl text-[#555] font-semibold mb-3'>Search</h1>
                         <div className='flex flex-col gap-2 mb-3'>
-                            <label className='text-xs font-semibold'>Destination</label>
-                            <input className=' h-8 border-none p-1' placeholder={destination} type='text'/>
+                            <label className='text-md font-semibold'>Destination</label>
+                            <input className=' h-8 rounded-md p-2 mt-2 mb-2' placeholder={destination} type='text'/>
                         </div>
                         <div className='flex flex-col gap-2 '>
-                            <label className='text-xs font-semibold'>Check-in Date</label>
+                            <label className='text-sm font-semibold'>Check-in Date</label>
 
-                            <span onClick={()=> setOpenDate(!openDate)} className='h-8 border-none p-1 bg-white flex items-center cursor-pointer'>{`${format(date[0].startDate, "MM/dd/yyyy")} to ${format(date[0].endDate, "MM/dd/yyyy")}`}</span>
+                            <span onClick={()=> setOpenDate(!openDate)} className='h-8 text-sm border-none p-1 bg-white flex items-center cursor-pointer'>{`${format(date[0].startDate, "MM/dd/yyyy")} to ${format(date[0].endDate, "MM/dd/yyyy")}`}</span>
                             {openDate && <DateRange  onChange={item => setDate([item.selection])}  ranges={date}/>}
                         </div>
                         <div className='flex flex-col gap-2 mt-3'>
-                            <label>Options</label>
+                            <label className='text-sm font-semibold'>Price per night</label>
                             <div className=' '>
-                            <div className='flex justify-between mb-4 items-center text-xs'>
+                            <Slider step={100} range min={0} max={1000}  defaultValue={[0, 1000]}  tipFormatter={dollarFormatter} onChange={onChange} onAfterChange={onAfterChange}  />
+                            {/* <div className='flex justify-between mb-4 items-center text-xs'>
                                 <span className='lsOpnText h-'>Min Price <small>per night</small></span>
                                 <input  type='number' onChange={e =>setMin(e.target.value)} className='w-40 h-11'/>
                             </div>
                             <div className='flex justify-between items-center mb-4 text-xs'>
                                 <span className='lsOpnText'>Max Price <small>per night</small></span>
                                 <input  type='number' onChange={e =>setMax(e.target.value)} className='w-40 h-11'/>
-                            </div>
+                            </div> */}
                             <div className='flex justify-between mb-4 text-xs'>
                                 <span className='lsOpnText'>Adult</span>
                                 <input  type='nubmer' min={1} className='w-50 ' placeholder={options.adult}/>

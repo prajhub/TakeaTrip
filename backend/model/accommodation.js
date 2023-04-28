@@ -39,17 +39,26 @@ const AccommodationSchema = new mongoose.Schema({
     numofRooms: {
         type: String,
     },
-    checkinTime: {
-        type: String,
-    },
+    checkinTime: [
+         String,
+    ],
     checkoutTime: {
         type: String
     },
     frontDesk:{
         type: Boolean,
     },
-    checkInProperty: {
-        type: Boolean
+    spa: {
+        type: Boolean,
+    },
+    breakfast: {
+        type: Boolean,
+    },
+    pets: {
+        type: Boolean,
+    },
+    outdoor: {
+        type: Boolean,
     },
     amenities: {
         type: [String]
@@ -71,10 +80,7 @@ const AccommodationSchema = new mongoose.Schema({
     rooms: {
         type: [String]
     },
-    // cheapestPrice: {
-    //     type: Number,
-    //     required: true
-    // },
+    
     featured: {
         type: Boolean,
         default: false,

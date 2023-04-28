@@ -7,7 +7,7 @@ const createRoom = async (req, res, next) => {
     const accoId = req.params.accoId;
     console.log(accoId)
 
-    const {type, roomclass, price, bathroom, roomview, inroomamenities, kitchenamenities, bedding, inroomrefreshments, photos} = req.body
+    const {type, roomclass, price, bathroom, roomview, inroomamenities, maxPeople, kitchenamenities, bedding, inroomrefreshments, photos} = req.body
  
    
     if ( !price  ) {
@@ -15,7 +15,7 @@ const createRoom = async (req, res, next) => {
     }
    
     try {
-      const newRoom = new Room({type, roomclass, price, bathroom, roomview, inroomamenities, kitchenamenities, bedding, inroomrefreshments, photos})
+      const newRoom = new Room({type, roomclass, price, bathroom, roomview, maxPeople, inroomamenities, kitchenamenities, bedding, inroomrefreshments, photos})
       const savedRoom = await newRoom.save()
       try {
         await Accommodation.findByIdAndUpdate(accoId, {
