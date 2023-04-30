@@ -76,6 +76,7 @@ const MainBody = () => {
         <section className='bg-gray-200 w-full h-screen flex flex-col'>
 
           {/* Profile Card */}
+          {data &&
 
             <div className="w-full max-w-4xl py-5 h-[300px] bg-white border m-7  border-gray-200 rounded-lg shadow ">
 
@@ -169,7 +170,7 @@ const MainBody = () => {
               
             </ModalContent>
           </Modal>
-            </div>
+            </div>}
         {/* Profile Card */}
 
 

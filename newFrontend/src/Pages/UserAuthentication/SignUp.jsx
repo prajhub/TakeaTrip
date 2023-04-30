@@ -1,29 +1,28 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { Formik, Form } from 'formik';
 import { TextField } from '../../Components/FormInputs/TextField';
 import * as Yup from 'yup';
 import { useMutation } from 'react-query';
 import axios from 'axios';
 import { Navigate } from 'react-router';
-
-
-
+import { useDispatch, useSelector } from 'react-redux';
+import { useRef } from 'react';
+import { userRegister } from '../../Features/auth/registerAction';
+import {setClearSuccess} from '../../Features/auth/authSlice'
+import { handleSuccess } from '../../Components/Reusables/SuccessInfo';
 
 const SignUp = () => {
 
 
 const [navigate, setNavigate] = useState(false)
- 
 
-  const {mutate} = useMutation(
-    userData => axios.post('http://localhost:5000/register', userData ),
-    {
-      onSuccess: () => {
-        setNavigate(true)
-      }
-    }
-)
+const [firstName, setFirstName] = useState('')
+const [lastName, setLastName] = useState('')
+const [email, setEmail] = useState('')
+const [password, setPassword] = useState('')
+ console.log(firstName, lastName, email, password)
 
+const dispatch = useDispatch()
 
 if(navigate) {
   return <Navigate to='/accreation'/>
@@ -46,6 +45,15 @@ if(navigate) {
       .required('Password is required'),
     
   })
+
+  const { registerMsg } = useSelector((state)=> state.auth)
+      const { success } = useSelector((state)=> state.auth)
+      console.log(registerMsg, success)
+
+
+     
+    
+
   return (
     <Formik
     initialValues={{
@@ -58,9 +66,19 @@ if(navigate) {
     validationSchema={validate}
     onSubmit={values => {
       const userData = values
-      console.log(userData)
-      mutate(userData)
+      
+      dispatch(userRegister(userData))
+
+      useEffect(() => {
+        handleSuccess(success, registerMsg, dispatch);
+
+      }, [success, registerMsg, dispatch]);
+
+      // dispatch(userRegister({))
+      
     }}
+
+    
   >
     {formik => (
       <div class="bg-gray-100 min-h-screen flex flex-col">

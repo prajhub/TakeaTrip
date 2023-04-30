@@ -3,7 +3,9 @@ const User = require('../model/user')
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
 const { comparePassword } = require('../utils/helpers')
-
+const Token = require('../model/token')
+const sendEmail = require('../utils/sendEmail')
+const crypto = require('crypto')
 const asynchHandler = require('express-async-handler');
 
 
@@ -27,6 +29,21 @@ const login = asynchHandler( async (req, res) => {
         const check = comparePassword(password, sameUser.password)
     
         if(!check) return res.status(401).json({ message: 'Invalid Password'}) 
+
+        if(!sameUser.isVerified) {
+            
+            let token = await Token.findOne({userId: sameUser._id})
+            if(!token){
+                const token = await new Token({
+                    userId: newUser._id,
+                    token: crypto.randomBytes(32).toString("hex")
+                }).save()
+    
+                const url = `${process.env.BASE_URL}users/${newUser._id}/verify/${token.token}`
+                await sendEmail(newUser.email, "Verify Email", url)
+            }
+            return res.status(400).send({message: 'A mail is sent to your email, please verify youre accccount'})
+        }
     
         //Generate the accessToken
         const accessToken = jwt.sign(
@@ -77,7 +94,8 @@ const login = asynchHandler( async (req, res) => {
                 // lastName: sameUser.lastName,
                 // email: sameUser.email,
                 role: sameUser.roles,
-                token: accessToken
+                token: accessToken,
+                verfied: sameUser.isVerified
             })
 
 

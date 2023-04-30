@@ -5,8 +5,10 @@ require('dotenv').config();
 const { hashPassword } = require('../utils/helpers')
 const bcrypt = require('bcrypt');
 const asyncHandler = require('express-async-handler');
-
-
+const Token = require('../model/token')
+const jwt = require('jsonwebtoken');
+const sendEmail = require('../utils/sendEmail')
+const crypto = require('crypto')
 
 const handleNewUser = asyncHandler(async (req, res) => {
 
@@ -28,34 +30,22 @@ const handleNewUser = asyncHandler(async (req, res) => {
 
         const password =  hashPassword(req.body.password)
         const newUser = await User.create({ firstName, lastName, email, password})
+
+      
+            const token = await new Token({
+                userId: newUser._id,
+                token: crypto.randomBytes(32).toString("hex")
+            }).save()
+
+            const url = `${process.env.BASE_URL}users/${newUser._id}/verify/${token.token}`
+            await sendEmail(newUser.email, "Verify Email", url)
         
-        res.sendStatus(201).json({ newUser})
+        
+            res.status(201).send({ message: 'An email has been sent to verify yourt account' })
+
     }
         
-        
-      
-          
-       
-            
-        
-    
-
-    
-    
-
-   
-
-    //Create and store new new user
-
-    // const user = await User.create(userObject)
-
-    // if(user) {
-    //     res.status(201).json({ message: `New user ${firstName} created`}, {
-    //         token: generateToken(user._id)
-    //     })
-    // } else {
-    //     res.status(400).json({ message: "Invalid data"})
-    // }
+  
 })  
 
 module.exports = { handleNewUser };

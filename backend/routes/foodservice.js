@@ -2,12 +2,12 @@ const express = require('express');
 
 const { createNewFoodService, updateFoodService, getFoodServices, getFoodService, deleteFoodService } = require('../controllers/foodServiceController')
 const verifyJWT = require('../middleware/verifyJWT')
-const upload = require('../utils/multer')
+
 
 const router = express.Router()
 
 //CREATE
-router.post('/', verifyJWT, upload.array('foodserviceimages', 10), createNewFoodService)
+router.post('/', verifyJWT, createNewFoodService)
 
 
 //UPDATE

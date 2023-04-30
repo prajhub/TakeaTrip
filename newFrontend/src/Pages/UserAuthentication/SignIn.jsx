@@ -3,7 +3,7 @@ import { useNavigate, Link } from 'react-router-dom'
 import MainLogo from '../../assets/mainlogo.png'
 import { userLogin } from '../../Features/auth/authActions'
 import { useDispatch, useSelector } from 'react-redux'
-
+import { handleError } from '../../Components/Reusables/ErrorMessage'
 
 import Error from '../../Components/Reusables/Error'
 
@@ -44,6 +44,10 @@ const SignIn = () => {
 
     
   }
+
+  if(error){
+      handleError(error)
+  }
   
 
 
@@ -65,7 +69,7 @@ const SignIn = () => {
         <a href="#" className=" ml-1 font-medium text-primary-600 hover:text-primary-500">Create One</a>
       </p>
     </div>
-    {error && <Error>{error}</Error>}
+   
   
     <form className="mt-8 space-y-6" onSubmit={handleSubmit}  >
       <input type="hidden" name="remember" value="true"/>

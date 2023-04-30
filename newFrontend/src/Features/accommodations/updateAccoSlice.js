@@ -18,6 +18,9 @@ const updateAccoSlice = createSlice({
             const data = action.payload
             state.updatedAcco = data
         },
+        setClearSuccess: (state, action) => {
+          state.success = false;
+        },
     },extraReducers: (builder) => {
         builder
           .addCase(updateAccomodation.pending, (state) => {
@@ -41,5 +44,5 @@ const updateAccoSlice = createSlice({
 })
 
 
-export const { setBasicInfo } = updateAccoSlice.actions
+export const { setBasicInfo, setClearSuccess } = updateAccoSlice.actions
 export default updateAccoSlice.reducer

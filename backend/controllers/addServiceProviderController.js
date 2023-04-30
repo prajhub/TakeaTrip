@@ -5,7 +5,7 @@ const cloudinary = require('../utils/cloudinary')
 
 const addServiceProvider = async (req, res) => {
 
-    const { city, streetAddress, zipCode, serviceType, img, serviceOption, phoneNum, description, officialName, website, country } = req.body;
+    const { city, address, zipCode, photos, serviceType, activityOption,  serviceOption, phoneNum, description, name, website, country } = req.body;
 
     try {
         // find the user by ID
@@ -15,30 +15,22 @@ const addServiceProvider = async (req, res) => {
             return res.status(404).json({ message: 'User not found' });
           }
         
-        // update the user's isServiceProvider attribute to true
-        user.isServiceProvider = true;
+      
 
-        //uploading image to cloudniary
-        const result = await cloudinary.uploader.upload(img, {
-          folder: "service",
-          width: 300,
-          crop: 'scale'
-      })
+      
         
         // create a new service with the provided data
         const newService = new Service({
           city,
-          streetAddress,
+          address,
           zipCode,
           serviceType,
-          photos: {
-            public_id: result.public_id,
-            url: result.secure_url
-        },
+          photos,
+          activityOption,
           serviceOption,
           phoneNum,
           description,
-          officialName,
+          name,
           website,
           country
         });
@@ -48,9 +40,13 @@ const addServiceProvider = async (req, res) => {
         
         // add the new service to the user's services array
         user.services.push(savedService._id);
+
+        // Change user's role to Service Provider
+        user.roles = "Service Provider";
+        
         
         // save the updated user
-        const savedUser = await user.save();
+        await user.save();
         
         res.status(200).json(savedService);
       } catch (err) {
@@ -58,6 +54,26 @@ const addServiceProvider = async (req, res) => {
         res.status(500).json({ message: 'Server error' });
       }
     }
+
+
+    const updateService = async (req, res) => {
+      try {
+          const serviceId = req.params.id;
+          console.log(serviceId)
+  
+          // const { address, description, number, website, image, cuisines, foods, features, minPrice, maxPrice } = req.body;
+          // console.log(image)
+          const updatedService = await Service.findByIdAndUpdate(serviceId, {
+            $set: req.body
+          }, { new: true });
+      
+          res.status(200).json(updatedService);
+        } catch (error) {
+          console.error(error);
+          res.status(500).json({ message: 'Server error' });
+        }
+  }
+  
     
-    module.exports = { addServiceProvider };
+    module.exports = { addServiceProvider, updateService };
 

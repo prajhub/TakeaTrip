@@ -21,7 +21,7 @@ import Accommodation from './Pages/AccommodationDisplay/Accommodation';
 import ListService from './Pages/ListService/ListService';
 import ThingsToDo from './Pages/ThingsToDo/thingsToDo';
 import MainPropertyDetails from './Pages/UserSettings/PropertyDetails.jsx/Main';
-
+import EmailVerify from './Components/Reusables/EmailVerify';
 import CreateRoom from './Pages/UserSettings/PropertyDetails.jsx/CreateRoom/CreateRoom';
 import FoodService from './Pages/ListFoodService/FoodService';
 import FoodServiceDisplay from './Pages/FoodServiceDisplay/FoodService';
@@ -43,7 +43,7 @@ function App() {
           <Routes>
             <Route path='/' element={<Homepage/>} />
             <Route path='/register' element={<SignUp/>} />
-            
+            <Route path='/users/:id/verify/:token' element={<EmailVerify/>} />
             <Route path='/login' element={<SignIn/>} />
             <Route path='/accreation' element={<Sucsacc/>} />
             <Route path='/explore' element={<Explore/>} />

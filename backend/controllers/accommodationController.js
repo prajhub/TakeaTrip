@@ -47,7 +47,9 @@ const cloudinary = require('../utils/cloudinary')
         
     
                 
-            
+            // Change user's role to Service Provider
+            user.roles = "Service Provider";
+            await user.save();
         
         return res.status(201).json(newAccommodation);
         } catch (error) {

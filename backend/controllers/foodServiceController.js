@@ -42,6 +42,10 @@ const createNewFoodService = async ( req, res )  => {
 
              
             user.foodservices.push(newFoodService);
+            
+            // Change user's role to Service Provider
+            user.roles = "Service Provider";
+           
             await user.save();
 
             res.status(200).json(newFoodService)

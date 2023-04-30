@@ -2,54 +2,53 @@
 const mongoose = require('mongoose');
 
 const serviceSchema = new mongoose.Schema({
+
+  service: {
+    type: Boolean,
+    default: true,
+},
+
   city: {
     type: String,
-    required: true
+    
   },
-  streetAddress: {
+  address: {
     type: String,
-    required: true
+   
   },
   zipCode: {
     type: String,
-    required: true
+    
   },
   serviceType: {
     type: String,
-    required: true
+   
   },
   serviceOption: {
     type: String,
-    required: true
+   
+  },
+  activityOption: {
+    type: String,
   },
   phoneNum: {
     type: String,
-    required: true
+   
   },
   description: {
     type: String,
-    required: true
+  
   },
-  officialName: {
+  name: {
     type: String,
-    required: true
+    
   },
   website: {
     type: String,
-    required: true
+   
   },
-  personRange:{
-    type: String,
-  },
-  photos: [{
-    public_id: {
-        type: String
-    },
-    url: {
-        type: String
-    }
-    
-}],
+  
+  photos: [String],
   duration: {
     type: String,
   },
@@ -72,7 +71,7 @@ const serviceSchema = new mongoose.Schema({
   }],
   country: {
     type: String,
-    required: true
+    
   },
   createdAt: {
     type: Date,

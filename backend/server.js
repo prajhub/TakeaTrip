@@ -53,7 +53,10 @@ app.use('/profile', verifyJWT, require('./routes/getuserprofile') )
 app.use('/users',   require('./routes/users'));
 app.use('/users/check-auth', require('./routes/users'));
 
-
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).send('Something went wrong!');
+  });
 
 
 

@@ -15,11 +15,14 @@ const PropertyDisplayTable = ({ id }) => {
     refetchInterval: 5000, // Refetch every 5 seconds
   })
   
-    console.log(data)
+    
 
     const accommodations = data?.accommodations || [];
+    const services = data?.services || []
     const foodservices = data?.foodservices || [];
-    const allProperties = accommodations.concat(foodservices);
+    const allProperties = accommodations.concat(services, foodservices);
+
+    console.log(allProperties)
     
   return (
     <>

@@ -1,8 +1,8 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 
 import axios from 'axios'
-
-
+import { setClearSuccess } from '../../../Features/accommodations/updateAccoSlice';
+import { handleSuccess } from '../../Reusables/SuccessMessage';
 import Spinner from '../../Reusables/Spinner';
 import { useNavigate } from 'react-router';
 import { MdFreeBreakfast, MdOutlinePets } from 'react-icons/md'
@@ -10,11 +10,11 @@ import {  BiSpa } from 'react-icons/bi'
 import { GiCampingTent } from 'react-icons/gi'
 import {useForm} from 'react-hook-form'
 import {DevTool} from '@hookform/devtools'
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { updateAccomodation } from '../../../Features/accommodations/updateAccoAction';
 
 
-const EditPropery = ({selectedProperty}) => {
+const EditPropery = ({selectedProperty, onClose}) => {
 
   //React-hook-form
   const form = useForm()
@@ -34,12 +34,13 @@ const EditPropery = ({selectedProperty}) => {
     pets: selectedProperty.pets || false,
     outdoor: selectedProperty.outdoor || false,
     selfCheckIn: selectedProperty.selfCheckIn || false,
-    photos: selectedProperty.photos || '',
+    photos: selectedProperty.photos || [],
 
 
   })
 
   console.log(formData)
+
 
 
   //Amenities List 
@@ -213,9 +214,22 @@ const EditPropery = ({selectedProperty}) => {
 
 
   //For photos
+  const [isUploading, setIsUploading] = useState(false);
+
+  const handlePhotoUpdate = (newPhotos) => {
+    const updatedFormData = {
+      ...formData,
+      photos: newPhotos,
+    };
+    setFormData(updatedFormData);
+    setValue("photos", newPhotos);
+  };
+  
+
   const handleImage = async (e) => {
+    setIsUploading(true);
     const files = e.target.files;
-    let newPhotos = []
+    let newPhotos = [];
   
     for (let i = 0; i < files.length; i++) {
       const formData = new FormData();
@@ -228,25 +242,54 @@ const EditPropery = ({selectedProperty}) => {
       } catch (err) {
         console.log(err);
       }
-      setValue("photos", newPhotos);
     }
-   
- 
-
+  
+    handlePhotoUpdate([...selectedProperty.photos, ...newPhotos]);
+    setIsUploading(false);
   }
 
-
   const dispatch = useDispatch()
+
+  const { successMessage } = useSelector((state)=> state.updateAcco)
+  const { success } = useSelector((state)=> state.updateAcco)
+
+  useEffect(() => {
+    if (success) {
+
+      // Display the alert
+      // alert(successMessage);
+
+      handleSuccess(success, successMessage)
+      onClose()
+      // Clear the success state
+      dispatch(setClearSuccess());
+    }
+  }, [success, dispatch,onClose, successMessage]);
 
   const onSumbit = async (data) => {
 
     try {
-      const {amenities, breakfast, checkinTime , checkoutTime, frontDesk, outdoor, pets, photos, selfChckIn, spa} = data
+      const {amenities, breakfast, checkinTime , checkoutTime, frontDesk, outdoor, pets, photos, selfCheckIn, spa} = data
+      
       const updatedFormData = {
         ...formData,
-        amenities: amenities,
-        checkinTime: checkinTime,
-        checkoutTime: checkoutTime,
+        amenities: amenities ? amenities : selectedProperty.amenities,
+        checkinTime: checkinTime ? checkinTime : selectedProperty.checkIinTime,
+        checkoutTime: checkoutTime ? checkoutTime : selectedProperty.checkoutTime,
+        breakfast: breakfast ? breakfast : selectedProperty.breakfast,
+        frontDesk: frontDesk ? frontDesk : selectedProperty.frontDesk,
+        outdoor: outdoor ? outdoor : selectedProperty.outdoor,
+        pets: pets ? pets : selectedProperty.pets,
+       photos: photos ,
+        selfCheckIn: selfCheckIn ? selfCheckIn : selectedProperty.selfCheckIn,
+        spa: spa ? spa : selectedProperty.spa,
+      }
+
+      
+      if (photos.length > 0) {
+        updatedFormData.photos = photos;
+      } else {
+        delete updatedFormData.photos;
       }
       setFormData(updatedFormData)
 
@@ -575,13 +618,13 @@ const EditPropery = ({selectedProperty}) => {
     </div>
                   </section>
                   <span className='text-lg font-semibold'>Update Photos</span>
-                  <div className="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
+                  {isUploading ? <Spinner/> : <div className="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
                     
                 <div className="text-center">
                         <input type='file'  multiple  onChange={handleImage}  />
                         <input type='file' hidden multiple {...register("photos")}/>
                   </div>
-                  </div>
+                  </div>}
 
           </div>
           <button className="text-white  bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 mt-5 mr-2 mb-2">Update</button>

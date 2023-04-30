@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 
 import { useDispatch, useSelector } from 'react-redux'
-
+import UpdateService from './UpdateService'
 import EditPropery from './EditPropery'
 import UpdateFoodService from './UpdateFoodService/UpdateFoodService'
 
@@ -44,8 +44,9 @@ const navigate = useNavigate()
   
   
   const accommodations = data?.accommodations || [];
-    const foodservices = data?.foodservices || [];
-    const allProperties = accommodations.concat(foodservices);
+  const services = data?.services || []
+  const foodservices = data?.foodservices || [];
+  const allProperties = accommodations.concat(services, foodservices);
 
     console.log(allProperties)
 
@@ -101,7 +102,13 @@ const navigate = useNavigate()
           <ModalHeader>{selectedProperty.name}</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            {selectedProperty.accommodation ?<EditPropery selectedProperty={selectedProperty}/> : <UpdateFoodService details={selectedProperty} onClose={onClose}/> }
+          {selectedProperty.accommodation ? (
+  <EditPropery selectedProperty={selectedProperty} onClose={onClose}/>
+) : selectedProperty.foodservice ? (
+  <UpdateFoodService details={selectedProperty} onClose={onClose}/>
+) : (
+  <UpdateService details={selectedProperty} onClose={onClose}/>
+)}
       
            
           </ModalBody>

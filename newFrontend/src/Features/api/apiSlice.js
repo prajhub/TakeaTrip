@@ -13,7 +13,7 @@ export const apiSlice = createApi({
 
            
           const token = getState().auth.token
-          
+          console.log(token)
             
             if (token) {
              //include token in req header

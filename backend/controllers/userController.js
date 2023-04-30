@@ -2,8 +2,8 @@ const asyncHandler = require('express-async-handler')
 
 const User = require('../model/user');
 const { hashPassword } = require('../utils/helpers');
-
-
+const Token = require('../model/token')
+const {decodeJWT} = require('../utils/decodeJWT')
 
 const updateUser = asyncHandler(async (req, res) => {
 
@@ -50,6 +50,8 @@ const updateUser = asyncHandler(async (req, res) => {
     res.json({ message: `${updatedUser.email} updated`})
 
 })
+
+
 
 const deleteUser = asyncHandler(async (req, res) => {
 

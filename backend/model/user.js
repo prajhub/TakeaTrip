@@ -41,16 +41,17 @@ const UserSchema = new mongoose.Schema({
     roles: {
         type: mongoose.SchemaTypes.String,
         default: 'User'
+    },
+    isVerified: {
+        type: Boolean,
+        default: false,
     }
     ,
     services: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Service'
       }],
-      isServiceProvider: {
-        type: Boolean,
-        default: false
-      },
+     
       properties: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'accommodation'
