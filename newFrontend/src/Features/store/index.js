@@ -44,7 +44,7 @@ const rootReducer = combineReducers({
     addPhotos: addPhotoReducer,
     insertLocation: locationReducer,
     experience: experiences,
-    addPublicInfo: addPublicInfoReducer,
+    serviceInfo: addPublicInfoReducer,
     addRoomBasic: addRoomBasicReducer,
     addRoomAmenities: addAmenitiesReducer,
     addBasicRate: addBasicRateReducer,

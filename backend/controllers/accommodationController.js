@@ -125,7 +125,19 @@ const getAccommodations = async (req, res, next) => {
 }
 
 
-
+ const getAccommodationRooms = async (req, res, next) => {
+    try {
+      const accomodation = await Accommodation.findById(req.params.id);
+      const list = await Promise.all(
+        accomodation.rooms.map((room) => {
+          return Rooms.findById(room);
+        })
+      );
+      res.status(200).json(list)
+    } catch (err) {
+      next(err);
+    }
+  };
   
 
 
@@ -159,4 +171,4 @@ const getHotelsByLocation = async (req, res) => {
 
 
     
-module.exports = { createAccommodation,   updateHotel, deleteHotel, getAccommodation, getAccommodations, getHotelsByLocation };
+module.exports = { createAccommodation,  getAccommodationRooms,  updateHotel, deleteHotel, getAccommodation, getAccommodations, getHotelsByLocation };

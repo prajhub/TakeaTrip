@@ -25,6 +25,8 @@ import EmailVerify from './Components/Reusables/EmailVerify';
 import CreateRoom from './Pages/UserSettings/PropertyDetails.jsx/CreateRoom/CreateRoom';
 import FoodService from './Pages/ListFoodService/FoodService';
 import FoodServiceDisplay from './Pages/FoodServiceDisplay/FoodService';
+import ServiceDisplay from './Pages/ServiceDisplay/Service'
+
 
 const queryClient = new QueryClient();
 
@@ -64,6 +66,7 @@ function App() {
             <Route path='/account/properties/:accommodationId/createRoom' element={<CreateRoom/>}/>
             <Route path='/accommodation/:id' element={<Accommodation/>}/>
             <Route path='/foodservice/:id' element={<FoodServiceDisplay/>}/>
+            <Route path='/service/:id' element={<ServiceDisplay/>}/>
             <Route path='/account' element={<UserProfileMain/>}/>
           </Route>
           

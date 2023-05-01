@@ -73,7 +73,25 @@ const addServiceProvider = async (req, res) => {
           res.status(500).json({ message: 'Server error' });
         }
   }
+
+  const getService = async (req, res) => {
+
+    const id = req.params.id
+
+    try {
+        const service = await Service.findById(id)
+        if(!service){
+            return res.status(400).json({ message: 'Food service not found'})
+        }
+        res.status(200).json(service)
+    } catch (error) {
+
+        res.status(500).json(error)
+        console.log(error)
+        
+    }
+}
   
     
-    module.exports = { addServiceProvider, updateService };
+    module.exports = { addServiceProvider, updateService, getService };
 

@@ -52,7 +52,10 @@ export const apiSlice = createApi({
     query: (id) => `/accbyId/${id}`,
     
   }),
-  
+  getRoomsByAccommodation: builder.query({
+    query: (id) => `/accommodation/accomodationrooms/${id}`
+  })
+  ,
   //Query for Rooms
 
   createRoom: builder.mutation({
@@ -78,4 +81,4 @@ export const apiSlice = createApi({
 })
 
 
-export const { useUserLoginMutation, useGetUserProfileQuery, useUpdateFoodServiceMutation, useGetAccommodationByIdQuery, useGetAccommodationByUserIDQuery,  useGetAccommodationsByCityQuery, useCreateRoomMutation } = apiSlice
+export const { useUserLoginMutation, useGetUserProfileQuery, useGetRoomsByAccommodationQuery, useUpdateFoodServiceMutation, useGetAccommodationByIdQuery, useGetAccommodationByUserIDQuery,  useGetAccommodationsByCityQuery, useCreateRoomMutation } = apiSlice

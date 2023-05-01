@@ -52,6 +52,7 @@ app.use('/service', require('./routes/service'));
 app.use('/profile', verifyJWT, require('./routes/getuserprofile') )
 app.use('/users',   require('./routes/users'));
 app.use('/users/check-auth', require('./routes/users'));
+app.use('/roombookings',    require('./routes/roomBooking'));
 
 app.use((err, req, res, next) => {
     console.error(err.stack);

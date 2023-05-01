@@ -17,7 +17,7 @@ import {MdOutlineSoupKitchen} from 'react-icons/md'
 
 import {HiOutlineLightBulb} from 'react-icons/hi'
 
-import {useForm} from 'react-hook-form'
+import {useForm, useFieldArray} from 'react-hook-form'
 import {DevTool} from '@hookform/devtools'
 
 import { useDispatch } from 'react-redux'
@@ -26,10 +26,19 @@ import Spinner from '../../../Reusables/Spinner'
 
 const RoomBody = () => {
 
-  const form = useForm()
-  const { register, control, setValue, handleSubmit, watch, getValues } = form
+  
+  const { register, control, setValue, handleSubmit, watch, getValues } = useForm({
+    defaultValues: {
+      roomNumbers: [{ number: "" }]
+    }
+  })
 
-  const [createRoom , { isLoading, isError, isSuccess}] = useCreateRoomMutation()
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: "roomNumbers"
+  });
+
+  
 
   const location = useLocation()
 
@@ -321,12 +330,13 @@ const dispatch = useDispatch()
     
     
     try {
-      const { type, roomclass, bedrooms, bathroom, roomview, inroomamenities, inroomrefreshments, kitchenamenities, bedding, photos, price } = data;
+      const { type, roomclass, bedrooms, bathroom, roomNumbers, roomview, inroomamenities, inroomrefreshments, kitchenamenities, bedding, photos, price } = data;
   
       const formData = {
         accoId: accoId,
         price,
         type,
+        roomNumbers,
         maxPeople: data.maxPeople,
         roomclass,
         bedrooms,
@@ -480,7 +490,7 @@ const dispatch = useDispatch()
                     </div>
 
 
-                    {/*Living Room check*/}
+                    {/*People number*/}
                     <div className="col-span-3 sm:col-span-2">
                     <label htmlFor="officialname" className="block text-sm font-medium leading-6 text-gray-900">
                        How many people allowed?
@@ -491,6 +501,26 @@ const dispatch = useDispatch()
                             {...register("maxPeople")}
                             className=" mt-2 border-gray-400 border py-2 px-4 rounded "
                             />
+                    </div>
+                    <div className="col-span-3 sm:col-span-2">
+                    <label htmlFor="numberofrooms" className="block text-sm font-medium leading-6 text-gray-900">
+                       Enter room numbers
+                      </label>
+                      {fields.map((field, index) => (
+        <div key={field.id}>
+          <input
+            type="number"
+            {...register(`roomNumbers.${index}.number`)}
+            className=" mt-2 border-gray-400 border py-2 px-4 rounded "
+          />
+          <button type="button" onClick={() => remove(index)}>
+            Remove
+          </button>
+        </div>
+      ))}
+      <button type="button" onClick={() => append({ number: "" })}>
+        Add Room Number
+      </button>
                     </div>
                     
                     

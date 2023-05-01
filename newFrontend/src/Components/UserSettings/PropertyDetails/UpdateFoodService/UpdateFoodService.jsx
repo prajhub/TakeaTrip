@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 
-import { notification } from 'antd'
+
 import { handleSuccess } from '../../../Reusables/SuccessMessage'
 import { setClearSuccess } from '../../../../Features/foodService/foodBasicInfoSlice' 
 import { useDispatch, useSelector } from 'react-redux'
-import { useUpdateFoodServiceMutation } from '../../../../Features/api/apiSlice'
+
 import {updateFoodService}from '../../../../Features/foodService/updateFoodServiceAction'
 
 
@@ -41,33 +41,7 @@ console.log(formData)
   
 const id = details._id
 console.log(id)
-  // const [updateFoodService, {isLoading, isSuccess}] = useUpdateFoodServiceMutation()
-
-
-    // const handleAddress = (event) => {
-    //   setAddress(event.target.value)
-
-    // }
-    // const handleDesc = (event) => {
-    //   setDescription(event.target.value)
-
-    // }
-    // const handleNumber = (event) => {
-    //   setNumber(event.target.value)
-
-    // }
-    // const handleWebsite = (event) => {
-    //   setWebsite(event.target.value)
-
-    // }
-
-    // const handleMaxPrice = (event) =>{
-    //   setMaxPrice(event.target.value)
-    // }
-
-    // const handleMinPrice = (event) =>{
-    //   setMinPrice(event.target.value)
-    // }
+  
 
     
 

@@ -9,7 +9,7 @@ import { BsFillArrowLeftCircleFill, BsFillArrowRightCircleFill} from 'react-icon
 import { GiBroom } from 'react-icons/gi'
 import { RiMapPin2Line } from 'react-icons/ri'
 import { useParams } from 'react-router'
-
+import { useGetRoomsByAccommodationQuery } from '../../Features/api/apiSlice'
 import { useGetAccommodationByIdQuery } from '../../Features/api/apiSlice';
 
 
@@ -20,10 +20,14 @@ const Body = () => {
 
   const { id } = useParams()
 
+
+  
   
 
-  const { data, isLoading, error} = useGetAccommodationByIdQuery(id)
-  console.log(data)
+  const { data, isLoading, error} = useGetAccommodationByIdQuery(id, {
+    pollingInterval: 5000,
+  })
+
 
     const [slideNumber, setSlideNumber] = useState(0)
     const [open, setOpen] = useState(false)
