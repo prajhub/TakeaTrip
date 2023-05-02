@@ -23,6 +23,7 @@ import foodPhotoSlice from "../foodService/foodPhotoSlice";
 
 import updateAccoSlice from "../accommodations/updateAccoSlice";
 
+import bookInfoSlice from "../roomControl/booking/bookInfoSlice";
 
 
 const persistConfig = {
@@ -55,6 +56,9 @@ const rootReducer = combineReducers({
     foodPhotos: foodPhotoSlice,
     updateAcco: updateAccoSlice,
     
+
+    //RoomBooking
+    bookingInfo:bookInfoSlice,
 
     
     [apiSlice.reducerPath]: apiSlice.reducer,

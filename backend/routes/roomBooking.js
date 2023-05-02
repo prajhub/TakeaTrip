@@ -6,6 +6,6 @@ const {bookRoom} = require('../controllers/roomBookingController')
 
 const verifyJWT = require('../middleware/verifyJWT')
 
-router.post("/:id", verifyJWT, bookRoom)
+router.post("/",  bookRoom)
 
 module.exports = router;

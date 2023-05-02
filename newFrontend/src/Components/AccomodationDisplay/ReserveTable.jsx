@@ -2,20 +2,29 @@ import React from 'react'
 import {TbPointFilled} from 'react-icons/tb'
 import { useParams } from 'react-router'
 import { useGetRoomsByAccommodationQuery } from '../../Features/api/apiSlice'
+import { useNavigate } from 'react-router';
 
 
-const ReserveTable = () => {
 
+const ReserveTable = ({data, startDate, endDate}) => {
 
   
   const { id } = useParams()
 
 
   const { data: roomData,  isFetching } = useGetRoomsByAccommodationQuery(id, {
-   
+   pollingInterval: 2000
   })
 
   console.log(roomData)
+ 
+
+  const navigate = useNavigate()
+
+  const navigateRoom = (room) => {
+    
+    navigate(`/room/${room._id}` , {state: {startDate, endDate}})
+  }
 
   const amenities = [
     "Hoes everywhere",
@@ -59,7 +68,7 @@ const ReserveTable = () => {
           <span className='text-xs mt-1 text-gray-500'>$132 total</span>
           <span className='text-xs mt-1 text-gray-500'>including taxes & fees</span>
           </div>
-          <button className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md">
+          <button onClick={() => navigateRoom(room)}  className="bg-primary-500 hover:bg-primary-600 text-white px-4 py-2 rounded-md">
             Book now
           </button>
         </div>

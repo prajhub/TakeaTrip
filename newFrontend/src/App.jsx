@@ -26,7 +26,7 @@ import CreateRoom from './Pages/UserSettings/PropertyDetails.jsx/CreateRoom/Crea
 import FoodService from './Pages/ListFoodService/FoodService';
 import FoodServiceDisplay from './Pages/FoodServiceDisplay/FoodService';
 import ServiceDisplay from './Pages/ServiceDisplay/Service'
-
+import RoomBook from './Pages/RoomBook/RoomBook';
 
 const queryClient = new QueryClient();
 
@@ -65,6 +65,7 @@ function App() {
             <Route path='/listfoodservice' element={<FoodService/>}/>
             <Route path='/account/properties/:accommodationId/createRoom' element={<CreateRoom/>}/>
             <Route path='/accommodation/:id' element={<Accommodation/>}/>
+            <Route path='/room/:id' element={<RoomBook/>}/>
             <Route path='/foodservice/:id' element={<FoodServiceDisplay/>}/>
             <Route path='/service/:id' element={<ServiceDisplay/>}/>
             <Route path='/account' element={<UserProfileMain/>}/>

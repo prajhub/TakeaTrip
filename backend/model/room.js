@@ -54,7 +54,14 @@ const RoomSchema = new mongoose.Schema({
         
     },
     
-    roomNumbers: [{number: Number, unavailableDates: {type: [Date]}}],
+    roomNumbers: [
+        {
+          number: Number, // room number
+          fromdate: Date,
+          todate: Date,
+          userId: String,
+        }
+      ]
 }, { timestamps: true })
 
 module.exports = mongoose.model('rooms', RoomSchema);

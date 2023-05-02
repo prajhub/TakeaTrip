@@ -1,51 +1,77 @@
-const Booking = require('../model/roomBooking');
-const Room = require('../model/room');
+const Booking = require("../model/roomBooking");
+const Room = require("../model/room");
+const moment = require("moment");
+const { v4: uuidv4 } = require("uuid");
+const stripe = require("stripe")(
+  "sk_test_51N3LOwIPhGSGqTOKdTR1Xv60jDjfCFR3uStcAwMj5jsKaIxnYCkIURvMtgNz9HN5qlbiK53MYMXPsO4uk4Ky2MKw00F2PeqEwp"
+);
 
 const bookRoom = async (req, res, next) => {
+  const {
+    room,
+    userid,
+    fromdate,
+    roomid,
+    roomnumber,
+    token,
+    todate,
+    totalamount,
+  } = req.body;
 
-    try {
-        const { roomId, checkinDate, checkoutDate } = req.body;
-        const userId = req.user.userId;
-        console.log(userId)
-    
-        // find the room being reserved
-        const room = await Room.findById(roomId);
-    
-        // check if room is available for the requested dates
-        const isAvailable = room.roomNumbers.some(
-          ({ unavailableDates }) =>
-            checkinDate < Math.max(...unavailableDates.map((d) => new Date(d))) &&
-            checkoutDate > Math.min(...unavailableDates.map((d) => new Date(d)))
-        );
-    
-        if (!isAvailable) {
-          return res.status(400).json({ msg: 'Room is not available for the requested dates' });
-        }
-    
-        // create the booking
-        const booking = new Booking({
-          user: userId,
-          room: roomId,
-          checkinDate: checkinDate,
-          checkoutDate: checkoutDate,
-        });
-    
-        // save the booking
-        await booking.save();
-    
-        // update room's unavailable dates
-        const roomNumberIndex = room.roomNumbers.findIndex((number) => number.number === req.body.roomNumber);
-        room.roomNumbers[roomNumberIndex].unavailableDates.push(checkinDate, checkoutDate);
-        await room.save();
-    
-        return res.status(200).json({ msg: 'Room reservation created successfully!' });
-      } catch (err) {
-        console.error(err.message);
-        res.status(500).send('Server Error');
+  try {
+    const customer = await stripe.customers.create({
+      email: token.email,
+      source: token.id,
+    });
+
+    const payment = await stripe.charges.create(
+      {
+        amount: totalamount * 100,
+        customer: customer.id,
+        currency: "usd",
+        receipt_email: token.email,
+      },
+      {
+        idempotencyKey: uuidv4(),
       }
+    );
 
-}
+    if (payment) {
+      const newBooking = new Booking({
+        room,
+        roomnumber,
+        fromdate: moment(fromdate).format("DD-MM-YYYY"),
+        todate: moment(todate).format("DD-MM-YYYY"),
 
+        roomid,
+        totalamount,
 
+        userid,
+        transactionId: "1234",
+      });
 
-module.exports = { bookRoom}
+      const fromdateISO = moment(fromdate, "DD-MM-YYYY").toISOString();
+      const todateISO = moment(todate, "DD-MM-YYYY").toISOString();
+
+      const booking = await newBooking.save();
+
+      const roomtemp = await Room.findOneAndUpdate(
+        { _id: roomid, "roomNumbers.number": roomnumber },
+        {
+          $set: {
+            "roomNumbers.$.fromdate": fromdateISO,
+            "roomNumbers.$.todate": todateISO,
+            "roomNumbers.$.userId": userid,
+          },
+        },
+        { new: true }
+      );
+    }
+
+    res.send("Payment successfull, Your room is booked");
+  } catch (error) {
+    res.status(400).json({ error });
+  }
+};
+
+module.exports = { bookRoom };

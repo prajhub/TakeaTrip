@@ -6,6 +6,7 @@ import 'react-date-range/dist/theme/default.css';
 import { DateRange } from 'react-date-range';
 import {format} from 'date-fns'
 
+import moment from 'moment'
 import StaysImg from '../../assets/staysimg.jpg'
 
 import { FaBed } from 'react-icons/fa'
@@ -31,14 +32,19 @@ const Hero = () => {
         room: 1,
     })
 
+    
     const [date, setDate] = useState([
         {
           startDate: new Date(),
           endDate: new Date(),
           key: 'selection'
         }
+        
       ]);
+      console.log(date)
 
+      
+  
 
       const handleOption = (name, operation) => {
         setOptions(prev => {
@@ -55,7 +61,7 @@ const Hero = () => {
 
       
 
-        navigate('/hotels', {state: { destination, date, options }})
+        navigate('/hotels', {state: { destination, date, options, }})
 
       }
 

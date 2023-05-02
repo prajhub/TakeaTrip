@@ -1,13 +1,15 @@
 import React from 'react'
 import { useNavigate } from 'react-router';
 
-const SearchItem = ({item, min, max}) => {
+const SearchItem = ({item, min, max, startDate, endDate}) => {
+
+  console.log(startDate, endDate)
 
   const navigate = useNavigate()
 
   const handleSeeAvailabilityClick = () => {
 
-    navigate(`/accommodation/${item._id}`)
+    navigate(`/accommodation/${item._id}`, {state: {startDate, endDate}})
   }
 
 

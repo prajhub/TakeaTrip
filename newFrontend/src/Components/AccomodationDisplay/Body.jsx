@@ -11,7 +11,7 @@ import { RiMapPin2Line } from 'react-icons/ri'
 import { useParams } from 'react-router'
 import { useGetRoomsByAccommodationQuery } from '../../Features/api/apiSlice'
 import { useGetAccommodationByIdQuery } from '../../Features/api/apiSlice';
-
+import { useLocation } from 'react-router'
 
 import ReserveTable from './ReserveTable'
 import ReviewSection from './ReviewSection'
@@ -21,7 +21,12 @@ const Body = () => {
   const { id } = useParams()
 
 
-  
+
+  const location = useLocation()
+
+  const startDate = location.state.startDate
+  const endDate = location.state.endDate
+  console.log(startDate, endDate)
   
 
   const { data, isLoading, error} = useGetAccommodationByIdQuery(id, {
@@ -178,7 +183,7 @@ const Body = () => {
   </div>
 
 
-  <ReserveTable/>
+  <ReserveTable data={data} startDate={startDate} endDate={endDate}/>
   <ReviewSection/>
 
   </section>}

@@ -1,23 +1,30 @@
 const mongoose = require('mongoose');
 
 const roomBookingSchema = new mongoose.Schema({
-  user: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'users',
-    required: true
+  userid: {
+    type: String,
   },
   room: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'rooms',
-    required: true
+   type: String,
   },
-  checkinDate: {
-    type: Date,
-    required: true
+  roomnumber:{
+    type: String,
   },
-  checkoutDate: {
-    type: Date,
-    required: true
+  roomid:{
+    type: String,
+  },
+  fromdate:{
+    type: String
+  },
+  todate: {
+    type: String,
+  },
+  totalamount: {
+    type: Number,
+  }
+  ,
+  transactionId: {
+    type: String,
   }
 }, { timestamps: true });
 
