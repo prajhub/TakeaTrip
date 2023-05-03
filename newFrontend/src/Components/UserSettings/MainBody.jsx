@@ -4,7 +4,7 @@ import { MdEmail } from 'react-icons/md'
 import { useDispatch, useSelector } from 'react-redux'
 import { updateUser } from '../../Features/auth/updateAction'
 import PropertyDisplayTable from './PropertyDisplayTable'
-import Error from '../Reusables/Error'
+
 import {
   Modal,
   ModalOverlay,
