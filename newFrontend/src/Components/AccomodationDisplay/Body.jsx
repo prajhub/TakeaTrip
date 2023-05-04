@@ -34,7 +34,7 @@ const Body = () => {
   console.log(startDate, endDate);
 
   const { data, isLoading, error } = useGetAccommodationByIdQuery(id, {
-    pollingInterval: 14000,
+    pollingInterval: 2000,
   });
   console.log(data);
 

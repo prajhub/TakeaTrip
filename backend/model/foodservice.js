@@ -1,68 +1,64 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const FoodServiceSchema = new mongoose.Schema({
-
   foodservice: {
     type: Boolean,
     default: true,
-},
-
+  },
 
   name: {
     type: String,
-    required: true
+    required: true,
   },
   country: {
     type: String,
-    required: true
+    required: true,
   },
   city: {
     type: String,
-    required: true
+    required: true,
   },
   description: {
-    type: String
+    type: String,
   },
   owner: {
-    type: String
-},
-photos: [
-       String
-],
+    type: String,
+  },
+  zipcode: {
+    type: String,
+  },
+  photos: [String],
   address: {
     type: String,
-    
   },
-  reviews: [{
-    type: Number,
-    validate: {
-      validator: Number.isInteger,
-      message: 'Value is not an integer'
-    }
-  }],
+  reviews: [
+    {
+      type: Number,
+      validate: {
+        validator: Number.isInteger,
+        message: "Value is not an integer",
+      },
+    },
+  ],
   number: {
     type: String,
-    
   },
   website: {
-    type: String
+    type: String,
   },
   type: {
     type: String,
-    required: true
+    required: true,
   },
   cuisines: [String],
-  foods:[String],
-  features: [String], 
+  foods: [String],
+  features: [String],
   minPrice: {
     type: Number,
-    
   },
   maxPrice: {
     type: Number,
-    
   },
- 
 });
 
-module.exports = mongoose.model('foodservice', FoodServiceSchema);
+module.exports = mongoose.model("foodservice", FoodServiceSchema);

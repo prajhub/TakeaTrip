@@ -34,8 +34,12 @@ const SearchedBody = () => {
     setMax(value[1]);
   };
 
-  const { data, isLoading, isError, refetch } =
-    useGetServiceByLocationQuery(destination);
+  const { data, isLoading, isError, refetch } = useGetServiceByLocationQuery(
+    destination,
+    {
+      pollingInterval: 2000,
+    }
+  );
 
   console.log(data);
 
