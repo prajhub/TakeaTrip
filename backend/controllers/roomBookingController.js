@@ -1,5 +1,6 @@
 const Booking = require("../model/roomBooking");
 const Room = require("../model/room");
+const User = require("../model/user");
 const moment = require("moment");
 const { v4: uuidv4 } = require("uuid");
 const stripe = require("stripe")(
@@ -66,6 +67,9 @@ const bookRoom = async (req, res, next) => {
         },
         { new: true }
       );
+
+      // Update the user's hasBookedRoom field to true
+      await User.findByIdAndUpdate(userid, { hasBookedRoom: true });
     }
 
     res.send("Payment successfull, Your room is booked");

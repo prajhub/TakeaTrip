@@ -13,6 +13,7 @@ import UserProfileMain from "./Pages/UserSettings/MainPage";
 import "./App.css";
 import AdminRoute from "./Protection/AdminRoute";
 import UseRoute from "./Protection/UserRoute";
+import BookedRoomRoute from "./Protection/BookedRoomRoute";
 import StaysLandingPage from "./Pages/StaysLanding/StaysLandingPage";
 import Sucsacc from "./Components/InfoModals/Sucsacc";
 import StaysSearched from "./Pages/StaysSearched/StaysSearched";
@@ -28,6 +29,7 @@ import ServiceDisplay from "./Pages/ServiceDisplay/Service";
 import RoomBook from "./Pages/RoomBook/RoomBook";
 import ServiceLandingPage from "./Pages/ServiceLanding/ServiceLandingPage";
 import ServiceSearched from "./Pages/ServiceSearched/ServiceSearched";
+import Review from "./Pages/Reviews/Review";
 
 const queryClient = new QueryClient();
 
@@ -81,6 +83,9 @@ function App() {
                 />
                 <Route path="/service/:id" element={<ServiceDisplay />} />
                 <Route path="/account" element={<UserProfileMain />} />
+                <Route element={<BookedRoomRoute />}>
+                  <Route path="/review/:id" element={<Review />} />
+                </Route>
               </Route>
             </Routes>
           </div>

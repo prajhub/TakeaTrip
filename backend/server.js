@@ -49,6 +49,7 @@ app.use("/users", require("./routes/users"));
 app.use("/users/check-auth", require("./routes/users"));
 app.use("/roombookings", require("./routes/roomBooking"));
 app.use("/servicebookings", require("./routes/serviceBooking"));
+app.use("/review", require("./routes/review"));
 
 app.use((err, req, res, next) => {
   console.error(err.stack);

@@ -1,14 +1,14 @@
 import React, { useEffect, useState, useMemo } from "react";
 import { useLocation, useNavigate } from "react-router";
 import moment from "moment";
-import { useGetRoomByIdQuery } from "../../Features/api/apiSlice";
+import { useGetRoomDetailByIdQuery } from "../../Features/api/apiSlice";
 import { useParams } from "react-router";
 import { useSelector, useDispatch } from "react-redux";
-import { setClearSuccess } from "../../Features/roomControl/booking/bookInfoSlice";
-
+import { setCredentials } from "../../Features/auth/authSlice";
 import { bookRoom } from "../../Features/roomControl/booking/bookRoomAction";
 import StripeCheckout from "react-stripe-checkout";
 import Swal from "sweetalert2";
+import { useGetUserDetailsQuery } from "../../Features/api/apiSlice";
 import Spinner from "../Reusables/Spinner";
 
 const Body = () => {
@@ -16,21 +16,29 @@ const Body = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
+  const { data: userData } = useGetUserDetailsQuery("userDetails", {
+    pollingInterval: 2000,
+  });
+  useEffect(() => {
+    if (userData) {
+      dispatch(setCredentials(userData));
+    }
+  }, [userData]);
+
   //Getting accomodation data
   const accoData = location.state.accommodationData;
-  console.log(accoData);
 
   //Getting user ID
   const userid = useSelector((state) => state.auth.userInfo._id);
 
   const { id } = useParams();
-  const { data, isFetching, error } = useGetRoomByIdQuery(id, {
-    pollingInterval: 1000,
+  const { data, isFetching, error } = useGetRoomDetailByIdQuery(id, {
+    pollingInterval: 2000,
   });
+  console.log(data);
 
   //Getting the room data the first time
   const roomData = data?.[0];
-  console.log(roomData);
 
   //Getting the room numbers from the room
   const rooms = roomData?.roomNumbers ?? [];
@@ -90,11 +98,7 @@ const Body = () => {
     try {
       dispatch(bookRoom(bookingDetails));
 
-      Swal.fire("Congratulations", "Room booked successfully", "success").then(
-        () => {
-          window.location.reload(); // Reload the page
-        }
-      );
+      Swal.fire("Congratulations", "Room booked successfully", "success");
     } catch (error) {
       Swal.fire("Oh no", "Something went wrong", "error");
       console.log(error);

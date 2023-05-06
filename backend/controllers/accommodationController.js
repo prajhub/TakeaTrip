@@ -127,7 +127,7 @@ const getAccommodations = async (req, res, next) => {
 
     res.status(200).json(accommodations);
   } catch (error) {
-    next(err);
+    next(error);
   }
 };
 

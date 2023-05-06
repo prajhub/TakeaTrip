@@ -25,6 +25,8 @@ import updateAccoSlice from "../accommodations/updateAccoSlice";
 import bookInfoSlice from "../roomControl/booking/bookInfoSlice";
 import bookInfoSliceService from "../services/booking/bookInfoSlice";
 
+import reviewSlice from "../Review/reviewSlice";
+
 const persistConfig = {
   key: "root",
 
@@ -51,6 +53,8 @@ const rootReducer = combineReducers({
   //RoomBooking
   bookingInfo: bookInfoSlice,
   bookingInfoService: bookInfoSliceService,
+
+  reviewApiSlice: reviewSlice,
 
   [apiSlice.reducerPath]: apiSlice.reducer,
 });

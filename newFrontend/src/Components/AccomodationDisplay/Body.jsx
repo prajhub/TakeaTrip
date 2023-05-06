@@ -20,11 +20,13 @@ import { useParams } from "react-router";
 import { useGetRoomsByAccommodationQuery } from "../../Features/api/apiSlice";
 import { useGetAccommodationByIdQuery } from "../../Features/api/apiSlice";
 import { useLocation } from "react-router";
-
+import { useNavigate } from "react-router";
 import ReserveTable from "./ReserveTable";
 import ReviewSection from "./ReviewSection";
 
 const Body = () => {
+  const navigate = useNavigate();
+
   const { id } = useParams();
 
   const location = useLocation();
@@ -39,6 +41,11 @@ const Body = () => {
   console.log(data);
 
   const photos = data?.photos;
+  const accommodationId = data?._id;
+
+  const navigateToReview = () => {
+    navigate(`/review/${accommodationId}`);
+  };
 
   const [slideNumber, setSlideNumber] = useState(0);
   const [open, setOpen] = useState(false);
@@ -125,7 +132,10 @@ const Body = () => {
                   </span>{" "}
                   Email
                 </div>
-                <div className="flex flex-row items-center hover:underline gap-1">
+                <div
+                  onClick={navigateToReview}
+                  className="flex flex-row items-center hover:underline gap-1"
+                >
                   <span class="font-bold md:ml-20 ">
                     <BiPencil size={20} />
                   </span>{" "}

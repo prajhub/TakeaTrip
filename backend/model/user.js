@@ -1,70 +1,86 @@
-const mongoose = require('mongoose');
-const refreshToken = require('./refreshToken').schema;
+const mongoose = require("mongoose");
+const refreshToken = require("./refreshToken").schema;
 
-
-const UserSchema = new mongoose.Schema({
+const UserSchema = new mongoose.Schema(
+  {
     firstName: {
-        type: mongoose.SchemaTypes.String,
-        required: true,
-        min: 2,
-        max: 50,
+      type: mongoose.SchemaTypes.String,
+      required: true,
+      min: 2,
+      max: 50,
     },
     lastName: {
-        type: mongoose.SchemaTypes.String,
-        required: true,
-        min: 2,
-        max: 50,
+      type: mongoose.SchemaTypes.String,
+      required: true,
+      min: 2,
+      max: 50,
     },
     password: {
-        type: mongoose.SchemaTypes.String,
-        required: true,
-       
+      type: mongoose.SchemaTypes.String,
+      required: true,
     },
     email: {
-        type: mongoose.SchemaTypes.String,
-        required: true,
-        unique: true,
-        max: 50,
+      type: mongoose.SchemaTypes.String,
+      required: true,
+      unique: true,
+      max: 50,
     },
     country: {
-        type: mongoose.SchemaTypes.String,
-        // required: true
+      type: mongoose.SchemaTypes.String,
+      // required: true
     },
-    foodservices: [{
+    foodservices: [
+      {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'foodservice'
-    }],
+        ref: "foodservice",
+      },
+    ],
     isAdmin: {
-        type: Boolean,
-        default: false,
+      type: Boolean,
+      default: false,
     },
     roles: {
-        type: mongoose.SchemaTypes.String,
-        default: 'User'
+      type: mongoose.SchemaTypes.String,
+      default: "User",
     },
     isVerified: {
-        type: Boolean,
-        default: false,
-    }
-    ,
-    services: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Service'
-      }],
-     
-      properties: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'accommodation'
-    }],
-    
-   
-    followers: {
-        type: Array,
-        default: [],
+      type: Boolean,
+      default: false,
     },
+    services: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Service",
+      },
+    ],
+
+    properties: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "accommodation",
+      },
+    ],
+
     location: String,
     aboutMe: String,
-    
-}, {timestamps: true })
+    reviews: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Review",
+      },
+    ],
 
-module.exports = mongoose.model('users', UserSchema);
+    hasListedProperty: {
+      type: Boolean,
+      default: false,
+    },
+    hasBookedRoom: {
+      type: Boolean,
+      default: false,
+    },
+  },
+
+  { timestamps: true }
+);
+
+module.exports = mongoose.model("users", UserSchema);
