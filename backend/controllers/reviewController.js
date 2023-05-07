@@ -7,6 +7,7 @@ const createReview = async (req, res) => {
       req.body;
 
     const user = await User.findById(reviewerid);
+    console.log(user);
     if (!user.hasBookedRoom) {
       return res
         .status(400)

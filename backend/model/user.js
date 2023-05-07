@@ -47,6 +47,7 @@ const UserSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    photo: [String],
     services: [
       {
         type: mongoose.Schema.Types.ObjectId,

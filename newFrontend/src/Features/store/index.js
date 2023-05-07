@@ -29,7 +29,7 @@ import reviewSlice from "../Review/reviewSlice";
 
 const persistConfig = {
   key: "root",
-
+  blacklist: [apiSlice.reducerPath],
   storage,
 };
 

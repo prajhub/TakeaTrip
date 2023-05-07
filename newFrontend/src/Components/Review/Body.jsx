@@ -27,6 +27,13 @@ const Body = () => {
   } = form;
   const { errors } = formState;
 
+  const { data: userData } = useGetUserDetailsQuery("userDetails", {
+    pollingInterval: 15000,
+  });
+  console.log(userData);
+
+  const reviewerid = userData?._id;
+
   const handleRateChange = (value) => {
     const selectedRateString = value.toString();
     const selectedRateNumber = parseFloat(
@@ -34,24 +41,17 @@ const Body = () => {
     );
     console.log(selectedRateNumber);
     setValue("rating", selectedRateNumber);
+    setValue("reviewerid", reviewerid);
   };
-
-  const { data: userData } = useGetUserDetailsQuery("userDetails", {
-    pollingInterval: 10000,
-  });
-
-  const reviewerid = userData?.id;
 
   useEffect(() => {
     if (userData) {
       const name = userData.firstName + " " + userData.lastName;
       setValue("reviewerName", name);
-      setValue("reviewerid", reviewerid);
+
       setValue("businessId", businessId);
     }
   }, [userData]);
-
-  console.log(userData);
 
   const onSubmit = (formData) => {
     dispatch(postReview(formData));

@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { QueryClientProvider, QueryClient } from "react-query";
+
 import AdminDashboard from "./Pages/Admin/AdminDashboard";
 import UserCRUD from "./Pages/Admin/UserCRUD";
 import Homepage from "./Pages/LandingPage/Homepage";
@@ -31,66 +31,53 @@ import ServiceLandingPage from "./Pages/ServiceLanding/ServiceLandingPage";
 import ServiceSearched from "./Pages/ServiceSearched/ServiceSearched";
 import Review from "./Pages/Reviews/Review";
 
-const queryClient = new QueryClient();
-
 function App() {
   return (
     <>
-      <QueryClientProvider client={queryClient}>
-        <Router>
-          <div>
-            <Routes>
-              <Route path="/" element={<Homepage />} />
-              <Route path="/register" element={<SignUp />} />
+      <Router>
+        <div>
+          <Routes>
+            <Route path="/" element={<Homepage />} />
+            <Route path="/register" element={<SignUp />} />
+            <Route path="/users/:id/verify/:token" element={<EmailVerify />} />
+            <Route path="/login" element={<SignIn />} />
+            <Route path="/accreation" element={<Sucsacc />} />
+            <Route path="/explore" element={<Explore />} />
+            <Route element={<AdminRoute />}>
+              <Route path="/adashboard" element={<AdminDashboard />} />
+              <Route path="/adashboard/user" element={<UserCRUD />} />
+            </Route>
+            <Route element={<UseRoute />}>
+              <Route path="/addaccommodation" element={<AddAccommodation />} />
+              <Route path="/addlisting" element={<Landing />} />
+              <Route path="/listservice" element={<ListService />} />
+              <Route path="/listonboarding" element={<Onboarding />} />
+              <Route path="/attractions" element={<ThingsToDo />} />
+              <Route path="/stays" element={<StaysLandingPage />} />
+              <Route path="/service" element={<ServiceLandingPage />} />
               <Route
-                path="/users/:id/verify/:token"
-                element={<EmailVerify />}
+                path="/account/properties"
+                element={<MainPropertyDetails />}
               />
-              <Route path="/login" element={<SignIn />} />
-              <Route path="/accreation" element={<Sucsacc />} />
-              <Route path="/explore" element={<Explore />} />
-              <Route element={<AdminRoute />}>
-                <Route path="/adashboard" element={<AdminDashboard />} />
-                <Route path="/adashboard/user" element={<UserCRUD />} />
+              <Route path="/hotels" element={<StaysSearched />} />
+              <Route path="/services" element={<ServiceSearched />} />
+              <Route path="/listfoodservice" element={<FoodService />} />
+              <Route
+                path="/account/properties/:accommodationId/createRoom"
+                element={<CreateRoom />}
+              />
+              <Route path="/accommodation/:id" element={<Accommodation />} />
+              <Route path="/room/:id" element={<RoomBook />} />
+              <Route path="/foodservice/:id" element={<FoodServiceDisplay />} />
+              <Route path="/service/:id" element={<ServiceDisplay />} />
+              <Route path="/account" element={<UserProfileMain />} />
+              <Route element={<BookedRoomRoute />}>
+                <Route path="/review/:id" element={<Review />} />
               </Route>
-              <Route element={<UseRoute />}>
-                <Route
-                  path="/addaccommodation"
-                  element={<AddAccommodation />}
-                />
-                <Route path="/addlisting" element={<Landing />} />
-                <Route path="/listservice" element={<ListService />} />
-                <Route path="/listonboarding" element={<Onboarding />} />
-                <Route path="/attractions" element={<ThingsToDo />} />
-                <Route path="/stays" element={<StaysLandingPage />} />
-                <Route path="/service" element={<ServiceLandingPage />} />
-                <Route
-                  path="/account/properties"
-                  element={<MainPropertyDetails />}
-                />
-                <Route path="/hotels" element={<StaysSearched />} />
-                <Route path="/services" element={<ServiceSearched />} />
-                <Route path="/listfoodservice" element={<FoodService />} />
-                <Route
-                  path="/account/properties/:accommodationId/createRoom"
-                  element={<CreateRoom />}
-                />
-                <Route path="/accommodation/:id" element={<Accommodation />} />
-                <Route path="/room/:id" element={<RoomBook />} />
-                <Route
-                  path="/foodservice/:id"
-                  element={<FoodServiceDisplay />}
-                />
-                <Route path="/service/:id" element={<ServiceDisplay />} />
-                <Route path="/account" element={<UserProfileMain />} />
-                <Route element={<BookedRoomRoute />}>
-                  <Route path="/review/:id" element={<Review />} />
-                </Route>
-              </Route>
-            </Routes>
-          </div>
-        </Router>
-      </QueryClientProvider>
+            </Route>
+          </Routes>
+        </div>
+      </Router>
     </>
   );
 }

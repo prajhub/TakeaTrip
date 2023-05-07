@@ -244,7 +244,7 @@ const Body = () => {
           </div>
 
           <ReserveTable data={data} startDate={startDate} endDate={endDate} />
-          <ReviewSection />
+          <ReviewSection data={data} />
         </section>
       )}
     </>

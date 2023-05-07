@@ -3,7 +3,6 @@ const {
   getUser,
   getUsers,
   updateUser,
-  getUserProfile,
 } = require("../controllers/userController");
 
 const verify = require("../middleware/verifyJWT");
@@ -19,6 +18,8 @@ router.put("/update/:id", updateUser);
 
 //DELETE
 router.delete("/:id", deleteUser);
+
+// router.get("/:id", getUserById);
 
 //GET
 router.get("/profile", verify, getUser);

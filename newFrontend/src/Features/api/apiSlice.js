@@ -27,10 +27,6 @@ export const apiSlice = createApi({
         body: { ...credentials },
       }),
     }),
-    getUserDetails: builder.query({
-      query: () => "/users/profile",
-      transformErrorResponse: (response) => response.data,
-    }),
 
     getAccommodationsByCity: builder.query({
       query: (city) => `/accommodation?location=${city}`,
@@ -38,6 +34,24 @@ export const apiSlice = createApi({
     // new endpoint for getting accommodation by id
     getAccommodationById: builder.query({
       query: (id) => `/accommodation/${id}`,
+    }),
+    getReviewsById: builder.query({
+      query: (id) => `/review/user/${id}`,
+    }),
+
+    getUserDetails: builder.query({
+      query: () => "/users/profile",
+    }),
+    updateUser: builder.mutation({
+      query: ({ id, email, password, firstName, lastName, photo }) => ({
+        url: `/users/update/${id}`,
+        method: "PUT",
+        body: { email, password, firstName, lastName, photo },
+      }),
+    }),
+
+    getReviewsByBusiness: builder.query({
+      query: (id) => `/review/${id}`,
     }),
 
     getAccommodationByUserID: builder.query({
@@ -74,10 +88,6 @@ export const apiSlice = createApi({
     getServicebyId: builder.query({
       query: (id) => `/service/bservice/${id}`,
     }),
-
-    getReviewsByUserId: builder.query({
-      query: (id) => `/review/user/${id}`,
-    }),
   }),
 });
 
@@ -85,6 +95,9 @@ export const {
   useUserLoginMutation,
   useGetRoomDetailByIdQuery,
   useGetUserDetailsQuery,
+  useGetReviewsByIdQuery,
+  useUpdateUserMutation,
+  useGetReviewsByBusinessQuery,
   useGetRoomsByAccommodationQuery,
   useUpdateFoodServiceMutation,
   useGetAccommodationByIdQuery,
@@ -93,5 +106,4 @@ export const {
   useCreateRoomMutation,
   useGetServiceByLocationQuery,
   useGetServicebyIdQuery,
-  useGetReviewsByUserIdQuery,
 } = apiSlice;

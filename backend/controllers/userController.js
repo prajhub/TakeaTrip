@@ -2,11 +2,11 @@ const asyncHandler = require("express-async-handler");
 
 const User = require("../model/user");
 const { hashPassword } = require("../utils/helpers");
-const Token = require("../model/token");
-const { decodeJWT } = require("../utils/decodeJWT");
+
+const bcrypt = require("bcryptjs");
 
 const updateUser = asyncHandler(async (req, res) => {
-  const { email, password, firstName, lastName } = req.body;
+  const { email, password, firstName, lastName, photo } = req.body;
   const { id } = req.params;
 
   //Confirm data
@@ -39,6 +39,7 @@ const updateUser = asyncHandler(async (req, res) => {
   user.firstName = firstName;
   user.lastName = lastName;
   user.email = email;
+  user.photo = photo;
 
   const updatedUser = await user.save();
 
@@ -68,40 +69,53 @@ const deleteUser = asyncHandler(async (req, res) => {
 const getUser = async (req, res) => {
   const userId = req.user.userId;
 
-  if (userId) {
-    try {
-      const user = await User.findById(userId);
-      if (user) {
-        const {
-          _id,
-          email,
-          firstName,
-          lastName,
-          isVerified,
-          hasBookedRoom,
-          hasListedProperty,
-        } = user;
-        res.json({
-          id: _id,
-          email,
-          firstName,
-          lastName,
-          isVerified,
-          hasBookedRoom,
-          hasListedProperty,
-        });
-      } else {
-        res.status(404).json({ message: "User not found" });
-      }
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ message: "Server error" });
+  try {
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
     }
-  } else {
-    res.status(401).json({ message: "You are not authenticated" });
+
+    const userDetails = {
+      _id: user._id,
+      email: user.email,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      isVerified: user.isVerified,
+      hasBookedRoom: user.hasBookedRoom,
+      hasListedProperty: user.hasListedProperty,
+      photo: user.photo,
+    };
+    return res.json(userDetails);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: "Server error" });
   }
 };
 
+const getUserById = async (req, res) => {
+  const userId = req.params.id;
+
+  try {
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    const userDetails = {
+      _id: user._id,
+      email: user.email,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      isVerified: user.isVerified,
+      hasBookedRoom: user.hasBookedRoom,
+      hasListedProperty: user.hasListedProperty,
+    };
+    return res.json(userDetails);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: "Server error" });
+  }
+};
 const getUsers = asyncHandler(async (req, res) => {
   const users = await User.find().select("-password").lean();
   if (!users) {
@@ -111,40 +125,11 @@ const getUsers = asyncHandler(async (req, res) => {
   res.json(users);
 });
 
-const getUserProfile = asyncHandler(async (req, res) => {
-  const userId = req.user.userId;
-  if (userId) {
-    try {
-      const user = await User.findById(userId);
-      if (user) {
-        const {
-          _id,
-          email,
-          firstName,
-          lastName,
-          hasBookedRoom,
-          hasListedProperty,
-          isVerified,
-        } = user;
-        res.json({
-          id: _id,
-          email,
-          firstName,
-          lastName,
-          hasBookedRoom,
-          hasListedProperty,
-          isVerified,
-        });
-      } else {
-        res.status(404).json({ message: "User not found" });
-      }
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ message: "Server error" });
-    }
-  } else {
-    res.status(401).json({ message: "You are not authenticated" });
-  }
-});
+module.exports = {
+  updateUser,
+  deleteUser,
+  getUser,
+  getUsers,
 
-module.exports = { updateUser, deleteUser, getUser, getUsers, getUserProfile };
+  getUserById,
+};
