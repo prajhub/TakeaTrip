@@ -79,6 +79,11 @@ const UserSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+
+    //For reset password
+    verifytoken: {
+      type: String,
+    },
   },
 
   { timestamps: true }

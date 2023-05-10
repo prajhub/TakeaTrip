@@ -30,6 +30,8 @@ import RoomBook from "./Pages/RoomBook/RoomBook";
 import ServiceLandingPage from "./Pages/ServiceLanding/ServiceLandingPage";
 import ServiceSearched from "./Pages/ServiceSearched/ServiceSearched";
 import Review from "./Pages/Reviews/Review";
+import PasswordReset from "./Pages/UserSettings/PasswordReset";
+import NewPassword from "./Pages/UserSettings/NewPassword";
 
 function App() {
   return (
@@ -40,6 +42,10 @@ function App() {
             <Route path="/" element={<Homepage />} />
             <Route path="/register" element={<SignUp />} />
             <Route path="/users/:id/verify/:token" element={<EmailVerify />} />
+            <Route
+              path="/passwordreset/:id/user/:token"
+              element={<NewPassword />}
+            />
             <Route path="/login" element={<SignIn />} />
             <Route path="/accreation" element={<Sucsacc />} />
             <Route path="/explore" element={<Explore />} />
@@ -59,6 +65,8 @@ function App() {
                 path="/account/properties"
                 element={<MainPropertyDetails />}
               />
+              <Route path="/forgotpassword" element={<PasswordReset />} />
+
               <Route path="/hotels" element={<StaysSearched />} />
               <Route path="/services" element={<ServiceSearched />} />
               <Route path="/listfoodservice" element={<FoodService />} />

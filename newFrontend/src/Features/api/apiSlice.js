@@ -88,6 +88,22 @@ export const apiSlice = createApi({
     getServicebyId: builder.query({
       query: (id) => `/service/bservice/${id}`,
     }),
+
+    forgotpassword: builder.mutation({
+      query: (data) => ({
+        url: "/users/sendpasswordlink",
+        method: "POST",
+        body: data,
+      }),
+    }),
+
+    updatePassword: builder.mutation({
+      query: ({ id, token, data }) => ({
+        url: `/users/${id}/${token}`,
+        method: "POST",
+        body: data,
+      }),
+    }),
   }),
 });
 
@@ -106,4 +122,6 @@ export const {
   useCreateRoomMutation,
   useGetServiceByLocationQuery,
   useGetServicebyIdQuery,
+  useForgotpasswordMutation,
+  useUpdatePasswordMutation,
 } = apiSlice;
