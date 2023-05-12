@@ -166,6 +166,26 @@ router.post(`/:id/:token`, async (req, res) => {
   }
 });
 
+router.put("/ban-user", async (req, res) => {
+  const { userId } = req.body;
+
+  try {
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    user.isBanned = true;
+    await user.save();
+
+    res.json({ message: "User banned successfully" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
 //User Profile
 // router.get("/profile", verify,  getUserProfile)
 

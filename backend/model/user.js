@@ -84,6 +84,10 @@ const UserSchema = new mongoose.Schema(
     verifytoken: {
       type: String,
     },
+    isBanned: {
+      type: Boolean,
+      default: false,
+    },
   },
 
   { timestamps: true }

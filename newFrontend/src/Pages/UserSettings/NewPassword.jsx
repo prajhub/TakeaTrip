@@ -1,10 +1,12 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Header from "../../Components/Reusables/header";
 import { useForm } from "react-hook-form";
 import { DevTool } from "@hookform/devtools";
 import { useParams } from "react-router";
+import { useNavigate } from "react-router";
 import { useDispatch } from "react-redux";
 import { useUpdatePasswordMutation } from "../../Features/api/apiSlice";
+import { handleSuccess } from "../../Components/Reusables/SuccessMessage";
 
 const NewPassword = () => {
   const form = useForm();
@@ -18,6 +20,11 @@ const NewPassword = () => {
     getValues,
   } = form;
   const { errors } = formState;
+
+  const navigate = useNavigate();
+
+  const [success, setSuccess] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
 
   const dispatch = useDispatch();
   const { id, token } = useParams();
@@ -48,8 +55,26 @@ const NewPassword = () => {
   }, []);
 
   const onSubmit = async (data) => {
-    dispatch(updatePassword({ id, token, data }));
+    try {
+      const response = updatePassword({ id, token, data }).unwrap();
+      console.log(response);
+      setShowSuccess(true);
+      setSuccess(true);
+    } catch (error) {
+      console.log(error);
+    }
   };
+
+  const successMessage = "Password changed succesfully";
+
+  useEffect(() => {
+    if (showSuccess) {
+      handleSuccess(success, successMessage);
+      setTimeout(() => {
+        navigate("/login");
+      }, 2000);
+    }
+  }, [showSuccess]);
 
   return (
     <>

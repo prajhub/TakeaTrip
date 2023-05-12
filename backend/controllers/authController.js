@@ -27,26 +27,21 @@ const login = asynchHandler(async (req, res) => {
     const check = comparePassword(password, sameUser.password);
 
     if (!check) return res.status(401).json({ message: "Invalid Password" });
-
-    if (!sameUser.isVerified) {
+    if (sameUser.roles !== "Admin" && !sameUser.isVerified) {
       let token = await Token.findOne({ userId: sameUser._id });
       if (!token) {
         const token = await new Token({
-          userId: newUser._id,
+          userId: sameUser._id,
           token: crypto.randomBytes(32).toString("hex"),
         }).save();
 
-        const url = `${process.env.BASE_URL}users/${newUser._id}/verify/${token.token}`;
-        await sendEmail(newUser.email, "Verify Email", url);
+        const url = `${process.env.BASE_URL}users/${sameUser._id}/verify/${token.token}`;
+        await sendEmail(sameUser.email, "Verify Email", url);
       }
-      return res
-        .status(400)
-        .send({
-          message:
-            "A mail is sent to your email, please verify youre accccount",
-        });
+      return res.status(400).send({
+        message: "A mail is sent to your email, please verify your account",
+      });
     }
-
     //Generate the accessToken
     const accessToken = jwt.sign(
       {
@@ -58,24 +53,6 @@ const login = asynchHandler(async (req, res) => {
       { expiresIn: "7d" }
     );
 
-    //Generate the refresh token
-    const refreshToken = jwt.sign(
-      {
-        userId: sameUser._id,
-        roles: sameUser.roles,
-      },
-      process.env.REFRESH_TOKEN_SECRET,
-      { expiresIn: "7d" }
-    );
-
-    //Create a secure cookie with refresh token  //in future: When react sends the request to the refresh endpoint, this cookie is sent along
-    res.cookie("jwt", refreshToken, {
-      httpOnly: true,
-
-      sameSite: "None",
-      maxAge: 7 * 24 * 60 * 60 * 1000,
-    });
-
     //Send ok status
 
     res.json({
@@ -86,7 +63,7 @@ const login = asynchHandler(async (req, res) => {
       verfied: sameUser.isVerified,
     });
   } catch (error) {
-    res.sendStatus(400).json(error);
+    res.status(400).json({ error: error.message });
   }
 });
 

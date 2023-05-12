@@ -1,19 +1,18 @@
-import React from 'react'
-import Body from '../../Components/AdminComponents/Body'
-import Header from '../../Components/Reusables/header'
-import SideBar from '../../Components/AdminComponents/SideBar'
-
+import React from "react";
+import { useLocation } from "react-router";
+import Header from "../../Components/Reusables/SimpleHeader";
+import SideBar from "../../Components/AdminComponents/Sidebar";
+import MainBody from "../../Components/AdminComponents/MainBody";
 
 const AdminDashboard = () => {
+  const location = useLocation();
   return (
     <>
-        <Header/>
-       
-        <SideBar/>
-        <Body/>
-    
+      <Header />
+      <SideBar />
+      <MainBody />
     </>
-  )
-}
+  );
+};
 
-export default AdminDashboard
+export default AdminDashboard;

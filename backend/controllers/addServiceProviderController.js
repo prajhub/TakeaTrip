@@ -98,6 +98,16 @@ const getService = async (req, res) => {
   }
 };
 
+const getServices = async (req, res) => {
+  try {
+    const services = await Service.find();
+    res.status(200).json(services);
+  } catch (error) {
+    res.status(500).json(error);
+    console.log(error);
+  }
+};
+
 const getServiceByLocation = async (req, res, next) => {
   const { location } = req.query;
   try {
@@ -118,6 +128,7 @@ const getServiceByLocation = async (req, res, next) => {
 module.exports = {
   addServiceProvider,
   updateService,
+  getServices,
   getService,
   getServiceByLocation,
 };

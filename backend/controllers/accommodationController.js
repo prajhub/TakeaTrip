@@ -114,6 +114,16 @@ const getAccommodation = async (req, res) => {
   }
 };
 
+const getAllAccommodation = async (req, res) => {
+  try {
+    const hotel = await Accommodation.find();
+    res.status(200).json(hotel);
+  } catch (error) {
+    res.status(500).json(error);
+    console.log(error);
+  }
+};
+
 const getAccommodations = async (req, res, next) => {
   const { location } = req.query;
   try {
@@ -175,6 +185,7 @@ module.exports = {
   getAccommodationRooms,
   updateHotel,
   deleteHotel,
+  getAllAccommodation,
   getAccommodation,
   getAccommodations,
   getHotelsByLocation,

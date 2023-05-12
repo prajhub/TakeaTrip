@@ -4,6 +4,7 @@ const {
   updateService,
   getService,
   getServiceByLocation,
+  getServices,
 } = require("../controllers/addServiceProviderController");
 const verifyJWT = require("../middleware/verifyJWT");
 
@@ -19,5 +20,7 @@ router.get("/bservice/:id", getService);
 
 //GET
 router.get("/", getServiceByLocation);
+
+router.get("/all/services", getServices);
 
 module.exports = router;

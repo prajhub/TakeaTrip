@@ -117,7 +117,9 @@ const getUserById = async (req, res) => {
   }
 };
 const getUsers = asyncHandler(async (req, res) => {
-  const users = await User.find().select("-password").lean();
+  const users = await User.find({ isBanned: { $ne: true } })
+    .select("-password")
+    .lean();
   if (!users) {
     return res.status(400).json({ message: "No user " });
   }

@@ -104,6 +104,16 @@ export const apiSlice = createApi({
         body: data,
       }),
     }),
+
+    getAllAccommodations: builder.query({
+      query: () => "/accommodation/all/accommodation",
+    }),
+    getAllServices: builder.query({
+      query: () => "/service/all/services",
+    }),
+    getAllFoodService: builder.query({
+      query: () => "/foodservice",
+    }),
   }),
 });
 
@@ -112,10 +122,13 @@ export const {
   useGetRoomDetailByIdQuery,
   useGetUserDetailsQuery,
   useGetReviewsByIdQuery,
+  useGetAllAccommodationsQuery,
+  useGetAllFoodServiceQuery,
   useUpdateUserMutation,
   useGetReviewsByBusinessQuery,
   useGetRoomsByAccommodationQuery,
   useUpdateFoodServiceMutation,
+  useGetAllServicesQuery,
   useGetAccommodationByIdQuery,
   useGetAccommodationByUserIDQuery,
   useGetAccommodationsByCityQuery,

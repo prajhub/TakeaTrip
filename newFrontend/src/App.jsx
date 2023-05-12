@@ -1,7 +1,10 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import AdminDashboard from "./Pages/Admin/AdminDashboard";
-import UserCRUD from "./Pages/Admin/UserCRUD";
+import UserCRUD from "./Components/AdminComponents/UserCRUD";
+import Accommodations from "./Components/AdminComponents/Accommodations";
+import FoodServices from "./Components/AdminComponents/FoodServices";
+import Services from "./Components/AdminComponents/Services";
 import Homepage from "./Pages/LandingPage/Homepage";
 import SignUp from "./Pages/UserAuthentication/SignUp";
 import Onboarding from "./Pages/ListService/Onboarding/Onboarding";
@@ -46,12 +49,22 @@ function App() {
               path="/passwordreset/:id/user/:token"
               element={<NewPassword />}
             />
+            <Route path="/forgotpassword" element={<PasswordReset />} />
             <Route path="/login" element={<SignIn />} />
             <Route path="/accreation" element={<Sucsacc />} />
             <Route path="/explore" element={<Explore />} />
             <Route element={<AdminRoute />}>
               <Route path="/adashboard" element={<AdminDashboard />} />
               <Route path="/adashboard/user" element={<UserCRUD />} />
+              <Route
+                path="/adashboard/accommodations"
+                element={<Accommodations />}
+              />
+              <Route path="/adashboard/services" element={<Services />} />
+              <Route
+                path="/adashboard/foodservices"
+                element={<FoodServices />}
+              />
             </Route>
             <Route element={<UseRoute />}>
               <Route path="/addaccommodation" element={<AddAccommodation />} />
@@ -65,7 +78,6 @@ function App() {
                 path="/account/properties"
                 element={<MainPropertyDetails />}
               />
-              <Route path="/forgotpassword" element={<PasswordReset />} />
 
               <Route path="/hotels" element={<StaysSearched />} />
               <Route path="/services" element={<ServiceSearched />} />
