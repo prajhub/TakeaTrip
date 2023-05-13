@@ -1,17 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { Table, Modal } from "antd";
 import { AiOutlineArrowLeft } from "react-icons/ai";
-import { useBanUserMutation } from "../../Features/users/usersApiSlice";
+import { useNavigate } from "react-router-dom";
 import { useGetAllServicesQuery } from "../../Features/api/apiSlice";
 import { Link } from "react-router-dom";
-const Services = () => {
-  const [banUser, { isLoading }] = useBanUserMutation();
 
+const Services = () => {
+  const navigate = useNavigate();
   const { data: serviceList } = useGetAllServicesQuery("serviceList", {
     pollingInterval: 1000,
   });
-  const [selectedUser, setSelectedUser] = useState(null);
-  const [modalVisible, setModalVisible] = useState(false);
 
   console.log(serviceList);
 
@@ -23,19 +21,8 @@ const Services = () => {
     address: service.address,
   }));
 
-  const handleEditClick = (user) => {
-    setSelectedUser(user);
-    setModalVisible(true);
-  };
-
-  const handleBanUser = () => {
-    console.log(selectedUser.key);
-    try {
-      const response = banUser({ userId: selectedUser.key }).unwrap();
-      console.log(response);
-    } catch (error) {
-      console.log(error);
-    }
+  const handleNavigateProperty = (service) => {
+    navigate(`/adashboard/user/properties/${service.key}`);
   };
 
   const columns = [
@@ -62,14 +49,13 @@ const Services = () => {
     {
       title: "Action",
       key: "action",
-      render: (_, user) => (
+      render: (_, service) => (
         <span>
-          <a>Edit</a> |{" "}
           <a
-            onClick={() => handleEditClick(user)}
-            className=" hover:text-[red]"
+            className="hover:text-primary-700"
+            onClick={() => handleNavigateProperty(service)}
           >
-            Ban
+            View
           </a>
         </span>
       ),
@@ -87,24 +73,6 @@ const Services = () => {
             </div>
           </Link>
           <Table dataSource={dataSource} columns={columns} />
-          <Modal
-            visible={modalVisible}
-            onCancel={() => setModalVisible(false)}
-            okText="Ban"
-            onOk={handleBanUser}
-            okButtonProps={{ className: "bg-primary-500 hover:bg-primary-400" }}
-          >
-            <h1 className="text-2xl font-semibold">
-              Do you want to ban the user?
-            </h1>
-            <div className="mt-4">
-              <p>User ID: {selectedUser?.key}</p>
-              <p>Name: {selectedUser?.name}</p>
-              <p>Verified: {selectedUser?.verified}</p>
-              <p>Email: {selectedUser?.email}</p>
-              <p>Role: {selectedUser?.role}</p>
-            </div>
-          </Modal>
         </div>
       </div>
     </>

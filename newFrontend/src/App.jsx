@@ -11,6 +11,7 @@ import Onboarding from "./Pages/ListService/Onboarding/Onboarding";
 import SignIn from "./Pages/UserAuthentication/SignIn";
 import Landing from "./Pages/ListPlace.jsx/landing";
 import Explore from "./Pages/LocationDisplay/Country/Explore";
+import Property from "./Pages/Admin/Property";
 import AddAccommodation from "./Pages/AddAcccommodation/AddAccommodation";
 import UserProfileMain from "./Pages/UserSettings/MainPage";
 import "./App.css";
@@ -35,6 +36,8 @@ import ServiceSearched from "./Pages/ServiceSearched/ServiceSearched";
 import Review from "./Pages/Reviews/Review";
 import PasswordReset from "./Pages/UserSettings/PasswordReset";
 import NewPassword from "./Pages/UserSettings/NewPassword";
+import FoodLandingPage from "./Pages/FoodServiceLanding/FoodLandingPage";
+import FoodServiceSearched from "./Pages/FoodServiceSearched/FoodServiceSearched";
 
 function App() {
   return (
@@ -65,6 +68,10 @@ function App() {
                 path="/adashboard/foodservices"
                 element={<FoodServices />}
               />
+              <Route
+                path="/adashboard/user/properties/:id"
+                element={<Property />}
+              />
             </Route>
             <Route element={<UseRoute />}>
               <Route path="/addaccommodation" element={<AddAccommodation />} />
@@ -74,6 +81,7 @@ function App() {
               <Route path="/attractions" element={<ThingsToDo />} />
               <Route path="/stays" element={<StaysLandingPage />} />
               <Route path="/service" element={<ServiceLandingPage />} />
+              <Route path="/eats" element={<FoodLandingPage />} />
               <Route
                 path="/account/properties"
                 element={<MainPropertyDetails />}
@@ -81,6 +89,7 @@ function App() {
 
               <Route path="/hotels" element={<StaysSearched />} />
               <Route path="/services" element={<ServiceSearched />} />
+              <Route path="/foodservices" element={<FoodServiceSearched />} />
               <Route path="/listfoodservice" element={<FoodService />} />
               <Route
                 path="/account/properties/:accommodationId/createRoom"

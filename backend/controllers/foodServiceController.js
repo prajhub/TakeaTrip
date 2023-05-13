@@ -96,6 +96,23 @@ const getFoodServices = async (req, res) => {
   }
 };
 
+const getFoodServiceByLocation = async (req, res, next) => {
+  const { location } = req.query;
+  try {
+    const foodservice = await FoodService.find({
+      $or: [{ city: location }, { country: location }],
+    });
+
+    if (!foodservice.length) {
+      return res.status(404).json("No service found");
+    }
+
+    res.status(200).json(foodservice);
+  } catch (error) {
+    next(err);
+  }
+};
+
 const deleteFoodService = async (req, res) => {
   try {
     await FoodService.findByIdAndDelete(req.params.id);
@@ -111,5 +128,6 @@ module.exports = {
   updateFoodService,
   getFoodService,
   deleteFoodService,
+  getFoodServiceByLocation,
   getFoodServices,
 };

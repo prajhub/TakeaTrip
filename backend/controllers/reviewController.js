@@ -34,6 +34,34 @@ const createReview = async (req, res) => {
   }
 };
 
+const createReviewFoodService = async (req, res) => {
+  try {
+    const { reviewerName, reviewerid, rating, description, businessId } =
+      req.body;
+
+    const user = await User.findById(reviewerid);
+    console.log(user);
+
+    const review = new Review({
+      reviewerName,
+      rating,
+      reviewerid,
+      description,
+      business: businessId,
+    });
+
+    const savedReview = await review.save();
+
+    user.reviews.push(savedReview._id);
+    await user.save();
+
+    res.status(201).json(savedReview);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Server error");
+  }
+};
+
 const getReviewsByUserId = async (req, res) => {
   try {
     const userId = req.params.id; // Assuming the user ID is provided in the request params
@@ -115,4 +143,5 @@ module.exports = {
   getReviewsByBusiness,
   getReviewsByUserId,
   updateReview,
+  createReviewFoodService,
 };

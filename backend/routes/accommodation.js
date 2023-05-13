@@ -7,6 +7,7 @@ const {
   getAccommodation,
   getAccommodationRooms,
   getAccommodations,
+  getPropertyById,
   getHotelsByLocation,
 } = require("../controllers/accommodationController");
 const verifyJWT = require("../middleware/verifyJWT");
@@ -41,5 +42,7 @@ router.get("/accomodationrooms/:id", getAccommodationRooms);
 
 //Get hotels by the Location
 router.get("/location/:locationId", getHotelsByLocation);
+
+router.get("/property/:id", getPropertyById);
 
 module.exports = router;

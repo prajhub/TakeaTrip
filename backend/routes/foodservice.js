@@ -1,26 +1,32 @@
-const express = require('express');
+const express = require("express");
 
-const { createNewFoodService, updateFoodService, getFoodServices, getFoodService, deleteFoodService } = require('../controllers/foodServiceController')
-const verifyJWT = require('../middleware/verifyJWT')
+const {
+  createNewFoodService,
+  updateFoodService,
+  getFoodServices,
+  getFoodService,
+  deleteFoodService,
+  getFoodServiceByLocation,
+} = require("../controllers/foodServiceController");
+const verifyJWT = require("../middleware/verifyJWT");
 
-
-const router = express.Router()
+const router = express.Router();
 
 //CREATE
-router.post('/', verifyJWT, createNewFoodService)
-
+router.post("/", verifyJWT, createNewFoodService);
 
 //UPDATE
-router.put("/:id",  updateFoodService)
+router.put("/:id", updateFoodService);
 
 //Get ALL
-router.get('/', getFoodServices)
+router.get("/all", getFoodServices);
+
+router.get("/", getFoodServiceByLocation);
 
 //Get one
-router.get('/service/:id', getFoodService)
+router.get("/service/:id", getFoodService);
 
 //DELETE
-router.delete("/:id",  deleteFoodService)
-
+router.delete("/:id", deleteFoodService);
 
 module.exports = router;

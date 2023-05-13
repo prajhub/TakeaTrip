@@ -22,6 +22,8 @@ const UpdateService = ({ details, onClose }) => {
     },
   });
 
+  const [isTouched, setIsTouched] = useState(false);
+
   useEffect(() => {
     setValue("packages", details.packages || [{}]);
   }, [details.packages, setValue]);
@@ -134,6 +136,7 @@ const UpdateService = ({ details, onClose }) => {
                 type="text"
                 {...register("name")}
                 id="name"
+                onBlur={() => setIsTouched(true)}
                 defaultValue={details?.name}
                 className="bg-gray-50 mb-2 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5  "
               />
@@ -144,6 +147,7 @@ const UpdateService = ({ details, onClose }) => {
               </label>
               <input
                 type="tel"
+                onBlur={() => setIsTouched(true)}
                 required
                 {...register("phoneNum", {
                   required: "Phone number is required",
@@ -167,6 +171,7 @@ const UpdateService = ({ details, onClose }) => {
               <input
                 type="text"
                 {...register("address")}
+                onBlur={() => setIsTouched(true)}
                 id="address"
                 defaultValue={details?.address}
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 "
@@ -183,6 +188,7 @@ const UpdateService = ({ details, onClose }) => {
                 <div className="flex flex-col">
                   <input
                     type="text"
+                    onBlur={() => setIsTouched(true)}
                     {...register("website", {
                       required: "Website is required",
                       pattern: {
@@ -210,7 +216,7 @@ const UpdateService = ({ details, onClose }) => {
                 {...register("description")}
                 id="description"
                 rows="5"
-                defaultValue={details?.description}
+                onBlur={() => setIsTouched(true)}
                 type="text"
                 className="block p-5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500  "
                 placeholder="Write a description..."
@@ -224,6 +230,7 @@ const UpdateService = ({ details, onClose }) => {
                 <div className="text-center">
                   <input
                     type="file"
+                    onBlur={() => setIsTouched(true)}
                     name="file-upload"
                     className="mb-5"
                     multiple
@@ -312,8 +319,12 @@ const UpdateService = ({ details, onClose }) => {
           </div>
           <button
             type="submit"
-            disabled={!isDirty}
-            className="py-2.5 px-5 mr-2 mb-2 text-sm font-medium text-white focus:outline-none bg-primary-600 rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700"
+            disabled={!isTouched}
+            className={`text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 mt-5 mr-2 mb-2 ${
+              !isTouched
+                ? "bg-gray-400 cursor-not-allowed pointer-events-none"
+                : ""
+            }`}
           >
             Submit
           </button>

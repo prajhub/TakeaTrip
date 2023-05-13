@@ -14,6 +14,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { updateAccomodation } from "../../../Features/accommodations/updateAccoAction";
 
 const EditPropery = ({ selectedProperty, onClose }) => {
+  const [isTouched, setIsTouched] = useState(false);
   //React-hook-form
   const form = useForm();
   const { register, control, setValue, handleSubmit, watch, getValues } = form;
@@ -74,6 +75,7 @@ const EditPropery = ({ selectedProperty, onClose }) => {
   const handleButtonClick = (event) => {
     const answer = event.target.value === "yes";
     setHasFrontDesk(answer);
+    setIsTouched(true);
     setValue("frontDesk", answer);
   };
 
@@ -83,6 +85,7 @@ const EditPropery = ({ selectedProperty, onClose }) => {
   const handleSelfClick = (event) => {
     const answer = event.target.value === "yes";
     setHasSelfCheckIn(answer);
+    setIsTouched(true);
     setValue("selfCheckIn", answer);
   };
 
@@ -102,6 +105,7 @@ const EditPropery = ({ selectedProperty, onClose }) => {
 
   const handleCheckInFromChange = (event) => {
     setCheckInFrom(event.target.value);
+    setIsTouched(true);
 
     setValue("checkinTime", [newFromValue, checkInTo]);
   };
@@ -134,6 +138,7 @@ const EditPropery = ({ selectedProperty, onClose }) => {
 
   const handleCheckoutChange = (e) => {
     setCheckoutTime(e.target.value);
+    setIsTouched(true);
     setValue("checkoutTime", e.target.value);
   };
 
@@ -145,6 +150,7 @@ const EditPropery = ({ selectedProperty, onClose }) => {
     const answer = event.target.value === "yes";
     setOffersBreakfast(answer);
     setValue("breakfast", answer);
+    setIsTouched(true);
   };
 
   //Spas
@@ -154,6 +160,7 @@ const EditPropery = ({ selectedProperty, onClose }) => {
     const answer = event.target.value === "yes";
     setHasSpa(answer);
     setValue("spa", answer);
+    setIsTouched(true);
   };
 
   //Pets
@@ -163,6 +170,7 @@ const EditPropery = ({ selectedProperty, onClose }) => {
     const answer = event.target.value === "yes";
     setAllowsPet(answer);
     setValue("pets", answer);
+    setIsTouched(true);
   };
 
   //Recreation
@@ -171,6 +179,7 @@ const EditPropery = ({ selectedProperty, onClose }) => {
   const handleRecClick = (event) => {
     const answer = event.target.value === "yes";
     setRecreation(answer);
+    setIsTouched(true);
     setValue("outdoor", answer);
   };
 
@@ -644,7 +653,10 @@ const EditPropery = ({ selectedProperty, onClose }) => {
                       value={amenity.name}
                       {...register("amenities")}
                       className="form-checkbox h-5 w-5 text-primary-600"
-                      onChange={handleAmenityChange}
+                      onChange={(event) => {
+                        handleAmenityChange(event);
+                        setIsTouched(true);
+                      }}
                       checked={amenities.includes(amenity.name)}
                     />
                     <span className="ml-2 text-gray-700">{amenity.name}</span>
@@ -661,6 +673,7 @@ const EditPropery = ({ selectedProperty, onClose }) => {
                   name="file-upload"
                   className="mb-5"
                   multiple
+                  onBlur={() => setIsTouched(true)}
                   onChange={handleImage}
                 />
                 <div className="flex flex-row gap-4 flex-wrap">
@@ -685,7 +698,14 @@ const EditPropery = ({ selectedProperty, onClose }) => {
               </div>
             </div>
           </div>
-          <button className="text-white  bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 mt-5 mr-2 mb-2">
+          <button
+            disabled={!isTouched}
+            className={`text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 mt-5 mr-2 mb-2 ${
+              !isTouched
+                ? "bg-gray-400 cursor-not-allowed pointer-events-none"
+                : ""
+            }`}
+          >
             Update
           </button>
         </form>

@@ -1,9 +1,8 @@
 const Accommodation = require("../model/accommodation");
-const Country = require("../model/country");
+const FoodService = require("../model/foodservice");
 const User = require("../model/user");
 const Rooms = require("../model/room");
-const City = require("../model/city");
-const cloudinary = require("../utils/cloudinary");
+const Service = require("../model/Service");
 
 const createAccommodation = async (req, res) => {
   const {
@@ -180,6 +179,35 @@ const getHotelsByLocation = async (req, res) => {
   }
 };
 
+const getPropertyById = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    // Query the Accommodation model
+    const accommodation = await Accommodation.findById(id);
+
+    // Query the FoodService model
+    const foodService = await FoodService.findById(id);
+
+    // Query the Service model
+    const service = await Service.findById(id);
+
+    // Check if any of the models found a property with the given ID
+    if (accommodation) {
+      return res.json(accommodation);
+    } else if (foodService) {
+      return res.json(foodService);
+    } else if (service) {
+      return res.json(service);
+    } else {
+      return res.status(404).json({ error: "Property not found" });
+    }
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: "Server error" });
+  }
+};
+
 module.exports = {
   createAccommodation,
   getAccommodationRooms,
@@ -187,6 +215,7 @@ module.exports = {
   deleteHotel,
   getAllAccommodation,
   getAccommodation,
+  getPropertyById,
   getAccommodations,
   getHotelsByLocation,
 };

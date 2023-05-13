@@ -108,11 +108,22 @@ export const apiSlice = createApi({
     getAllAccommodations: builder.query({
       query: () => "/accommodation/all/accommodation",
     }),
+    getPropertyById: builder.query({
+      query: (id) => `/accommodation/property/${id}`,
+    }),
     getAllServices: builder.query({
       query: () => "/service/all/services",
     }),
     getAllFoodService: builder.query({
       query: () => "/foodservice",
+    }),
+
+    getFoodServiceByLocation: builder.query({
+      query: (loc) => `/foodservice?location=${loc}`,
+    }),
+
+    getFoodServicebyId: builder.query({
+      query: (id) => `/foodservice/service/${id}`,
     }),
   }),
 });
@@ -135,6 +146,9 @@ export const {
   useCreateRoomMutation,
   useGetServiceByLocationQuery,
   useGetServicebyIdQuery,
+  useGetPropertyByIdQuery,
+  useGetFoodServicebyIdQuery,
   useForgotpasswordMutation,
   useUpdatePasswordMutation,
+  useGetFoodServiceByLocationQuery,
 } = apiSlice;

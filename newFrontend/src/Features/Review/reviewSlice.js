@@ -2,9 +2,11 @@ import { createSlice } from "@reduxjs/toolkit";
 import { postReview } from "./postReviewAction";
 import { updateReview } from "./updateReviewAction";
 import { deleteReview } from "./deleteReviewAction";
+import { postFoodReview } from "./postReviewFoodAction";
 
 const initialState = {
   reviewInfo: {},
+  foodReviewInfo: {},
   loading: false,
   error: null,
   successMessage: null,
@@ -33,6 +35,24 @@ const reviewSlice = createSlice({
         state.successMessage = "Successfully posted review";
       })
       .addCase(postReview.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+        state.successMessage = null;
+        state.success = false;
+      });
+    builder
+      .addCase(postFoodReview.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+        state.successMessage = null;
+      })
+      .addCase(postFoodReview.fulfilled, (state, action) => {
+        state.loading = false;
+        state.success = true;
+        state.foodReviewInfo = action.payload;
+        state.successMessage = "Successfully posted review";
+      })
+      .addCase(postFoodReview.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
         state.successMessage = null;
