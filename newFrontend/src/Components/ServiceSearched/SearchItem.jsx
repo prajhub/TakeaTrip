@@ -2,6 +2,13 @@ import React from "react";
 import { useNavigate } from "react-router";
 
 const SearchItem = ({ item, min, max, date }) => {
+  console.log(item);
+  const { packages } = item;
+
+  const packageNames = packages?.map((pkg) => pkg.packageName);
+
+  console.log(packageNames);
+
   const navigate = useNavigate();
 
   const handleSeeAvailabilityClick = () => {
@@ -26,24 +33,22 @@ const SearchItem = ({ item, min, max, date }) => {
             Free airport taxi
           </span>
           <span className="text-xs font-bold">
-            Studio Apartment with Air conditioning
-          </span>
-          <span className="text-xs">
-            Entire studio • 1 bathroom • 21m² 1 full bed
-          </span>
-          <span className="text-xs  font-bold text-primary-500">
-            Free cancellation{" "}
-          </span>
-          <span className="text-xs text-primary-500">
-            You can cancel later, so lock in this great price today!
+            {packageNames && packageNames.length > 0 ? (
+              // Multiple package names
+              <span>
+                {packageNames.map((packageName) => (
+                  <span>{packageName}</span>
+                ))}
+              </span>
+            ) : (
+              // Single package name or no package names
+              <p>{packageNames ? packageNames[0] : "No packages available"}</p>
+            )}
           </span>
         </div>
         <div className=" flex-1 flex flex-col justify-between">
-          <div className="flex justify-between">
+          <div className="flex justify-end">
             <span className="font-medium">Excellent</span>
-            <button className="bg-primary-600 text-white p-1 font-bold rounded-none border-0">
-              8.9
-            </button>
           </div>
           <div className="text-right flex flex-col gap-1">
             <span className=" text-xl">${item.cheapestPrice}</span>

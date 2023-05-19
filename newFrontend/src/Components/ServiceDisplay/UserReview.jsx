@@ -1,20 +1,17 @@
 import React from "react";
-import { Rate, Avatar } from "antd";
-import { UserOutlined } from "@ant-design/icons";
 import {
   useGetReviewsByBusinessQuery,
   useGetUserDetailsQuery,
 } from "../../Features/api/apiSlice";
-
-const url =
-  "https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg";
-
-const UserReviewCard = ({ id }) => {
-  const { data: businessReview } = useGetReviewsByBusinessQuery(id, {
+import { Rate, Avatar } from "antd";
+import { AiFillStar } from "react-icons/ai";
+import { UserOutlined } from "@ant-design/icons";
+const UserReview = ({ data }) => {
+  const { data: businessReview } = useGetReviewsByBusinessQuery(data, {
     pollingInterval: 1000,
   });
 
-  console.log(businessReview);
+  const numOfReviews = businessReview?.length;
 
   const reviewerIds = businessReview?.map((review) => review.reviewerid);
   const reviewerId = reviewerIds?.[0];
@@ -24,10 +21,17 @@ const UserReviewCard = ({ id }) => {
     pollingInterval: 1000,
   });
 
+  console.log(userDetail);
+
   return (
     <>
       <section className="max-w-[1400px] mx-auto mt-4 ">
         <div className="flex flex-col w-[600px] gap-3">
+          <div>
+            <h1 className="text-2xl flex flex-row items-center font-semibold">
+              <AiFillStar className="mr-2" /> {numOfReviews} Review
+            </h1>
+          </div>
           {businessReview?.map((review) => (
             <div className=" p-5">
               <div className="flex gap-3 ">
@@ -53,7 +57,7 @@ const UserReviewCard = ({ id }) => {
                   {/* <p className="text-xs text-gray-500">January 2021</p> */}
                 </div>
               </div>
-              <p className="mt-4">{review.description}</p>
+              <p className="mt-4 ml-10">{review.description}</p>
             </div>
           ))}
         </div>
@@ -62,4 +66,4 @@ const UserReviewCard = ({ id }) => {
   );
 };
 
-export default UserReviewCard;
+export default UserReview;

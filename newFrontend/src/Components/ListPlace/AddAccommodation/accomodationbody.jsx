@@ -5,6 +5,7 @@ import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { DevTool } from "@hookform/devtools";
+import { Modal } from "antd";
 
 import "react-phone-number-input/style.css";
 
@@ -85,13 +86,8 @@ const accomodationbody = () => {
     checkInOptions.push(`${i < 22 ? "0" : ""}${i - 12}:30 PM`);
   }
 
-  const [placeName, setPlaceName] = useState("");
-  const [country, setCountry] = useState("");
-  const [street, setStreet] = useState("");
-  const [tele, setTele] = useState("");
-  const [city, setCity] = useState("");
   const [selectedType, setSelectedType] = useState(null);
-  const [numRooms, setNumRooms] = useState("");
+
   const [selectedAmenities, setSelectedAmenities] = useState([]);
 
   const [hasFrontDesk, setHasFrontDesk] = useState(null);
@@ -190,11 +186,19 @@ const accomodationbody = () => {
   const [createAccommodation, { isLoading, isError, error, isSuccess }] =
     useCreateAccommodationMutation();
 
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const showModal = () => {
+    setIsModalVisible(true);
+  };
+
   const onSubmit = async (data) => {
     try {
       const { data: returnedData } = await createAccommodation(data);
       if (!returnedData) {
         console.log("error ");
+      } else {
+        setIsModalVisible(true);
       }
       console.log(returnedData);
     } catch (error) {
@@ -204,8 +208,12 @@ const accomodationbody = () => {
 
   const navigate = useNavigate();
 
-  const navigateBack = () => {
-    navigate("/addlisting");
+  const addMore = () => {
+    window.location.reload();
+  };
+
+  const viewProperty = () => {
+    navigate("/account/properties");
   };
 
   return (
@@ -691,13 +699,46 @@ const accomodationbody = () => {
                     </section>
                   </div>
                 </div>
+
                 <button className="py-2.5 mt-5 px-5 mr-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-200">
                   Confirm
                 </button>
               </div>
+              <button type="button" onClick={() => showModal()}>
+                Open Modal
+              </button>
             </div>
           </div>
         </div>
+
+        <Modal
+          footer={null}
+          title={
+            <h3 style={{ fontSize: "20px", fontWeight: "bold" }}>
+              Your property is listed!
+            </h3>
+          }
+          open={isModalVisible}
+          onCancel={() => setIsModalVisible(false)}
+        >
+          <p className="">
+            Would you like to view your property or continue listing more?
+          </p>
+          <div className="mt-4 flex flex-row gap-4">
+            <button
+              onClick={() => viewProperty()}
+              className="py-2.5 px-5 mr-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-full border border-gray-200 hover:bg-gray-100 hover:text-primary-700"
+            >
+              View Property
+            </button>
+            <button
+              onClick={() => addMore()}
+              className="py-2.5 px-5 mr-2 mb-2 text-sm font-medium text-white focus:outline-none bg-primary-700 rounded-full border border-gray-200 hover:bg-gray-100 hover:text-primary-700"
+            >
+              Add more
+            </button>
+          </div>
+        </Modal>
       </form>
       <DevTool control={control} />
     </>

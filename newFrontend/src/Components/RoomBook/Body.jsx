@@ -72,6 +72,8 @@ const Body = () => {
   //Total cost
   const totalamount = numberOfDays * roomData?.price;
 
+  const includingFee = numberOfDays * roomData?.price + 500;
+
   //For Handling choosing room
   const [isRoomSelected, setIsRoomSelected] = useState(false); // For disabling main confirm button if no rooms are selected
   const [roomNumber, setRoomNumber] = useState(null); //Stores selected rooms numbr
@@ -141,10 +143,14 @@ const Body = () => {
                 </span>
                 <span>${totalamount}</span>
               </div>
+              <div className="flex flex-row mb-4 justify-between">
+                <span className="text-xs text-gray-600">Added Tax & Fees</span>
+                <span className="text-sm">$400</span>
+              </div>
               <div className="border-b" />
               <div className="flex flex-row mb-4 mt-4 justify-between">
                 <span className="font-semibold text-md">Total (USD)</span>
-                <span className="font-semibold text-md">${totalamount}</span>
+                <span className="font-semibold text-md">${includingFee}</span>
               </div>
             </div>
           </div>

@@ -115,7 +115,7 @@ export const apiSlice = createApi({
       query: () => "/service/all/services",
     }),
     getAllFoodService: builder.query({
-      query: () => "/foodservice",
+      query: () => "/foodservice/all",
     }),
 
     getFoodServiceByLocation: builder.query({

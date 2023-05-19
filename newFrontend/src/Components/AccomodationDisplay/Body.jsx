@@ -3,6 +3,7 @@ import { HiLocationMarker } from "react-icons/hi";
 import { MdFamilyRestroom, MdOutlineFreeBreakfast } from "react-icons/md";
 import { TbSmokingNo } from "react-icons/tb";
 import { BiPhoneCall, BiPencil } from "react-icons/bi";
+import { Link } from "react-scroll";
 import {
   AiOutlineGlobal,
   AiFillMail,
@@ -10,19 +11,26 @@ import {
   AiOutlineWifi,
 } from "react-icons/ai";
 import { CiParking1 } from "react-icons/ci";
+import { format } from "date-fns";
 import {
   BsFillArrowLeftCircleFill,
   BsFillArrowRightCircleFill,
 } from "react-icons/bs";
 import { GiBroom } from "react-icons/gi";
-import { RiMapPin2Line } from "react-icons/ri";
+
 import { useParams } from "react-router";
-import { useGetRoomsByAccommodationQuery } from "../../Features/api/apiSlice";
-import { useGetAccommodationByIdQuery } from "../../Features/api/apiSlice";
+import { DateRange } from "react-date-range";
+import "react-date-range/dist/styles.css";
+import "react-date-range/dist/theme/default.css";
+import {
+  useGetAccommodationByIdQuery,
+  useGetReviewsByBusinessQuery,
+} from "../../Features/api/apiSlice";
 import { useLocation } from "react-router";
-import { useNavigate } from "react-router";
+
 import ReserveTable from "./ReserveTable";
 import ReviewSection from "./ReviewSection";
+import { useNavigate } from "react-router-dom";
 
 const Body = () => {
   const navigate = useNavigate();
@@ -31,14 +39,46 @@ const Body = () => {
 
   const location = useLocation();
 
-  const startDate = location.state.startDate;
-  const endDate = location.state.endDate;
-  console.log(startDate, endDate);
+  const { data: businessReview } = useGetReviewsByBusinessQuery(id, {
+    pollingInterval: 2000,
+  });
+
+  const numberOfReviews = businessReview ? businessReview.length : 0;
+
+  let startDate = null;
+  let endDate = null;
+
+  if (location.state && location.state.startDate && location.state.endDate) {
+    startDate = location.state.startDate;
+    endDate = location.state.endDate;
+  }
+
+  //if there is no startDate and endDate
+
+  const [openDate, setOpenDate] = useState(false);
+  const [newDate, setNewDate] = useState(false);
+  const [date, setDate] = useState([
+    {
+      startDate: startDate || new Date(),
+      endDate: endDate || new Date(),
+      key: "selection",
+    },
+  ]);
+
+  const handleDateSelect = (item) => {
+    setDate([item.selection]);
+    setOpenDate(false); // Close the calendar
+    setNewDate(true);
+  };
+
+  if (newDate) {
+    startDate = date[0].startDate;
+    endDate = date[0].endDate;
+  }
 
   const { data, isLoading, error } = useGetAccommodationByIdQuery(id, {
     pollingInterval: 2000,
   });
-  console.log(data);
 
   const photos = data?.photos;
   const accommodationId = data?._id;
@@ -110,7 +150,7 @@ const Body = () => {
                   8.9
                 </div>
                 <span class="ml-2 text-gray-700 font-medium text-xs">
-                  (12,345 reviews)
+                  ({numberOfReviews} reviews)
                 </span>
               </div>
               <p class="text-gray-700 text-sm mt-2 cursor-pointer   flex flex-row items-center gap-1 ">
@@ -148,9 +188,21 @@ const Body = () => {
               <p class="text-gray-700 font-medium text-sm">
                 $320 <span class="text-xs font-normal">/night</span>
               </p>
-              <button class="bg-blue-600 text-white font-medium text-sm py-2 px-4 rounded mt-2">
-                View deals
-              </button>
+              <Link
+                activeClass="active"
+                to="reserve-table"
+                spy={true}
+                smooth={true}
+                offset={-70}
+                duration={500}
+              >
+                <button
+                  type="button"
+                  class="bg-blue-600 text-white font-medium text-sm py-2 px-4 rounded mt-2"
+                >
+                  View deals
+                </button>
+              </Link>
             </div>
           </div>
 
@@ -194,57 +246,50 @@ const Body = () => {
           <div class="flex flex-wrap py-6 md:mt-6">
             <div class="w-full md:w-2/3 md:pr-10">
               <h2 class="text-xl font-semibold mb-4">Description</h2>
-              <p class="text-gray-700 leading-relaxed mb-8">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
-                euismod eu augue volutpat porta. Phasellus fermentum massa eu
-                velit feugiat interdum. Vestibulum scelerisque risus vel augue
-                ullamcorper, vel eleifend est eleifend. Vestibulum a ex lectus.
-                Suspendisse tincidunt consequat sapien, eu efficitur quam
-                posuere quis. Vestibulum auctor neque ut velit tincidunt, nec
-                ultrices ante bibendum.
-              </p>
+              <p class="text-gray-700 leading-relaxed mb-8">{data?.desc}</p>
               <h2 class="text-xl font-semibold mb-4">
                 Most Popular Facilities
               </h2>
               <div className="grid grid-cols-2 gap-4 mt-4">
-                {amenities.map((amenity, index) => (
+                {data?.amenities?.map((amenity, index) => (
                   <div key={index} className="flex flex-row items-center">
-                    <span className="text-gray-500">{amenity.icon}</span>
-                    <span className="ml-2">{amenity.name}</span>
+                    <span className="ml-2 font-semibold text-sm">
+                      {amenity}
+                    </span>
                   </div>
                 ))}
               </div>
             </div>
-            <div class="w-full md:w-1/3 bg-primary-600 p-4 rounded-md">
-              <h2 class="text-black text-lg font-medium mb-2">
-                Property Highlights
-              </h2>
-              <p class="text-black mb-2 text-sm flex flex-row items-center gap-1">
-                {" "}
-                <RiMapPin2Line size={20} /> Top Location: Highly rated by recent
-                guests (9.5)
-              </p>
-              <p class="text-black mb-2 text-sm font-bold">Breakfast Info</p>
-              <p class="text-black mb-2 text-sm">
-                Continental, Vegetarian, Gluten-free, Buffet
-              </p>
-              <p class="text-black mb-2 flex flex-row items-center gap-1">
-                {" "}
-                <CiParking1 size={20} />
-                Private parking at the hotel
-              </p>
-              <p class="text-black mb-2 text-sm font-bold">Loyal Customers</p>
-              <p class="text-black mb-2 text-sm">
-                There are more repeat guests here than most other properties.
-              </p>
-              <button class="bg-primary-500 text-white font-medium py-2 w-full px-4 rounded-md mt-4">
-                Reserve
-              </button>
+            <div class="w-full md:w-1/3 bg-white border h-[100px] border-gray-400 p-4 rounded-md">
+              <span className="text-black text-lg font-semibold">
+                Selected Date:
+              </span>
+              <div className="flex items-center justify-between  w-full flex-col gap-6">
+                <span
+                  onClick={() => setOpenDate(!openDate)}
+                  className="text-gray-400 cursor-pointer text-lg"
+                >{`${format(date[0].startDate, "MM/dd/yyyy")} to ${format(
+                  date[0].endDate,
+                  "MM/dd/yyyy"
+                )}`}</span>
+                {openDate && (
+                  <DateRange
+                    onChange={handleDateSelect}
+                    moveRangeOnFirstSelection={false}
+                    editableDateInputs={true}
+                    minDate={new Date()}
+                    ranges={date}
+                    className=" top-96 w-full "
+                  />
+                )}
+              </div>
             </div>
           </div>
+          <div id="reserve-table">
+            <ReserveTable data={data} startDate={startDate} endDate={endDate} />
+          </div>
 
-          <ReserveTable data={data} startDate={startDate} endDate={endDate} />
-          <ReviewSection data={data} />
+          <ReviewSection data={data} review={businessReview} />
         </section>
       )}
     </>

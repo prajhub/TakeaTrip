@@ -1,21 +1,18 @@
-import React from 'react'
-import Header from '../../Components/Reusables/header'
-import Hero from '../../Components/StaysLanding/Hero'
-import BrowseProperty from '../../Components/StaysLanding/BrowseProperty'
-import Footer from '../../Components/HomeLandingPage/Footer'
-import ImageCollage from '../../Components/StaysLanding/ImageCollage'
+import React from "react";
+import Header from "../../Components/Reusables/header";
+import Hero from "../../Components/StaysLanding/Hero";
+import ToStay from "../../Components/StaysLanding/ToStay";
+import Footer from "../../Components/HomeLandingPage/Footer";
 
 const StaysLandingPage = () => {
   return (
     <>
-        <Header/>
-        <Hero/>
-        <BrowseProperty/>
-        <ImageCollage/>
-        <Footer/>
-    
+      <Header />
+      <Hero />
+      <ToStay />
+      <Footer />
     </>
-  )
-}
+  );
+};
 
-export default StaysLandingPage
+export default StaysLandingPage;

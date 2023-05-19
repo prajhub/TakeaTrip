@@ -2,6 +2,11 @@ import React from "react";
 import { useNavigate } from "react-router";
 
 const SearchItem = ({ item }) => {
+  console.log(item);
+
+  const { features } = item;
+  const [feature1, feature2] = features.slice(0, 2);
+
   const navigate = useNavigate();
 
   const handleSeeAvailabilityClick = () => {
@@ -26,27 +31,15 @@ const SearchItem = ({ item }) => {
             Free airport taxi
           </span>
           <span className="text-xs font-bold">
-            Studio Apartment with Air conditioning
-          </span>
-          <span className="text-xs">
-            Entire studio • 1 bathroom • 21m² 1 full bed
-          </span>
-          <span className="text-xs  font-bold text-primary-500">
-            Free cancellation{" "}
-          </span>
-          <span className="text-xs text-primary-500">
-            You can cancel later, so lock in this great price today!
+            {feature1} {feature2}
           </span>
         </div>
         <div className=" flex-1 flex flex-col justify-between">
-          <div className="flex justify-between">
+          <div className="flex justify-end">
             <span className="font-medium">Excellent</span>
-            <button className="bg-primary-600 text-white p-1 font-bold rounded-none border-0">
-              8.9
-            </button>
           </div>
           <div className="text-right flex flex-col gap-1">
-            <span className=" text-xl">${item.cheapestPrice}</span>
+            <span className=" text-xl">${item.minPrice}</span>
             <span className="text-xs text-gray-400">
               Includes taxes and fees
             </span>

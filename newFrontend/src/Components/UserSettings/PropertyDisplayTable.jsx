@@ -1,10 +1,11 @@
 import React from "react";
 import {} from "../../Features/api/apiSlice";
 import { useSelector } from "react-redux";
-
+import { useNavigate } from "react-router";
 import { useGetAccommodationByUserIDQuery } from "../../Features/api/apiSlice";
 
 const PropertyDisplayTable = ({ id }) => {
+  const navigate = useNavigate();
   const userInfo = useSelector((state) => state.auth.userInfo);
 
   const userId = userInfo._id;
@@ -20,6 +21,10 @@ const PropertyDisplayTable = ({ id }) => {
   const allProperties = accommodations.concat(services, foodservices);
 
   console.log(allProperties);
+
+  const navigateToProperties = () => {
+    navigate("/account/properties");
+  };
 
   return (
     <>
@@ -41,6 +46,7 @@ const PropertyDisplayTable = ({ id }) => {
           </td>
           <td className="px-6 py-4">
             <button
+              onClick={navigateToProperties}
               type="button"
               className="text-white bg-primary-700 hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2  "
             >

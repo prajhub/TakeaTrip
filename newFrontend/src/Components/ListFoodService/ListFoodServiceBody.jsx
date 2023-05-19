@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useForm } from "react-hook-form";
 import { DevTool } from "@hookform/devtools";
-
+import { Modal } from "antd";
 import { RiRestaurantLine } from "react-icons/ri";
 import { MdCarRental } from "react-icons/md";
 import { BrowserRouter as Router, Route, useNavigate } from "react-router-dom";
@@ -14,6 +14,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useCreateFoodServiceMutation } from "../../Features/foodService/addFoodServiceSlice";
 
 const ListFoodServiceBody = () => {
+  const navigate = useNavigate();
   const form = useForm();
   const {
     register,
@@ -81,16 +82,32 @@ const ListFoodServiceBody = () => {
   const [createFoodService, { isError, isSuccess, isLoading }] =
     useCreateFoodServiceMutation();
 
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const showModal = () => {
+    setIsModalVisible(true);
+  };
+
   const onSubmit = async (data) => {
     try {
       const { data: returnedData } = await createFoodService(data);
       if (!returnedData) {
         console.log("error ayo");
+      } else {
+        setIsModalVisible(true);
       }
       console.log(returnedData);
     } catch (error) {
       console.error(error);
     }
+  };
+
+  const addMore = () => {
+    window.location.reload();
+  };
+
+  const viewProperty = () => {
+    navigate("/account/properties");
   };
 
   //basic info
@@ -102,20 +119,7 @@ const ListFoodServiceBody = () => {
 
   console.log(desc);
 
-  const handlePlaceName = (event) => {
-    setPlaceName(event.target.value);
-  };
-
-  const handleWebsite = (event) => {
-    setWebsite(event.target.value);
-  };
-
-  const handleDesc = (event) => {
-    setDesc(event.target.value);
-  };
-
   //Locaiton INfo
-  const dispatch = useDispatch();
 
   const [countries, setCountries] = useState([]);
   useEffect(() => {
@@ -441,7 +445,37 @@ const ListFoodServiceBody = () => {
           <button class="text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2   focus:outline-none">
             Continue
           </button>
+
+          <Modal
+            footer={null}
+            title={
+              <h3 style={{ fontSize: "20px", fontWeight: "bold" }}>
+                Your property is listed!
+              </h3>
+            }
+            open={isModalVisible}
+            onCancel={() => setIsModalVisible(false)}
+          >
+            <p className="">
+              Would you like to view your property or continue listing more?
+            </p>
+            <div className="mt-4 flex flex-row gap-4">
+              <button
+                onClick={() => viewProperty()}
+                className="py-2.5 px-5 mr-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-full border border-gray-200 hover:bg-gray-100 hover:text-primary-700"
+              >
+                View Property
+              </button>
+              <button
+                onClick={() => addMore()}
+                className="py-2.5 px-5 mr-2 mb-2 text-sm font-medium text-white focus:outline-none bg-primary-700 rounded-full border border-gray-200 hover:bg-gray-100 hover:text-primary-700"
+              >
+                Add more
+              </button>
+            </div>
+          </Modal>
         </form>
+
         <DevTool control={control} />
       </section>
     </>

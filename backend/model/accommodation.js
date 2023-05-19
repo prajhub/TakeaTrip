@@ -65,12 +65,6 @@ const AccommodationSchema = new mongoose.Schema({
     type: Boolean,
   },
 
-  rating: {
-    type: Number,
-
-    min: 0,
-    max: 10,
-  },
   cheapestPrice: {
     type: Number,
   },

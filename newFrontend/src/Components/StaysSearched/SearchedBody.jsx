@@ -18,9 +18,13 @@ const SearchedBody = () => {
   const [openDate, setOpenDate] = useState(false);
   const [options, setOptions] = useState(location.state.options);
 
-  const formattedStartDate = moment(date[0].startDate).format("DD-MM-YYYY");
-  const formattedEndDate = moment(date[0].endDate).format("DD-MM-YYYY");
-  console.log(formattedStartDate, formattedEndDate);
+  const [{ startDate, endDate }] = date;
+  console.log(startDate);
+  console.log(endDate);
+
+  // const formattedStartDate = moment(date[0].startDate).format("DD-MM-YYYY");
+  // const formattedEndDate = moment(date[0].endDate).format("DD-MM-YYYY");
+  // // console.log(formattedStartDate, formattedEndDate);
 
   const [min, setMin] = useState(0);
   const [max, setMax] = useState(999);
@@ -39,8 +43,6 @@ const SearchedBody = () => {
       pollingInterval: 2000,
     }
   );
-
-  console.log(data);
 
   const handleClick = () => {
     const url = `http://localhost:5000/accommodation?location=${destination}&min=${
@@ -141,8 +143,8 @@ const SearchedBody = () => {
                   {data.map((item) => (
                     <SearchItem
                       item={item}
-                      startDate={formattedStartDate}
-                      endDate={formattedEndDate}
+                      startDate={startDate}
+                      endDate={endDate}
                       key={item._id}
                     />
                   ))}

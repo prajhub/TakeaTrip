@@ -15,6 +15,7 @@ import {
   BsFillArrowRightCircleFill,
   BsFillPencilFill,
 } from "react-icons/bs";
+import { useNavigate } from "react-router";
 import { FaUser } from "react-icons/fa";
 import { useParams } from "react-router";
 import moment from "moment";
@@ -22,10 +23,11 @@ import { useLocation } from "react-router";
 import { useGetServicebyIdQuery } from "../../Features/api/apiSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { bookService } from "../../Features/services/booking/bookServiceAction";
+import UserReview from "./UserReview";
 import Swal from "sweetalert2";
 const Body = () => {
-  const location = useLocation();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const userid = useSelector((state) => state.auth.userInfo._id);
 
@@ -36,6 +38,10 @@ const Body = () => {
   });
 
   console.log(data);
+
+  const navigateToReview = () => {
+    navigate(`/review/${data?._id}`);
+  };
 
   const photos = data?.photos;
   console.log(photos);
@@ -69,14 +75,14 @@ const Body = () => {
   console.log(date);
   const [openDate, setOpenDate] = useState(false);
   const [formattedDate, setFormattedDate] = useState("");
+  console.log(formattedDate);
 
   const handleSelect = (date) => {
-    const newDate = new Date(date);
-    const sendDate = moment(date).format("DD-MM-YYYY");
+    const sendDate = new Date(date); // Convert the selected date to a Date object
     setDate(sendDate);
     setOpenDate(false);
     setFormattedDate(
-      newDate.toLocaleDateString("en-US", { month: "short", day: "numeric" })
+      sendDate.toLocaleDateString("en-US", { month: "short", day: "numeric" })
     );
   };
 
@@ -149,7 +155,10 @@ const Body = () => {
                   {data.website}
                 </div>
 
-                <div className="flex flex-row items-center hover:underline gap-1">
+                <div
+                  className="flex flex-row items-center hover:underline gap-1"
+                  onClick={navigateToReview}
+                >
                   <span class="font-bold md:ml-20 ">
                     <BiPencil size={20} />
                   </span>{" "}
@@ -180,7 +189,7 @@ const Body = () => {
                 <img
                   src={photos[slideNumber]}
                   alt=""
-                  className="w-4/5 h-80vh"
+                  className="w-4/5 h-[600px]"
                 />
               </div>
               <BsFillArrowRightCircleFill
@@ -189,14 +198,14 @@ const Body = () => {
               />
             </div>
           )}
-          <div className="flex flex-wrap wrap justify-between mt-7">
+          <div className="flex flex-wrap bg-pink-200 wrap justify-between mt-7">
             {photos.map((photo, i) => (
               <div className=" w-1/3">
                 <img
                   onClick={() => handleOpen(i)}
                   src={photo}
                   alt=""
-                  className="w-full object-cover cursor-pointer"
+                  className="w-full h-[300px] object-cover cursor-pointer"
                 />
               </div>
             ))}
@@ -211,10 +220,11 @@ const Body = () => {
                 {data.description}
               </p>
             </div>
+
             <div class="w-full md:w-1/3 border border-gray-300 p-4 rounded-md">
               <h2 class="text-black text-3xl font-medium mb-2">Reserve</h2>
 
-              <div className="flex flex-row  mt-4 items-center gap-10 ">
+              <div className="flex flex-col  mt-4 items-center gap-10 ">
                 <div className="border border-gray-400 rounded-lg p-2 w-[200px] cursor-pointer">
                   <span onClick={() => setOpenDate(!openDate)}>
                     {formattedDate ||
@@ -298,7 +308,7 @@ const Body = () => {
             </div>
           </div>
 
-          {/* Description Section */}
+          <UserReview data={data?._id} />
         </section>
       )}
     </>
