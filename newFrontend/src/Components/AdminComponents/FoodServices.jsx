@@ -2,7 +2,10 @@ import React, { useState, useEffect } from "react";
 import { Table, Modal } from "antd";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import { useGetAllFoodServiceQuery } from "../../Features/api/apiSlice";
+import {
+  useGetAllFoodServiceQuery,
+  useDeleteFoodServiceMutation,
+} from "../../Features/api/apiSlice";
 import { AiOutlineArrowLeft } from "react-icons/ai";
 const FoodServices = () => {
   const navigate = useNavigate();
@@ -10,6 +13,8 @@ const FoodServices = () => {
   const { data: foodList } = useGetAllFoodServiceQuery("foodList", {
     pollingInterval: 1000,
   });
+
+  const [deleteFoodService] = useDeleteFoodServiceMutation();
 
   console.log(foodList);
 
@@ -23,6 +28,10 @@ const FoodServices = () => {
 
   const handleNavigateProperty = (service) => {
     navigate(`/adashboard/user/properties/${service.key}`);
+  };
+
+  const handleDeleteFoodService = (service) => {
+    deleteFoodService(service.key);
   };
 
   const columns = [
@@ -57,6 +66,13 @@ const FoodServices = () => {
           >
             View
           </a>
+          &nbsp;|&nbsp;{" "}
+          <a
+            onClick={() => handleDeleteFoodService(service)}
+            className="hover:text-[red]"
+          >
+            Delete
+          </a>
         </span>
       ),
     },
@@ -64,7 +80,7 @@ const FoodServices = () => {
 
   return (
     <>
-      <div class=" h-[200px] ">
+      <div>
         <div className=" mt-3 text-black">
           <Link to="/adashboard">
             <div className="flex gap-1 cursor-pointer hover:text-primary-700 flex-row items-center">
@@ -72,7 +88,9 @@ const FoodServices = () => {
               <p>Back</p>
             </div>
           </Link>
-          <Table dataSource={dataSource} columns={columns} />
+          <div className="mt-4">
+            <Table dataSource={dataSource} columns={columns} />
+          </div>
         </div>
       </div>
     </>

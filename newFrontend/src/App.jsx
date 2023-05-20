@@ -38,6 +38,9 @@ import PasswordReset from "./Pages/UserSettings/PasswordReset";
 import NewPassword from "./Pages/UserSettings/NewPassword";
 import FoodLandingPage from "./Pages/FoodServiceLanding/FoodLandingPage";
 import FoodServiceSearched from "./Pages/FoodServiceSearched/FoodServiceSearched";
+import PaymentDetails from "./Pages/UserSettings/PaymentDetails/PaymentDetails";
+import RoomBookDetails from "./Pages/UserSettings/RoomBookingDetails/RoomBookDetails";
+import ServiceBooking from "./Pages/UserSettings/ServiceBookingDetails/ServiceBooking";
 
 function App() {
   return (
@@ -86,7 +89,15 @@ function App() {
                 path="/account/properties"
                 element={<MainPropertyDetails />}
               />
-
+              <Route path="/account/payments" element={<PaymentDetails />} />
+              <Route
+                path="/account/accommodation/bookings/:id"
+                element={<RoomBookDetails />}
+              />
+              <Route
+                path="/account/service/bookings/:id"
+                element={<ServiceBooking />}
+              />
               <Route path="/hotels" element={<StaysSearched />} />
               <Route path="/services" element={<ServiceSearched />} />
               <Route path="/foodservices" element={<FoodServiceSearched />} />

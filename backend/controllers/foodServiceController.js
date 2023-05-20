@@ -97,10 +97,15 @@ const getFoodServices = async (req, res) => {
 };
 
 const getFoodServiceByLocation = async (req, res, next) => {
-  const { location } = req.query;
+  let { location } = req.query;
+
+  location = location.toLowerCase();
   try {
     const foodservice = await FoodService.find({
-      $or: [{ city: location }, { country: location }],
+      $or: [
+        { city: { $regex: location, $options: "i" } }, // Case-insensitive search for city
+        { country: { $regex: location, $options: "i" } }, // Case-insensitive search for country
+      ],
     });
 
     if (!foodservice.length) {

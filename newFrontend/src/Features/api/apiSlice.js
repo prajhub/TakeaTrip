@@ -8,13 +8,10 @@ export const apiSlice = createApi({
 
     prepareHeaders: (headers, { getState }) => {
       const token = getState().auth.token;
-      console.log(token);
 
       if (token) {
         //include token in req header
         headers.set("authorization", `Bearer ${token}`);
-
-        console.log("yes tken");
       }
       return headers;
     },
@@ -41,6 +38,10 @@ export const apiSlice = createApi({
 
     getUserDetails: builder.query({
       query: () => "/users/profile",
+    }),
+
+    getUserById: builder.query({
+      query: (id) => `/users/user/${id}`,
     }),
     updateUser: builder.mutation({
       query: ({ id, email, password, firstName, lastName, photo }) => ({
@@ -108,6 +109,25 @@ export const apiSlice = createApi({
     getAllAccommodations: builder.query({
       query: () => "/accommodation/all/accommodation",
     }),
+    deleteFoodService: builder.mutation({
+      query: (id) => ({
+        url: `/foodservice/${id}`,
+        method: "DELETE",
+      }),
+    }),
+    deleteAccommodation: builder.mutation({
+      query: (id) => ({
+        url: `/accommodation/${id}`,
+        method: "DELETE",
+      }),
+    }),
+    deleteService: builder.mutation({
+      query: (id) => ({
+        url: `/service/${id}`,
+        method: "DELETE",
+      }),
+    }),
+
     getPropertyById: builder.query({
       query: (id) => `/accommodation/property/${id}`,
     }),
@@ -125,6 +145,15 @@ export const apiSlice = createApi({
     getFoodServicebyId: builder.query({
       query: (id) => `/foodservice/service/${id}`,
     }),
+    getPaymentHistory: builder.query({
+      query: (id) => `/roombookings/history/${id}`,
+    }),
+    getBookingHistory: builder.query({
+      query: (id) => `roombookings/bookings/${id}`,
+    }),
+    getServiceBookingHistory: builder.query({
+      query: (id) => `servicebookings/${id}`,
+    }),
   }),
 });
 
@@ -132,6 +161,7 @@ export const {
   useUserLoginMutation,
   useGetRoomDetailByIdQuery,
   useGetUserDetailsQuery,
+  useGetUserByIdQuery,
   useGetReviewsByIdQuery,
   useGetAllAccommodationsQuery,
   useGetAllFoodServiceQuery,
@@ -151,4 +181,10 @@ export const {
   useForgotpasswordMutation,
   useUpdatePasswordMutation,
   useGetFoodServiceByLocationQuery,
+  useGetPaymentHistoryQuery,
+  useDeleteFoodServiceMutation,
+  useDeleteServiceMutation,
+  useDeleteAccommodationMutation,
+  useGetBookingHistoryQuery,
+  useGetServiceBookingHistoryQuery,
 } = apiSlice;

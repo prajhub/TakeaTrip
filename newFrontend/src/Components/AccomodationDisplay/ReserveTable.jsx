@@ -3,6 +3,7 @@ import { TbPointFilled } from "react-icons/tb";
 import { useParams } from "react-router";
 import { useGetRoomsByAccommodationQuery } from "../../Features/api/apiSlice";
 import { useNavigate } from "react-router";
+import { useSelector } from "react-redux";
 
 const ReserveTable = ({ data: accommodationData, startDate, endDate }) => {
   const { id } = useParams();
@@ -12,6 +13,9 @@ const ReserveTable = ({ data: accommodationData, startDate, endDate }) => {
   });
 
   console.log(roomData);
+
+  const user = useSelector((state) => state.auth.roleInfo);
+  console.log(user);
 
   const navigate = useNavigate();
 
@@ -33,10 +37,7 @@ const ReserveTable = ({ data: accommodationData, startDate, endDate }) => {
         <section class="px-4 py-6 flex flex-row gap-5">
           {roomData?.map((room) => (
             <div className="w-80 border border-gray-200 rounded-md overflow-hidden shadow-md">
-              <img
-                src="https://res.cloudinary.com/dhngfjx6o/image/upload/v1682595506/dutxv35hdej0evyw9x4i.jpg"
-                alt=""
-              />
+              <img src={room.photos[0]} alt="" />
               <div className="p-4">
                 <h2 className="font-semibold text-lg">{room.type}</h2>
                 <div className="flex items-center gap-2 my-2">
@@ -79,8 +80,13 @@ const ReserveTable = ({ data: accommodationData, startDate, endDate }) => {
                     </span>
                   </div>
                   <button
+                    disabled={user?.role === "Service Provider"}
                     onClick={() => navigateRoom(room)}
-                    className="bg-primary-500 hover:bg-primary-600 text-white px-4 py-2 rounded-md"
+                    className={`${
+                      user?.role === "Service Provider"
+                        ? "bg-gray-400 cursor-not-allowed"
+                        : "bg-primary-700 hover:bg-primary-600"
+                    } text-white px-4 py-2 rounded-md`}
                   >
                     Book now
                   </button>

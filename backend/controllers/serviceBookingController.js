@@ -1,5 +1,7 @@
 const Service = require("../model/Service");
 const Booking = require("../model/serviceBooking");
+const User = require("../model/user");
+const sendEmail = require("../utils/sendEmail");
 const moment = require("moment");
 const { v4: uuidv4 } = require("uuid");
 const stripe = require("stripe")(
@@ -62,11 +64,38 @@ const bookService = async (req, res, next) => {
           $set: {
             "packages.$.numPeopleIncluded": numofpeople,
             "packages.$.date": dateIso,
-            "packages.$.startTime": starttime,
+
             "packages.$.bookedby": userid,
           },
         },
         { new: true }
+      );
+
+      const paymentObj = {
+        bookingId: booking._id,
+        transactionId: payment.id,
+        amount: totalamount,
+        date: new Date().toISOString().slice(0, 10),
+      };
+
+      console.log(paymentObj);
+
+      const newUser = await User.findByIdAndUpdate(
+        userid,
+        {
+          $push: { paymentHistory: paymentObj },
+        },
+        { new: true }
+      );
+
+      const text = `Thankyou for choosing us. Hope you enjoy the experience `;
+      const html = `<p>Thankyou for choosing us. Hope you enjoy the experience</p>`;
+
+      await sendEmail(
+        newUser.email,
+        "Package booked successfully!",
+        text,
+        html
       );
 
       res.status(200).send("Payment successfull, Service booked");
@@ -76,4 +105,28 @@ const bookService = async (req, res, next) => {
   }
 };
 
-module.exports = { bookService };
+const getServiceBooking = async (req, res, next) => {
+  const id = req.params.id;
+
+  try {
+    const service = await Service.findById(id);
+
+    if (!service) {
+      return res.status(404).json({ message: "Service not found" });
+    }
+
+    const bookings = await Booking.find({ serviceid: id });
+
+    if (bookings.length === 0) {
+      return res
+        .status(404)
+        .json({ message: "No bookings found for this service" });
+    }
+
+    res.status(200).json(bookings);
+  } catch (error) {
+    res.status(400).json({ error });
+  }
+};
+
+module.exports = { bookService, getServiceBooking };

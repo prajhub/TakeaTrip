@@ -12,12 +12,15 @@ import { useForm } from "react-hook-form";
 import { DevTool } from "@hookform/devtools";
 import { useDispatch, useSelector } from "react-redux";
 import { updateAccomodation } from "../../../Features/accommodations/updateAccoAction";
+import { useDeleteAccommodationMutation } from "../../../Features/api/apiSlice";
 
 const EditPropery = ({ selectedProperty, onClose }) => {
   const [isTouched, setIsTouched] = useState(false);
   //React-hook-form
   const form = useForm();
   const { register, control, setValue, handleSubmit, watch, getValues } = form;
+
+  const [deleteAccommodation] = useDeleteAccommodationMutation();
 
   const [formData, setFormData] = useState({
     id: selectedProperty._id,
@@ -66,6 +69,22 @@ const EditPropery = ({ selectedProperty, onClose }) => {
     navigate(`/account/properties/${selectedProperty._id}/createRoom`, {
       state: { selectedProperty },
     });
+  };
+
+  const handleBooking = () => {
+    navigate(`/account/accommodation/bookings/${selectedProperty._id}`);
+  };
+
+  const deleteAcco = async () => {
+    try {
+      const result = await deleteAccommodation(selectedProperty._id);
+      // Handle the result or perform additional actions
+      console.log(result);
+      onClose();
+    } catch (error) {
+      // Handle errors
+      console.error(error);
+    }
   };
 
   //Front Desk
@@ -717,6 +736,20 @@ const EditPropery = ({ selectedProperty, onClose }) => {
         className="text-white  bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 mt-5 mr-2 mb-2"
       >
         Add Room
+      </button>
+      <button
+        type="button"
+        onClick={deleteAcco}
+        className="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2"
+      >
+        Delete
+      </button>
+      <button
+        onClick={handleBooking}
+        type="button"
+        className="text-white  bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 mt-5 mr-2 mb-2"
+      >
+        View Bookings
       </button>
     </>
   );

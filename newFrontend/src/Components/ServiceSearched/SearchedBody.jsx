@@ -6,7 +6,7 @@ import { Slider } from "antd";
 import moment from "moment";
 import { useGetServiceByLocationQuery } from "../../Features/api/apiSlice";
 import SearchItem from "./SearchItem";
-
+import { Skeleton } from "antd";
 // import SearchItem from "./SearchItem";
 
 const SearchedBody = () => {
@@ -37,16 +37,11 @@ const SearchedBody = () => {
   const { data, isLoading, isError, refetch } = useGetServiceByLocationQuery(
     destination,
     {
-      pollingInterval: 2000,
+      pollingInterval: 15000,
     }
   );
 
   console.log(data);
-
-  // const handleClick = () => {
-  //     const url = `http://localhost:5000/accommodation?location=${destination}&min=${min || 0 }&max=${max || 999}`
-  //     refetch({endpoint: url})
-  // }
 
   return (
     <>
@@ -128,10 +123,14 @@ const SearchedBody = () => {
             </div>
             <div className="flex-[3_1_0%]">
               {isLoading ? (
-                "Loading..."
+                <Skeleton active />
+              ) : isError ? (
+                <span className="text-2xl font-semibold">
+                  No accommodations found in the location!
+                </span>
               ) : (
                 <>
-                  {data.map((item) => (
+                  {data?.map((item) => (
                     <SearchItem
                       item={item}
                       date={formattedDate}

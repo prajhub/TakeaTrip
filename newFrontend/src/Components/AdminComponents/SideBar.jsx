@@ -14,7 +14,7 @@ const SideBar = () => {
           <ul class="space-y-2">
             <li>
               <a
-                href="#"
+                href="/adashboard"
                 class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg :text-white hover:bg-gray-100 "
               >
                 <MdDashboard size={20} />
@@ -24,7 +24,7 @@ const SideBar = () => {
 
             <li>
               <a
-                href="#"
+                href="/adashboard/accommodations"
                 class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg  hover:bg-gray-100 "
               >
                 <FaHotel size={20} />
@@ -35,7 +35,7 @@ const SideBar = () => {
             </li>
             <li>
               <a
-                href="#"
+                href="/adashboard/services"
                 class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg  hover:bg-gray-100 "
               >
                 <FaHotel size={20} />
@@ -44,25 +44,14 @@ const SideBar = () => {
             </li>
             <li>
               <a
-                href="#"
+                href="/adashboard/foodservices"
                 class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg  hover:bg-gray-100 "
               >
                 <FaHotel size={20} />
                 <span class="flex-1 ml-3 whitespace-nowrap">Food Services</span>
               </a>
             </li>
-            <li>
-              <a
-                href="#"
-                class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg  hover:bg-gray-100 "
-              >
-                <MdOutlinePayments size={20} />
-                <span class="flex-1 ml-3 whitespace-nowrap">Payment</span>
-                <span class="inline-flex items-center justify-center w-3 h-3 p-3 ml-3 text-sm font-medium text-blue-800 bg-blue-100 rounded-full :bg-blue-900 :text-blue-300">
-                  3
-                </span>
-              </a>
-            </li>
+
             <li>
               <Link
                 to="/adashboard/user"

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useLocation } from "react-router";
 import { format } from "date-fns";
+import { Skeleton } from "antd";
 import { DateRange } from "react-date-range";
 import { Slider } from "antd";
 import moment from "moment";
@@ -29,7 +30,7 @@ const SearchedBody = () => {
 
   const { data, isLoading, isError, refetch } =
     useGetFoodServiceByLocationQuery(destination, {
-      pollingInterval: 2000,
+      pollingInterval: 15000,
     });
 
   console.log(data);
@@ -63,10 +64,14 @@ const SearchedBody = () => {
             </div>
             <div className="flex-[3_1_0%]">
               {isLoading ? (
-                "Loading..."
+                <Skeleton active />
+              ) : isError ? (
+                <span className="text-2xl font-semibold">
+                  No accommodations found in the location!
+                </span>
               ) : (
                 <>
-                  {data.map((item) => (
+                  {data?.map((item) => (
                     <SearchItem item={item} key={item._id} />
                   ))}
                 </>

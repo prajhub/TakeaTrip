@@ -38,6 +38,7 @@ const addServiceProvider = async (req, res) => {
       phoneNum,
       description,
       name,
+      owner: user._id,
       website,
       country,
     });
@@ -109,10 +110,15 @@ const getServices = async (req, res) => {
 };
 
 const getServiceByLocation = async (req, res, next) => {
-  const { location } = req.query;
+  let { location } = req.query;
+
+  location = location.toLowerCase();
   try {
     const service = await Service.find({
-      $or: [{ city: location }, { country: location }],
+      $or: [
+        { city: { $regex: location, $options: "i" } }, // Case-insensitive search for city
+        { country: { $regex: location, $options: "i" } }, // Case-insensitive search for country
+      ],
     });
 
     if (!service.length) {
@@ -125,10 +131,21 @@ const getServiceByLocation = async (req, res, next) => {
   }
 };
 
+const deleteService = async (req, res) => {
+  try {
+    await Service.findByIdAndDelete(req.params.id);
+    res.status(200).json("Service has been deleted.");
+  } catch (error) {
+    res.status(500).json(error);
+    console.log(error);
+  }
+};
+
 module.exports = {
   addServiceProvider,
   updateService,
   getServices,
+  deleteService,
   getService,
   getServiceByLocation,
 };

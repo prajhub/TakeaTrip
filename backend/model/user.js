@@ -54,6 +54,23 @@ const UserSchema = new mongoose.Schema(
         ref: "Service",
       },
     ],
+    paymentHistory: [
+      {
+        bookingId: {
+          type: mongoose.SchemaTypes.ObjectId,
+          ref: "roomBookings",
+        },
+        transactionId: {
+          type: String,
+        },
+        amount: {
+          type: Number,
+        },
+        date: {
+          type: Date,
+        },
+      },
+    ],
 
     properties: [
       {

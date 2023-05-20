@@ -4,14 +4,19 @@ import { AiOutlineArrowLeft } from "react-icons/ai";
 import { Link } from "react-router-dom";
 
 import { useNavigate } from "react-router-dom";
-import { useGetAllAccommodationsQuery } from "../../Features/api/apiSlice";
+import {
+  useGetAllAccommodationsQuery,
+  useDeleteAccommodationMutation,
+} from "../../Features/api/apiSlice";
 
 const Accommodations = () => {
   const navigate = useNavigate();
 
   const { data: accoList } = useGetAllAccommodationsQuery("accoList", {
-    pollingInterval: 21000,
+    pollingInterval: 1000,
   });
+
+  const [deleteAccommodation] = useDeleteAccommodationMutation();
 
   console.log(accoList);
 
@@ -25,6 +30,10 @@ const Accommodations = () => {
 
   const handleNavigateProperty = (acco) => {
     navigate(`/adashboard/user/properties/${acco.key}`);
+  };
+
+  const deleteAcco = (acco) => {
+    deleteAccommodation(acco.key);
   };
 
   const columns = [
@@ -58,6 +67,10 @@ const Accommodations = () => {
             className="hover:text-primary-700"
           >
             View
+          </a>
+          &nbsp;|&nbsp;
+          <a onClick={() => deleteAcco(acco)} className="hover:text-[red]">
+            Delete
           </a>
         </span>
       ),

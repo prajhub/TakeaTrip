@@ -95,8 +95,8 @@ const updateHotel = async (req, res) => {
 
 const deleteHotel = async (req, res) => {
   try {
-    await Hotel.findByIdAndDelete(req.params.id);
-    res.status(200).json("Hotel has been deleted.");
+    await Accommodation.findByIdAndDelete(req.params.id);
+    res.status(200).json("Accommodation has been deleted.");
   } catch (error) {
     res.status(500).json(error);
     console.log(error);
@@ -124,10 +124,16 @@ const getAllAccommodation = async (req, res) => {
 };
 
 const getAccommodations = async (req, res, next) => {
-  const { location } = req.query;
+  let { location } = req.query;
+
+  location = location.toLowerCase();
+
   try {
     const accommodations = await Accommodation.find({
-      $or: [{ city: location }, { country: location }],
+      $or: [
+        { city: { $regex: location, $options: "i" } }, // Case-insensitive search for city
+        { country: { $regex: location, $options: "i" } }, // Case-insensitive search for country
+      ],
     });
 
     if (!accommodations.length) {

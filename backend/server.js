@@ -34,10 +34,8 @@ app.use(
 app.use("/register", require("./routes/register"));
 app.use("/auth", require("./routes/auth"));
 
-app.use("/country", require("./routes/country"));
 app.use("/location", require("./routes/location"));
 
-app.use("/suggestion", require("./routes/serviceSuggestion.js"));
 app.use("/accommodation", require("./routes/accommodation"));
 app.use("/foodservice", require("./routes/foodservice"));
 app.use("/accbyId", require("./routes/getAccoById"));

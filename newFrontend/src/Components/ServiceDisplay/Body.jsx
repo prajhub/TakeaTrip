@@ -18,9 +18,11 @@ import {
 import { useNavigate } from "react-router";
 import { FaUser } from "react-icons/fa";
 import { useParams } from "react-router";
-import moment from "moment";
-import { useLocation } from "react-router";
-import { useGetServicebyIdQuery } from "../../Features/api/apiSlice";
+
+import {
+  useGetServicebyIdQuery,
+  useGetUserByIdQuery,
+} from "../../Features/api/apiSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { bookService } from "../../Features/services/booking/bookServiceAction";
 import UserReview from "./UserReview";
@@ -38,6 +40,12 @@ const Body = () => {
   });
 
   console.log(data);
+
+  const { data: userData } = useGetUserByIdQuery(data?.owner, {
+    pollingInterval: 1000,
+  });
+
+  console.log(userData);
 
   const navigateToReview = () => {
     navigate(`/review/${data?._id}`);
@@ -58,6 +66,8 @@ const Body = () => {
     setSlideNumber(i);
     setOpen(!open);
   };
+
+  const user = useSelector((state) => state.auth.roleInfo);
 
   const handleMove = (direction) => {
     let newSlideNum;
@@ -120,7 +130,7 @@ const Body = () => {
 
     try {
       dispatch(bookService(bookingDetails));
-      Swal.fire("Congratulations", "Room booked successfully", "success");
+      Swal.fire("Congratulations", "Service booked!", "success");
     } catch (error) {
       console.log(error);
     }
@@ -137,7 +147,7 @@ const Body = () => {
               <div className="flex flex-row items-center">
                 <div class="flex items-center mt-2 mb-3">
                   <span class=" text-gray-500 underline text-md font-semibold">
-                    By him
+                    By {userData?.firstName} {userData?.lastName}
                   </span>
                 </div>
               </div>
@@ -198,7 +208,7 @@ const Body = () => {
               />
             </div>
           )}
-          <div className="flex flex-wrap bg-pink-200 wrap justify-between mt-7">
+          <div className="flex flex-wrap  wrap justify-between mt-7">
             {photos.map((photo, i) => (
               <div className=" w-1/3">
                 <img
@@ -285,7 +295,7 @@ const Body = () => {
                               {numPeople} Person x {pkg.price}
                             </p>
                             <p className="text-sm text-gray-800 font-semibold">
-                              Total ${totalamount}
+                              Total ${totalamount ? totalamount : 0}
                             </p>
                           </div>
                           <span className=" font-semibold text-md mt-4">
@@ -301,7 +311,14 @@ const Body = () => {
                 currency="USD"
                 stripeKey="pk_test_51N3LOwIPhGSGqTOKsPfhWcAYHkKJ9IAqwzEdtrp6tsbiRUjzjj1B07oItPnNuhtC58oEwjOW6pRGqppi4gac17rZ008PcjijkA"
               >
-                <button class="py-2.5 px-5 mr-2 mb-2 mt-4 text-sm font-medium text-white focus:outline-none bg-primary-700 rounded-full border border-gray-200 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-200">
+                <button
+                  disabled={user?.role === "Service Provider"}
+                  className={`${
+                    user?.role === "Service Provider"
+                      ? "bg-gray-400 cursor-not-allowed mt-4"
+                      : "bg-primary-700 hover:bg-primary-600 mt-4"
+                  } text-white px-4 py-2 rounded-md`}
+                >
                   Reserve
                 </button>
               </StripeCheckout>

@@ -2,6 +2,7 @@ const {
   deleteUser,
   getUser,
   getUsers,
+  getUserById,
   updateUser,
 } = require("../controllers/userController");
 const crypto = require("crypto");
@@ -34,6 +35,8 @@ router.delete("/:id", deleteUser);
 
 //GET
 router.get("/profile", verify, getUser);
+
+router.get("/user/:id", getUserById);
 
 router.get("/:id/verify/:token", async (req, res) => {
   try {

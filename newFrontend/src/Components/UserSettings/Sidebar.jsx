@@ -1,6 +1,6 @@
 import React from "react";
 import { FaHotel } from "react-icons/fa";
-import { MdOutlinePayments, MdDashboard } from "react-icons/md";
+import { MdOutlinePayments, MdPayments, MdDashboard } from "react-icons/md";
 
 const SideBar = () => {
   return (
@@ -30,6 +30,15 @@ const SideBar = () => {
                 <span class="flex-1 ml-3 whitespace-nowrap">
                   Property Details
                 </span>
+              </a>
+            </li>
+            <li>
+              <a
+                href="#"
+                class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg :text-white hover:bg-gray-100 "
+              >
+                <MdPayments size={20} />
+                <span class="ml-3">Payment Details</span>
               </a>
             </li>
           </ul>

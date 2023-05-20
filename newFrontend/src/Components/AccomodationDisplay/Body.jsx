@@ -237,7 +237,7 @@ const Body = () => {
                   onClick={() => handleOpen(i)}
                   src={photo}
                   alt=""
-                  className="w-full object-cover cursor-pointer"
+                  className="w-full h-[300px] object-cover cursor-pointer"
                 />
               </div>
             ))}

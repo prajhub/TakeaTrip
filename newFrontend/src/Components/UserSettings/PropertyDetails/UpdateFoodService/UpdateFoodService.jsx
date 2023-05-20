@@ -6,6 +6,7 @@ import { DevTool } from "@hookform/devtools";
 import { handleSuccess } from "../../../Reusables/SuccessMessage";
 import { setClearSuccess } from "../../../../Features/foodService/foodBasicInfoSlice";
 import { useDispatch, useSelector } from "react-redux";
+import { useDeleteFoodServiceMutation } from "../../../../Features/api/apiSlice";
 
 import { updateFoodService } from "../../../../Features/foodService/updateFoodServiceAction";
 
@@ -37,6 +38,19 @@ const UpdateFoodService = ({ details, onClose }) => {
   });
 
   console.log(formData);
+
+  const [deleteFoodService] = useDeleteFoodServiceMutation();
+  const deleteFood = async () => {
+    try {
+      const result = await deleteFoodService(details._id);
+      // Handle the result or perform additional actions
+      console.log(result);
+      onClose();
+    } catch (error) {
+      // Handle errors
+      console.error(error);
+    }
+  };
 
   const [selectedCuisines, setSelectedCuisines] = useState(
     details.cuisines || []
@@ -466,6 +480,13 @@ const UpdateFoodService = ({ details, onClose }) => {
             }`}
           >
             Edit Service
+          </button>
+          <button
+            type="button"
+            onClick={deleteFood}
+            className="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2"
+          >
+            Delete
           </button>
         </form>
         <DevTool control={control} />

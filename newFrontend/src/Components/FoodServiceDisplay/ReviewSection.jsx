@@ -13,7 +13,7 @@ const ReviewSection = ({ data }) => {
   });
 
   console.log(businessReview);
-  const numOfReviews = businessReview.length;
+  const numOfReviews = businessReview?.length;
 
   return (
     <>

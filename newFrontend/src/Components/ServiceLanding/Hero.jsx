@@ -9,7 +9,7 @@ import { format } from "date-fns";
 import moment from "moment";
 import StaysImg from "../../assets/staysimg.jpg";
 
-import { FaBed } from "react-icons/fa";
+import { GiParachute } from "react-icons/gi";
 import { AiOutlineCalendar } from "react-icons/ai";
 import { BsFillPersonFill } from "react-icons/bs";
 import { useNavigate } from "react-router";
@@ -69,7 +69,7 @@ const Hero = () => {
 
         <div className=" h-[30px] bg-white border-2 border-solid border-yellow-400 flex items-center justify-around py-7 px-0 rounded-md w-full max-w-[1400px] mx-auto">
           <div className="flex items-center gap-3">
-            <FaBed />
+            <GiParachute />
             <input
               type="text"
               placeholder="Where are you going?"

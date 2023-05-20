@@ -5,9 +5,13 @@ import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { updateService } from "../../../Features/services/updateServiceAction";
 import { handleSuccess } from "../../../Components/Reusables/SuccessMessage";
+import { useNavigate } from "react-router";
 import { setClearSuccess } from "../../../Features/serviceListing/onboarding/publicInfoSlice";
+import { useDeleteServiceMutation } from "../../../Features/api/apiSlice";
 
 const UpdateService = ({ details, onClose }) => {
+  const navigate = useNavigate();
+
   const {
     register,
     control,
@@ -23,6 +27,24 @@ const UpdateService = ({ details, onClose }) => {
   });
 
   const [isTouched, setIsTouched] = useState(false);
+
+  const [deleteService] = useDeleteServiceMutation();
+
+  const deleteBusiness = async () => {
+    try {
+      const result = await deleteService(details._id);
+      // Handle the result or perform additional actions
+      console.log(result);
+      onClose();
+    } catch (error) {
+      // Handle errors
+      console.error(error);
+    }
+  };
+
+  const handleBooking = () => {
+    navigate(`/account/service/bookings/${details._id}`);
+  };
 
   useEffect(() => {
     setValue("packages", details.packages || [{}]);
@@ -82,6 +104,14 @@ const UpdateService = ({ details, onClose }) => {
     );
     setValue("photos", updatedImages);
   };
+
+  //Option for timings
+  const options = [];
+  for (let hour = 6; hour <= 23; hour++) {
+    const formattedHour = hour > 12 ? hour - 12 : hour;
+    const amPm = hour >= 12 ? "PM" : "AM";
+    options.push(`${formattedHour} ${amPm}`);
+  }
 
   const handleDelete = (id) => {
     const deletedImage = imagePreviews.find((prev) => prev.id === id);
@@ -276,11 +306,16 @@ const UpdateService = ({ details, onClose }) => {
                     </div>
                     <label>Start Time</label>
                     <div className="mb-4">
-                      <input
-                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 "
-                        type="text"
+                      <select
+                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                         {...register(`packages.${index}.startTime.${0}`)}
-                      />
+                      >
+                        {options.map((option, optionIndex) => (
+                          <option key={optionIndex} value={option}>
+                            {option}
+                          </option>
+                        ))}
+                      </select>
                     </div>
 
                     <label>Price</label>
@@ -328,6 +363,20 @@ const UpdateService = ({ details, onClose }) => {
             }`}
           >
             Submit
+          </button>
+          <button
+            type="button"
+            onClick={deleteBusiness}
+            className="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2"
+          >
+            Delete
+          </button>
+          <button
+            onClick={handleBooking}
+            type="button"
+            className="text-white  bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 mt-5 mr-2 mb-2"
+          >
+            View Bookings
           </button>
         </form>
         <DevTool control={control} />

@@ -31,8 +31,7 @@ const BodyProperty = () => {
   const userId = useSelector((state) => state.auth.userInfo);
 
   const { data } = useGetAccommodationByUserIDQuery(userId._id, {
-    refetchOnMountOrArgChange: true,
-    refetchInterval: 1000, // Refetch every 5 seconds
+    pollingInterval: 1000,
   });
   console.log(data);
 

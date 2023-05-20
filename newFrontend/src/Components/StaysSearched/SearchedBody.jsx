@@ -5,7 +5,7 @@ import { DateRange } from "react-date-range";
 import { Slider } from "antd";
 import moment from "moment";
 import { useGetAccommodationsByCityQuery } from "../../Features/api/apiSlice";
-
+import { Skeleton } from "antd";
 import SearchItem from "./SearchItem";
 
 const SearchedBody = () => {
@@ -40,7 +40,7 @@ const SearchedBody = () => {
   const { data, isLoading, isError, refetch } = useGetAccommodationsByCityQuery(
     destination,
     {
-      pollingInterval: 2000,
+      pollingInterval: 12000,
     }
   );
 
@@ -137,10 +137,14 @@ const SearchedBody = () => {
             </div>
             <div className="flex-[3_1_0%]">
               {isLoading ? (
-                "Loading..."
+                <Skeleton active />
+              ) : isError ? (
+                <span className="text-2xl font-semibold">
+                  No accommodations found in the location!
+                </span>
               ) : (
                 <>
-                  {data.map((item) => (
+                  {data?.map((item) => (
                     <SearchItem
                       item={item}
                       startDate={startDate}

@@ -12,6 +12,7 @@ const initialState = {
   token,
   userInfo: {},
   roleInfo: {},
+
   error: null,
   success: false,
   registerMsg: "",
@@ -32,8 +33,12 @@ const authSlice = createSlice({
       state.userInfo = null;
       state.error = null;
       state.token = null;
+      state.roleInfo = null;
     },
     setCredentials: (state, { payload }) => {
+      state.roleInfo = payload;
+    },
+    setNewInfo: (state, { payload }) => {
       state.roleInfo = payload;
     },
     setClearSuccess: (state, action) => {
@@ -100,6 +105,7 @@ export const {
   setCredentials,
   setClearSuccess,
   setClearMessage,
+  setNewInfo,
 } = authSlice.actions;
 
 export default authSlice.reducer;

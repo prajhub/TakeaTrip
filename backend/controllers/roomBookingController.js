@@ -2,6 +2,8 @@ const Booking = require("../model/roomBooking");
 const Room = require("../model/room");
 const User = require("../model/user");
 const moment = require("moment");
+const Accommodation = require("../model/accommodation");
+const sendEmail = require("../utils/sendEmail");
 const { v4: uuidv4 } = require("uuid");
 const stripe = require("stripe")(
   "sk_test_51N3LOwIPhGSGqTOKdTR1Xv60jDjfCFR3uStcAwMj5jsKaIxnYCkIURvMtgNz9HN5qlbiK53MYMXPsO4uk4Ky2MKw00F2PeqEwp"
@@ -41,8 +43,8 @@ const bookRoom = async (req, res, next) => {
       const newBooking = new Booking({
         room,
         roomnumber,
-        fromdate: moment(fromdate).format("DD-MM-YYYY"),
-        todate: moment(todate).format("DD-MM-YYYY"),
+        fromdate,
+        todate,
 
         roomid,
         totalamount,
@@ -68,8 +70,34 @@ const bookRoom = async (req, res, next) => {
         { new: true }
       );
 
-      // Update the user's hasBookedRoom field to true
-      await User.findByIdAndUpdate(userid, { hasBookedRoom: true });
+      const paymentObj = {
+        bookingId: booking._id,
+        transactionId: payment.id,
+        amount: totalamount,
+        date: new Date().toISOString().slice(0, 10),
+      };
+
+      console.log(paymentObj);
+
+      // Update the user's hasBookedRoom field to true & add the payment history
+      const updatedUser = await User.findByIdAndUpdate(
+        userid,
+        {
+          $push: { paymentHistory: paymentObj },
+          $set: { hasBookedRoom: true },
+        },
+        { new: true }
+      );
+
+      const text = `Thankyou for booking a room. We hope you enjoy your stay `;
+      const html = `<p>Thankyou for booking a room. We hope you enjoy your stay</p>`;
+
+      await sendEmail(
+        updatedUser.email,
+        "Room booked successfully!",
+        text,
+        html
+      );
     }
 
     res.send("Payment successfull, Your room is booked");
@@ -78,4 +106,38 @@ const bookRoom = async (req, res, next) => {
   }
 };
 
-module.exports = { bookRoom };
+const getPaymentHistory = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const user = await User.findById(id);
+
+    res.json(user.paymentHistory);
+  } catch (error) {
+    res.status(400).json({ error });
+  }
+};
+
+const getRoomBookings = async (req, res, next) => {
+  const id = req.params.id;
+
+  try {
+    // Find the accommodation by ID
+    const accommodation = await Accommodation.findById(id);
+
+    if (!accommodation) {
+      return res.status(404).json({ message: "Accommodation not found" });
+    }
+
+    // Retrieve the room IDs associated with the accommodation
+    const roomIds = accommodation.rooms;
+
+    // Find the bookings for the room IDs
+    const bookings = await Booking.find({ roomid: { $in: roomIds } });
+
+    res.status(200).json(bookings);
+  } catch (error) {
+    res.status(400).json({ error });
+  }
+};
+
+module.exports = { bookRoom, getPaymentHistory, getRoomBookings };

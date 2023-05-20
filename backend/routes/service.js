@@ -3,6 +3,7 @@ const {
   addServiceProvider,
   updateService,
   getService,
+  deleteService,
   getServiceByLocation,
   getServices,
 } = require("../controllers/addServiceProviderController");
@@ -14,6 +15,8 @@ router.post("/", verifyJWT, addServiceProvider);
 
 //UPDATE
 router.put("/:id", updateService);
+
+router.delete("/:id", deleteService);
 
 //Get one
 router.get("/bservice/:id", getService);

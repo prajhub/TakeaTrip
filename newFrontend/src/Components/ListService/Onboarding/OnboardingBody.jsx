@@ -8,7 +8,9 @@ import { Modal } from "antd";
 import { useNavigate } from "react-router";
 import { FaMapSigns } from "react-icons/fa";
 import { GiFlyingFox } from "react-icons/gi";
-
+import { useDispatch } from "react-redux";
+import { setNewInfo } from "../../../Features/auth/authSlice";
+import { useGetUserDetailsQuery } from "../../../Features/api/apiSlice";
 import { useCreateServiceMutation } from "../../../Features/services/addServiceSlice";
 import { useForm } from "react-hook-form";
 import { DevTool } from "@hookform/devtools";
@@ -94,7 +96,7 @@ const OnboardingBody = () => {
   }, []);
 
   const [isModalVisible, setIsModalVisible] = useState(false);
-
+  const [updateStatus, setUpdatedStatus] = useState(false);
   const showModal = () => {
     setIsModalVisible(true);
   };
@@ -107,12 +109,23 @@ const OnboardingBody = () => {
         console.log("error");
       } else {
         setIsModalVisible(true);
+        setUpdatedStatus(true);
       }
       console.log(data);
     } catch (error) {
       console.error(error);
     }
   };
+
+  const dispatch = useDispatch();
+  const { data, isFetching } = useGetUserDetailsQuery("userDetails");
+  console.log(data);
+
+  useEffect(() => {
+    if (updateStatus) {
+      dispatch(setNewInfo(data));
+    }
+  }, [updateStatus, data, dispatch]);
 
   const addMore = () => {
     window.location.reload();

@@ -74,9 +74,6 @@ const Body = () => {
             </p>
             <div className="flex flex-row items-center">
               <div class="flex items-center mt-2 mb-3">
-                <div class="bg-yellow-400 rounded-full h-6 w-6 flex items-center justify-center text-white font-bold  text-xs">
-                  8.9
-                </div>
                 <span class="ml-2 text-gray-700 font-medium text-xs">
                   (12,345 reviews)
                 </span>

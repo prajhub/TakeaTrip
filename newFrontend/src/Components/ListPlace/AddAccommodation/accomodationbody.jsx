@@ -6,7 +6,9 @@ import { useNavigate, Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { DevTool } from "@hookform/devtools";
 import { Modal } from "antd";
-
+import { useGetUserDetailsQuery } from "../../../Features/api/apiSlice";
+import { useDispatch } from "react-redux";
+import { setNewInfo } from "../../../Features/auth/authSlice";
 import "react-phone-number-input/style.css";
 
 const accomodationbody = () => {
@@ -187,10 +189,7 @@ const accomodationbody = () => {
     useCreateAccommodationMutation();
 
   const [isModalVisible, setIsModalVisible] = useState(false);
-
-  const showModal = () => {
-    setIsModalVisible(true);
-  };
+  const [updateStatus, setUpdatedStatus] = useState(false);
 
   const onSubmit = async (data) => {
     try {
@@ -199,12 +198,23 @@ const accomodationbody = () => {
         console.log("error ");
       } else {
         setIsModalVisible(true);
+        setUpdatedStatus(true);
       }
       console.log(returnedData);
     } catch (error) {
       console.error(error);
     }
   };
+
+  const dispatch = useDispatch();
+  const { data, isFetching } = useGetUserDetailsQuery("userDetails");
+  console.log(data);
+
+  useEffect(() => {
+    if (updateStatus) {
+      dispatch(setNewInfo(data));
+    }
+  }, [updateStatus, data, dispatch]);
 
   const navigate = useNavigate();
 
@@ -704,9 +714,6 @@ const accomodationbody = () => {
                   Confirm
                 </button>
               </div>
-              <button type="button" onClick={() => showModal()}>
-                Open Modal
-              </button>
             </div>
           </div>
         </div>

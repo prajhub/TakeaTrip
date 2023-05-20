@@ -1,6 +1,5 @@
 import React, { useState, useContext, useEffect, Fragment } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { setLogOut, setCredentials } from "../../Features/auth/authSlice";
 
 import ProfileMenu from "../Reusables/ProfileMenu";
 import { useNavigate } from "react-router";

@@ -36,6 +36,9 @@ const serviceSchema = new mongoose.Schema({
   website: {
     type: String,
   },
+  owner: {
+    type: String,
+  },
 
   photos: [String],
   duration: {
@@ -53,10 +56,10 @@ const serviceSchema = new mongoose.Schema({
         type: Number,
       },
       date: {
-        type: Date,
+        type: String,
       },
       numPeopleIncluded: {
-        type: Number,
+        type: String,
       },
       bookedby: {
         type: String,

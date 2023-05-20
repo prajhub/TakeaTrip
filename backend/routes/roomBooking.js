@@ -1,11 +1,19 @@
-const express = require('express');
+const express = require("express");
 
 const router = express.Router();
 
-const {bookRoom} = require('../controllers/roomBookingController')
+const {
+  bookRoom,
+  getRoomBookings,
+  getPaymentHistory,
+} = require("../controllers/roomBookingController");
 
-const verifyJWT = require('../middleware/verifyJWT')
+const verifyJWT = require("../middleware/verifyJWT");
 
-router.post("/",  bookRoom)
+router.post("/", bookRoom);
+
+router.get("/history/:id", getPaymentHistory);
+
+router.get("/bookings/:id", getRoomBookings);
 
 module.exports = router;

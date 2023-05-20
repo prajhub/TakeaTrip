@@ -4,8 +4,11 @@ import { useNavigate } from "react-router";
 const SearchItem = ({ item }) => {
   console.log(item);
 
-  const { features } = item;
+  const { features, cuisines } = item;
   const [feature1, feature2] = features.slice(0, 2);
+
+  const allCuisines = cuisines.join(", ");
+  console.log(allCuisines);
 
   const navigate = useNavigate();
 
@@ -33,21 +36,18 @@ const SearchItem = ({ item }) => {
           <span className="text-xs font-bold">
             {feature1} {feature2}
           </span>
+          <span className="text-xs font-bold">{allCuisines}</span>
         </div>
         <div className=" flex-1 flex flex-col justify-between">
           <div className="flex justify-end">
             <span className="font-medium">Excellent</span>
           </div>
           <div className="text-right flex flex-col gap-1">
-            <span className=" text-xl">${item.minPrice}</span>
-            <span className="text-xs text-gray-400">
-              Includes taxes and fees
-            </span>
             <button
               onClick={handleSeeAvailabilityClick}
               className="bg-primary-600 text-white text-center font-bold pt-3 pb-2 border-none rounded cursor-pointer"
             >
-              See availability
+              View
             </button>
           </div>
         </div>

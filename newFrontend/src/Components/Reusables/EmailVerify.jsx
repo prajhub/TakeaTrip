@@ -25,11 +25,17 @@ const EmailVerify = () => {
   return (
     <Fragment>
       {validUrl ? (
-        <div>
-          <h1>Email verified succesfully</h1>
-          <Link to="/login">
-            <button>Login</button>
-          </Link>
+        <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
+          <div className="bg-white rounded-lg p-6">
+            <h2 className="text-2xl font-bold mb-4">
+              Email verified successfully!
+            </h2>
+            <a href="/login">
+              <button className="bg-primary-500 text-white px-4 py-2 items-center rounded hover:bg-primary-600">
+                Login
+              </button>
+            </a>
+          </div>
         </div>
       ) : (
         <div>404 nots found</div>

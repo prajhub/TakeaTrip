@@ -2,7 +2,10 @@ import React, { useState, useEffect } from "react";
 import { Table, Modal } from "antd";
 import { AiOutlineArrowLeft } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
-import { useGetAllServicesQuery } from "../../Features/api/apiSlice";
+import {
+  useGetAllServicesQuery,
+  useDeleteServiceMutation,
+} from "../../Features/api/apiSlice";
 import { Link } from "react-router-dom";
 
 const Services = () => {
@@ -10,6 +13,8 @@ const Services = () => {
   const { data: serviceList } = useGetAllServicesQuery("serviceList", {
     pollingInterval: 1000,
   });
+
+  const [deleteService] = useDeleteServiceMutation();
 
   console.log(serviceList);
 
@@ -23,6 +28,10 @@ const Services = () => {
 
   const handleNavigateProperty = (service) => {
     navigate(`/adashboard/user/properties/${service.key}`);
+  };
+
+  const handleDeleteService = (service) => {
+    deleteService(service.key);
   };
 
   const columns = [
@@ -57,6 +66,13 @@ const Services = () => {
           >
             View
           </a>
+          &nbsp;|&nbsp;{" "}
+          <a
+            onClick={() => handleDeleteService(service)}
+            className="hover:text-[red]"
+          >
+            Delete
+          </a>
         </span>
       ),
     },
@@ -64,7 +80,7 @@ const Services = () => {
 
   return (
     <>
-      <div class=" h-[200px] ">
+      <div>
         <div className="m-3">
           <Link to="/adashboard">
             <div className="flex gap-1 cursor-pointer hover:text-primary-700 flex-row items-center">
@@ -72,7 +88,9 @@ const Services = () => {
               <p>Back</p>
             </div>
           </Link>
-          <Table dataSource={dataSource} columns={columns} />
+          <div className="mt-4">
+            <Table dataSource={dataSource} columns={columns} />
+          </div>
         </div>
       </div>
     </>
