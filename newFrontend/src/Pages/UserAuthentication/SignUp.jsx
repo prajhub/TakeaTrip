@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useRef } from 'react';
 import { userRegister } from '../../Features/auth/registerAction';
 import {setClearSuccess} from '../../Features/auth/authSlice'
-import { handleSuccess } from '../../Components/Reusables/SuccessInfo';
+import { handleSuccess } from '../../Components/Reusables/SuccessMessage';
 
 const SignUp = () => {
 
@@ -48,8 +48,18 @@ if(navigate) {
 
   const { registerMsg } = useSelector((state)=> state.auth)
       const { success } = useSelector((state)=> state.auth)
-      console.log(registerMsg, success)
+      console.log(registerMsg)
 
+
+
+      useEffect(() => {
+        if(success) {
+        handleSuccess(success, registerMsg);
+        dispatch(setClearSuccess());
+
+        }
+
+      }, [success, registerMsg, dispatch]);
 
      
     
@@ -69,10 +79,7 @@ if(navigate) {
       
       dispatch(userRegister(userData))
 
-      useEffect(() => {
-        handleSuccess(success, registerMsg, dispatch);
-
-      }, [success, registerMsg, dispatch]);
+      
 
       // dispatch(userRegister({))
       
@@ -95,7 +102,7 @@ if(navigate) {
           <button type="submit" class="text-white w-full bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Sign Up</button>
           
         </Form>
-        <div class="text-center text-xs text-grey-dark mt-4">
+        <div class="text-center text-gray-600 text-xs text-grey-dark mt-4">
                         By signing up, you agree to the 
                         <a class=" ml-1 no-underline border-b border-grey-dark text-grey-dark" href="#">
                             Terms of Service

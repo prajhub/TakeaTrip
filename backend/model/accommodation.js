@@ -76,7 +76,10 @@ const AccommodationSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
-
+  cheapestPrice: {
+    type: Number,
+    required: true,
+  },
   owner: {
     type: String,
   },

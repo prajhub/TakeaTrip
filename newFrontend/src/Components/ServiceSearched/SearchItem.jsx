@@ -5,11 +5,8 @@ const SearchItem = ({ item, min, max, date }) => {
   const { packages } = item;
 
   const packageNames = packages?.map((pkg) => pkg.packageName);
-  const packagePrice = packages?.map((pkg) => pkg.price);
-
-  const randomPrice =
-    packagePrice[Math.floor(Math.random() * packagePrice.length)];
-  console.log(randomPrice);
+ 
+  const price = item?.cheapestPrice
 
   const navigate = useNavigate();
 
@@ -53,7 +50,7 @@ const SearchItem = ({ item, min, max, date }) => {
             <span className="font-medium">Excellent</span>
           </div>
           <div className="text-right flex flex-col gap-1">
-            <span className=" text-xl">${randomPrice}</span>
+            <span className=" text-xl">${price}</span>
             <span className="text-xs text-gray-400">
               Includes taxes and fees
             </span>

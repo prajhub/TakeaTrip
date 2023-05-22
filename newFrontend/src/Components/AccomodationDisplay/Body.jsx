@@ -80,6 +80,12 @@ const Body = () => {
     pollingInterval: 2000,
   });
 
+  console.log(data)
+
+  const redirectToWebsite = () => {
+    window.location.href =`http://${data?.website}`;
+  };
+
   const photos = data?.photos;
   const accommodationId = data?._id;
 
@@ -146,9 +152,7 @@ const Body = () => {
                 <HiLocationMarker /> {data.address}
               </p>
               <div class="flex items-center mt-2 mb-3">
-                <div class="bg-yellow-400 rounded-full h-6 w-6 flex items-center justify-center text-white font-bold  text-xs">
-                  8.9
-                </div>
+                
                 <span class="ml-2 text-gray-700 font-medium text-xs">
                   ({numberOfReviews} reviews)
                 </span>
@@ -160,7 +164,7 @@ const Body = () => {
                   </span>{" "}
                   +65 6688 8868
                 </div>
-                <div className="flex flex-row items-center hover:underline gap-1">
+                <div onClick={redirectToWebsite} className="flex flex-row items-center hover:underline gap-1">
                   <span class="font-bold md:ml-20 ">
                     <AiOutlineGlobal size={20} />
                   </span>{" "}

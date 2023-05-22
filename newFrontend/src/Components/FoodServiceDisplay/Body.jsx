@@ -18,6 +18,7 @@ import {
 import { GiBroom } from "react-icons/gi";
 import { RiMapPin2Line } from "react-icons/ri";
 import { useParams, useNavigate } from "react-router";
+
 import ReviewSection from "./ReviewSection";
 import { useGetFoodServicebyIdQuery } from "../../Features/api/apiSlice";
 
@@ -35,6 +36,10 @@ const Body = () => {
   });
 
   console.log(FoodData);
+
+  const redirectToWebsite = () => {
+    window.location.href =`http://${FoodData?.website}`;
+  };
 
   const photos = FoodData?.photos;
 
@@ -75,7 +80,7 @@ const Body = () => {
             <div className="flex flex-row items-center">
               <div class="flex items-center mt-2 mb-3">
                 <span class="ml-2 text-gray-700 font-medium text-xs">
-                  (12,345 reviews)
+                  ({FoodData?.reviews} reviews)
                 </span>
               </div>
               <div className=" ml-2 border-l">
@@ -89,7 +94,7 @@ const Body = () => {
                 </span>{" "}
                 {FoodData?.number}
               </div>
-              <div className="flex flex-row items-center hover:underline gap-1">
+              <div onClick={redirectToWebsite} className="flex flex-row items-center hover:underline gap-1">
                 <span class="font-bold md:ml-20 ">
                   <AiOutlineGlobal size={20} />
                 </span>{" "}

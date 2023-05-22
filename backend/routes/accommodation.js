@@ -6,6 +6,7 @@ const {
   getAllAccommodation,
   getAccommodation,
   getAccommodationRooms,
+
   getAccommodations,
   getPropertyById,
   getHotelsByLocation,
@@ -27,6 +28,8 @@ router.delete("/:id", deleteHotel);
 
 //GET
 router.get("/:id", getAccommodation);
+
+
 
 //Just GETALL
 router.get("/", getAccommodations);

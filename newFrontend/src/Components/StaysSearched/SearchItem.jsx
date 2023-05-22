@@ -10,27 +10,10 @@ const SearchItem = ({ item, min, max, startDate, endDate }) => {
 
   const navigate = useNavigate();
 
-  const { data: roomData, isFetching } = useGetRoomsByAccommodationQuery(
-    item?._id,
-    {
-      pollingInterval: 2000,
-    }
-  );
 
-  console.log(roomData);
 
-  let price;
+  const price = item?.cheapestPrice
 
-  if (Array.isArray(roomData) && roomData.length > 0) {
-    // Multiple objects
-    const prices = roomData.map((room) => room.price);
-    price = prices[Math.floor(Math.random() * prices.length)];
-  } else if (roomData) {
-    // Single object
-    price = roomData.price;
-  }
-
-  console.log(price);
 
   const handleSeeAvailabilityClick = () => {
     navigate(`/accommodation/${item._id}`, { state: { startDate, endDate } });

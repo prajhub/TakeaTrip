@@ -7,9 +7,9 @@ const {
 } = require("../controllers/userController");
 const crypto = require("crypto");
 const verify = require("../middleware/verifyJWT");
-const protect = require("../middleware/authMiddleware");
+
 const express = require("express");
-const verifyAdmin = require("../middleware/verifyAdmin");
+
 const User = require("../model/user");
 const router = express.Router();
 const Token = require("../model/token");

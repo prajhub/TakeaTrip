@@ -707,6 +707,18 @@ const accomodationbody = () => {
                         </div>
                       </div>
                     </section>
+                    <section>
+                      <legend className="contents text-xl font-semibold leading-6 text-gray-900">
+                        What is the base price of the rooms ?
+                      </legend>
+                      <div className="mt-4">
+                        <input
+                          type="number"
+                          className="border-gray-400 border py-2 px-4 rounded ml-2"
+                          {...register("cheapestPrice")}
+                        />
+                      </div>
+                    </section>
                   </div>
                 </div>
 

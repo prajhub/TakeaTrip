@@ -285,6 +285,21 @@ const OnboardingBody = () => {
                           )}
                         </div>
                       </div>
+                      <div className="col-span-3 sm:col-span-2">
+                      <label
+                          htmlFor="price"
+                          className="block text-sm font-medium leading-6 mb-2 text-gray-900"
+                        >
+                          What is the cheapest price for your packages?
+                        </label>
+                      <div className="mt-4">
+                        <input
+                          type="number"
+                          className="border-gray-400 border py-2 px-4 rounded ml-2"
+                          {...register("cheapestPrice")}
+                        />
+                      </div>
+                      </div>
                     </div>
                   </div>
                 </div>

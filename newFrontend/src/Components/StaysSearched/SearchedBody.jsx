@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, } from "react";
 import { useLocation } from "react-router";
 import { format } from "date-fns";
 import { DateRange } from "react-date-range";
@@ -29,8 +29,10 @@ const SearchedBody = () => {
   const [min, setMin] = useState(0);
   const [max, setMax] = useState(999);
 
+  console.log(min, max)
+
   const onChange = (value) => {
-    console.log("onChange: ", value);
+    
   };
   const onAfterChange = (value) => {
     setMin(value[0]);
@@ -38,10 +40,8 @@ const SearchedBody = () => {
   };
 
   const { data, isLoading, isError, refetch } = useGetAccommodationsByCityQuery(
-    destination,
-    {
-      pollingInterval: 12000,
-    }
+    destination
+  
   );
 
   const handleClick = () => {
@@ -49,6 +49,7 @@ const SearchedBody = () => {
       min || 0
     }&max=${max || 999}`;
     refetch({ endpoint: url });
+    console.log('Refetched')
   };
 
   return (
@@ -64,7 +65,8 @@ const SearchedBody = () => {
                 <label className="text-md font-semibold">Destination</label>
                 <input
                   className=" h-8 rounded-md p-2 mt-2 mb-2"
-                  placeholder={destination}
+                  value={destination}
+  onChange={(e) => setDestination(e.target.value)}
                   type="text"
                 />
               </div>
@@ -86,18 +88,9 @@ const SearchedBody = () => {
                 )}
               </div>
               <div className="flex flex-col gap-2 mt-3">
-                <label className="text-sm font-semibold">Price per night</label>
+               
                 <div className=" ">
-                  <Slider
-                    step={100}
-                    range
-                    min={0}
-                    max={1000}
-                    defaultValue={[0, 1000]}
-                    tipFormatter={dollarFormatter}
-                    onChange={onChange}
-                    onAfterChange={onAfterChange}
-                  />
+                 
 
                   <div className="flex justify-between mb-4 text-xs">
                     <span className="lsOpnText">Adult</span>
@@ -128,12 +121,7 @@ const SearchedBody = () => {
                   </div>
                 </div>
               </div>
-              <button
-                onClick={handleClick}
-                className=" p-2 bg-primary-600 text-white border-none w-full font-medium cursor-pointer"
-              >
-                Search
-              </button>
+             
             </div>
             <div className="flex-[3_1_0%]">
               {isLoading ? (

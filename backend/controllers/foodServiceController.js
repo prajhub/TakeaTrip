@@ -2,7 +2,7 @@ const FoodService = require("../model/foodservice");
 const User = require("../model/user");
 
 const createNewFoodService = async (req, res) => {
-  const { name, country, city, address, number, type, photos, zipcode } =
+  const { name, country, city, address, number, type, photos, zipcode, description } =
     req.body;
 
   const userId = req.user.userId;
@@ -30,6 +30,7 @@ const createNewFoodService = async (req, res) => {
       city,
       address,
       number,
+      description,
       type,
       owner: user._id,
       photos,

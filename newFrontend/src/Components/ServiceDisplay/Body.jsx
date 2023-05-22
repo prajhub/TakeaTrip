@@ -39,7 +39,11 @@ const Body = () => {
     pollingInterval: 1000,
   });
 
-  console.log(data);
+  
+
+  const redirectToWebsite = () => {
+    window.location.href =`http://${data?.website}`;
+  };
 
   const { data: userData } = useGetUserByIdQuery(data?.owner, {
     pollingInterval: 1000,
@@ -158,11 +162,11 @@ const Body = () => {
                   </span>{" "}
                   +{data.phoneNum}
                 </div>
-                <div className="flex flex-row items-center hover:underline gap-1">
+                <div onClick={redirectToWebsite} className="flex flex-row items-center hover:underline gap-1">
                   <span class="font-bold md:ml-20 ">
                     <AiOutlineGlobal size={20} />
                   </span>{" "}
-                  {data.website}
+                  View Website
                 </div>
 
                 <div

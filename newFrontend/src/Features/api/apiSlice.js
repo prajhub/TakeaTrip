@@ -1,190 +1,265 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react";
 
 console.log("Creating API...");
 
 export const apiSlice = createApi({
-  baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:5000",
+    baseQuery: fetchBaseQuery(
+        {
+            baseUrl: "http://localhost:5000",
 
-    prepareHeaders: (headers, { getState }) => {
-      const token = getState().auth.token;
+            prepareHeaders: (headers, {getState}) => {
+                const token = getState().auth.token;
 
-      if (token) {
-        //include token in req header
-        headers.set("authorization", `Bearer ${token}`);
-      }
-      return headers;
-    },
-  }),
-  endpoints: (builder) => ({
-    userLogin: builder.mutation({
-      query: (credentials) => ({
-        url: "/auth",
-        method: "POST",
-        body: { ...credentials },
-      }),
-    }),
+                if (token) { // include token in req header
+                    headers.set("authorization", `Bearer ${token}`);
+                }
+                return headers;
+            }
+        }
+    ),
+    endpoints: (builder) => (
+        {
+            userLogin: builder.mutation(
+                {
+                    query: (credentials) => (
+                        {
+                            url: "/auth",
+                            method: "POST",
+                            body: {
+                                ...credentials
+                            }
+                        }
+                    )
+                }
+            ),
 
-    getAccommodationsByCity: builder.query({
-      query: (city) => `/accommodation?location=${city}`,
-    }),
-    // new endpoint for getting accommodation by id
-    getAccommodationById: builder.query({
-      query: (id) => `/accommodation/${id}`,
-    }),
-    getReviewsById: builder.query({
-      query: (id) => `/review/user/${id}`,
-    }),
+            getAccommodationsByCity: builder.query(
+                {
+                    query: (city) => `/accommodation?location=${city}`
+                }
+            ),
+          
+            // new endpoint for getting accommodation by id
+            getAccommodationById: builder.query(
+                {
+                    query: (id) => `/accommodation/${id}`
+                }
+            ),
+            getReviewsById: builder.query(
+                {
+                    query: (id) => `/review/user/${id}`
+                }
+            ),
 
-    getUserDetails: builder.query({
-      query: () => "/users/profile",
-    }),
+            getUserDetails: builder.query(
+                {
+                    query: () => "/users/profile"
+                }
+            ),
 
-    getUserById: builder.query({
-      query: (id) => `/users/user/${id}`,
-    }),
-    updateUser: builder.mutation({
-      query: ({ id, email, password, firstName, lastName, photo }) => ({
-        url: `/users/update/${id}`,
-        method: "PUT",
-        body: { email, password, firstName, lastName, photo },
-      }),
-    }),
+            getUserById: builder.query(
+                {
+                    query: (id) => `/users/user/${id}`
+                }
+            ),
+            updateUser: builder.mutation(
+                {
+                    query: (
+                        {
+                            id,
+                            email,
+                            password,
+                            firstName,
+                            lastName,
+                            photo
+                        }
+                    ) => (
+                        {
+                            url: `/users/update/${id}`,
+                            method: "PUT",
+                            body: {
+                                email,
+                                password,
+                                firstName,
+                                lastName,
+                                photo
+                            }
+                        }
+                    )
+                }
+            ),
 
-    getReviewsByBusiness: builder.query({
-      query: (id) => `/review/${id}`,
-    }),
+            getReviewsByBusiness: builder.query(
+                {
+                    query: (id) => `/review/${id}`
+                }
+            ),
 
-    getAccommodationByUserID: builder.query({
-      query: (id) => `/accbyId/${id}`,
-    }),
-    getRoomsByAccommodation: builder.query({
-      query: (id) => `/accommodation/accomodationrooms/${id}`,
-    }),
+            getAccommodationByUserID: builder.query(
+                {
+                    query: (id) => `/accbyId/${id}`
+                }
+            ),
+            getRoomsByAccommodation: builder.query(
+                {
+                    query: (id) => `/accommodation/accomodationrooms/${id}`
+                }
+            ),
 
-    //Query for Rooms
+            // Query for Rooms
 
-    createRoom: builder.mutation({
-      query: (accoId, formData) => ({
-        url: `/rooms/${accoId}`,
-        method: "POST",
-        body: formData,
-      }),
-    }),
+            createRoom: builder.mutation(
+                {
+                    query: (accoId, formData) => (
+                        {url: `/rooms/${accoId}`, method: "POST", body: formData}
+                    )
+                }
+            ),
 
-    getRoomDetailById: builder.query({
-      query: (id) => `/rooms/${id}`,
-    }),
-    updateFoodService: builder.mutation({
-      query: (id, body) => ({
-        url: `/foodservice/${id}`,
-        method: "PUT",
-        body,
-      }),
-    }),
+            getRoomDetailById: builder.query(
+                {
+                    query: (id) => `/rooms/${id}`
+                }
+            ),
+            updateFoodService: builder.mutation(
+                {
+                    query: (id, body) => (
+                        {url: `/foodservice/${id}`, method: "PUT", body}
+                    )
+                }
+            ),
 
-    getServiceByLocation: builder.query({
-      query: (loc) => `/service?location=${loc}`,
-    }),
-    getServicebyId: builder.query({
-      query: (id) => `/service/bservice/${id}`,
-    }),
+            getServiceByLocation: builder.query(
+                {
+                    query: (loc) => `/service?location=${loc}`
+                }
+            ),
+            getServicebyId: builder.query(
+                {
+                    query: (id) => `/service/bservice/${id}`
+                }
+            ),
 
-    forgotpassword: builder.mutation({
-      query: (data) => ({
-        url: "/users/sendpasswordlink",
-        method: "POST",
-        body: data,
-      }),
-    }),
+            forgotpassword: builder.mutation(
+                {
+                    query: (data) => (
+                        {url: "/users/sendpasswordlink", method: "POST", body: data}
+                    )
+                }
+            ),
 
-    updatePassword: builder.mutation({
-      query: ({ id, token, data }) => ({
-        url: `/users/${id}/${token}`,
-        method: "POST",
-        body: data,
-      }),
-    }),
+            updatePassword: builder.mutation(
+                {
+                    query: (
+                        {id, token, data}
+                    ) => (
+                        {url: `/users/${id}/${token}`, method: "POST", body: data}
+                    )
+                }
+            ),
 
-    getAllAccommodations: builder.query({
-      query: () => "/accommodation/all/accommodation",
-    }),
-    deleteFoodService: builder.mutation({
-      query: (id) => ({
-        url: `/foodservice/${id}`,
-        method: "DELETE",
-      }),
-    }),
-    deleteAccommodation: builder.mutation({
-      query: (id) => ({
-        url: `/accommodation/${id}`,
-        method: "DELETE",
-      }),
-    }),
-    deleteService: builder.mutation({
-      query: (id) => ({
-        url: `/service/${id}`,
-        method: "DELETE",
-      }),
-    }),
+            getAllAccommodations: builder.query(
+                {
+                    query: () => "/accommodation/all/accommodation"
+                }
+            ),
+            deleteFoodService: builder.mutation(
+                {
+                    query: (id) => (
+                        {url: `/foodservice/${id}`, method: "DELETE"}
+                    )
+                }
+            ),
+            deleteAccommodation: builder.mutation(
+                {
+                    query: (id) => (
+                        {url: `/accommodation/${id}`, method: "DELETE"}
+                    )
+                }
+            ),
+            deleteService: builder.mutation(
+                {
+                    query: (id) => (
+                        {url: `/service/${id}`, method: "DELETE"}
+                    )
+                }
+            ),
 
-    getPropertyById: builder.query({
-      query: (id) => `/accommodation/property/${id}`,
-    }),
-    getAllServices: builder.query({
-      query: () => "/service/all/services",
-    }),
-    getAllFoodService: builder.query({
-      query: () => "/foodservice/all",
-    }),
+            getPropertyById: builder.query(
+                {
+                    query: (id) => `/accommodation/property/${id}`
+                }
+            ),
+            getAllServices: builder.query(
+                {
+                    query: () => "/service/all/services"
+                }
+            ),
+            getAllFoodService: builder.query(
+                {
+                    query: () => "/foodservice/all"
+                }
+            ),
 
-    getFoodServiceByLocation: builder.query({
-      query: (loc) => `/foodservice?location=${loc}`,
-    }),
+            getFoodServiceByLocation: builder.query(
+                {
+                    query: (loc) => `/foodservice?location=${loc}`
+                }
+            ),
 
-    getFoodServicebyId: builder.query({
-      query: (id) => `/foodservice/service/${id}`,
-    }),
-    getPaymentHistory: builder.query({
-      query: (id) => `/roombookings/history/${id}`,
-    }),
-    getBookingHistory: builder.query({
-      query: (id) => `roombookings/bookings/${id}`,
-    }),
-    getServiceBookingHistory: builder.query({
-      query: (id) => `servicebookings/${id}`,
-    }),
-  }),
+            getFoodServicebyId: builder.query(
+                {
+                    query: (id) => `/foodservice/service/${id}`
+                }
+            ),
+            getPaymentHistory: builder.query(
+                {
+                    query: (id) => `/roombookings/history/${id}`
+                }
+            ),
+            getBookingHistory: builder.query(
+                {
+                    query: (id) => `roombookings/bookings/${id}`
+                }
+            ),
+            getServiceBookingHistory: builder.query(
+                {
+                    query: (id) => `servicebookings/${id}`
+                }
+            )
+        }
+    )
 });
 
 export const {
-  useUserLoginMutation,
-  useGetRoomDetailByIdQuery,
-  useGetUserDetailsQuery,
-  useGetUserByIdQuery,
-  useGetReviewsByIdQuery,
-  useGetAllAccommodationsQuery,
-  useGetAllFoodServiceQuery,
-  useUpdateUserMutation,
-  useGetReviewsByBusinessQuery,
-  useGetRoomsByAccommodationQuery,
-  useUpdateFoodServiceMutation,
-  useGetAllServicesQuery,
-  useGetAccommodationByIdQuery,
-  useGetAccommodationByUserIDQuery,
-  useGetAccommodationsByCityQuery,
-  useCreateRoomMutation,
-  useGetServiceByLocationQuery,
-  useGetServicebyIdQuery,
-  useGetPropertyByIdQuery,
-  useGetFoodServicebyIdQuery,
-  useForgotpasswordMutation,
-  useUpdatePasswordMutation,
-  useGetFoodServiceByLocationQuery,
-  useGetPaymentHistoryQuery,
-  useDeleteFoodServiceMutation,
-  useDeleteServiceMutation,
-  useDeleteAccommodationMutation,
-  useGetBookingHistoryQuery,
-  useGetServiceBookingHistoryQuery,
+    useUserLoginMutation,
+    useGetRoomDetailByIdQuery,
+    useGetUserDetailsQuery,
+    useGetUserByIdQuery,
+    useGetReviewsByIdQuery,
+    useGetAllAccommodationsQuery,
+    useGetAllFoodServiceQuery,
+    useUpdateUserMutation,
+
+    useGetReviewsByBusinessQuery,
+    useGetRoomsByAccommodationQuery,
+    useUpdateFoodServiceMutation,
+    useGetAllServicesQuery,
+    useGetAccommodationByIdQuery,
+    useGetAccommodationByUserIDQuery,
+    useGetAccommodationsByCityQuery,
+    useCreateRoomMutation,
+    useGetServiceByLocationQuery,
+    useGetServicebyIdQuery,
+    useGetPropertyByIdQuery,
+    useGetFoodServicebyIdQuery,
+    useForgotpasswordMutation,
+    useUpdatePasswordMutation,
+    useGetFoodServiceByLocationQuery,
+    useGetPaymentHistoryQuery,
+    useDeleteFoodServiceMutation,
+    useDeleteServiceMutation,
+    useDeleteAccommodationMutation,
+    useGetBookingHistoryQuery,
+    useGetServiceBookingHistoryQuery
 } = apiSlice;

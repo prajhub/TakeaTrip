@@ -12,6 +12,10 @@ const serviceSchema = new mongoose.Schema({
   address: {
     type: String,
   },
+  cheapestPrice: {
+    type: Number,
+    required: true,
+  },
   zipCode: {
     type: String,
   },

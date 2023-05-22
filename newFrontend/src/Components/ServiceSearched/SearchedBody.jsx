@@ -16,7 +16,7 @@ const SearchedBody = () => {
 
   const [destination, setDestination] = useState(location.state.destination);
   const [date, setDate] = useState(location.state.date);
-  const [openDate, setOpenDate] = useState(false);
+  
   const [options, setOptions] = useState(location.state.options);
 
   const formattedDate = moment(date).format("DD-MM-YYYY");
@@ -56,7 +56,8 @@ const SearchedBody = () => {
                 <label className="text-md font-semibold">Destination</label>
                 <input
                   className=" h-8 rounded-md p-2 mt-2 mb-2"
-                  placeholder={destination}
+                  value={destination}
+                  onChange={(e) => setDestination(e.target.value)}
                   type="text"
                 />
               </div>
@@ -64,29 +65,15 @@ const SearchedBody = () => {
                 <label className="text-sm font-semibold">Check-in Date</label>
 
                 <span
-                  onClick={() => setOpenDate(!openDate)}
+                
                   className="h-8 text-sm border-none p-1 bg-white flex items-center cursor-pointer"
-                >{`${format(date, "MM/dd/yyyy")}}`}</span>
-                {openDate && (
-                  <DateRange
-                    onChange={(item) => setDate([item.selection])}
-                    ranges={date}
-                  />
-                )}
+                >{`${format(date, "MM/dd/yyyy")}`}</span>
+              
               </div>
               <div className="flex flex-col gap-2 mt-3">
                 <label className="text-sm font-semibold">Price per night</label>
                 <div className=" ">
-                  <Slider
-                    step={100}
-                    range
-                    min={0}
-                    max={1000}
-                    defaultValue={[0, 1000]}
-                    tipFormatter={dollarFormatter}
-                    onChange={onChange}
-                    onAfterChange={onAfterChange}
-                  />
+                 
 
                   <div className="flex justify-between mb-4 text-xs">
                     <span className="lsOpnText">Adult</span>
@@ -117,9 +104,7 @@ const SearchedBody = () => {
                   </div>
                 </div>
               </div>
-              <button className=" p-2 bg-primary-600 text-white border-none w-full font-medium cursor-pointer">
-                Search
-              </button>
+             
             </div>
             <div className="flex-[3_1_0%]">
               {isLoading ? (

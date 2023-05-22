@@ -124,17 +124,27 @@ const getAllAccommodation = async (req, res) => {
 };
 
 const getAccommodations = async (req, res, next) => {
-  let { location } = req.query;
+
+
+  let { location, min, max } = req.query;
+
+  console.log(min, max, location);
 
   location = location.toLowerCase();
 
+  const query = {
+    $or: [
+      { city: { $regex: location, $options: "i" } },
+      { country: { $regex: location, $options: "i" } },
+    ],
+  };
+
+  if (min !== undefined && max !== undefined) {
+    query.cheapestPrice = { $gte: parseInt(min), $lte: parseInt(max) };
+  }
+
   try {
-    const accommodations = await Accommodation.find({
-      $or: [
-        { city: { $regex: location, $options: "i" } }, // Case-insensitive search for city
-        { country: { $regex: location, $options: "i" } }, // Case-insensitive search for country
-      ],
-    });
+    const accommodations = await Accommodation.find(query);
 
     if (!accommodations.length) {
       return res.status(404).json("No accommodations found");
@@ -145,6 +155,8 @@ const getAccommodations = async (req, res, next) => {
     next(error);
   }
 };
+
+
 
 const getAccommodationRooms = async (req, res, next) => {
   try {
@@ -223,5 +235,6 @@ module.exports = {
   getAccommodation,
   getPropertyById,
   getAccommodations,
+
   getHotelsByLocation,
 };

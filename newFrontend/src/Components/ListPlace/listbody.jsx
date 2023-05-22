@@ -50,20 +50,17 @@ const listbody = () => {
                 <div className='flex flex-row pt-4 '>
                 <button type="button" onClick={() => listClick('addaccomodation')}   className="text-black bg-white border border-gray-400 hover:border-black  focus:border-black font-medium rounded-lg text-sm px-20 py-2.5 text-center flex items-center mr-2 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
                     <BiBed className='w-5 h-5 mr-2 -ml-1 '/>
-                    Accomodation
+                    Accomodations
                         </button>
-                        <button type="button" onClick={() => listClick('listservice')}  className="text-black bg-white border border-gray-400  hover:border-black  focus:border-black font-medium rounded-lg text-sm px-20 py-2.5 text-center flex items-center mr-2 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
+                        <button type="button" onClick={() => listClick('listonboarding')}  className="text-black bg-white border border-gray-400  hover:border-black  focus:border-black font-medium rounded-lg text-sm px-20 py-2.5 text-center flex items-center mr-2 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
                     <MdOutlineLocalActivity className='w-5 h-5 mr-2 -ml-1 '/>
                     Things to Do
                         </button>
                 <button type="button" onClick={() => listClick('listfoodservice')}  className="text-black bg-white border border-gray-400  hover:border-black   focus:border-black font-medium rounded-lg text-sm px-20 py-2.5 text-center flex items-center mr-2 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
                     <RiRestaurantLine className='w-5 h-5 mr-2 -ml-1 '/>
-                    Restaurant
+                    Restaurants
                         </button>
-            <button type="button" onClick={() => listClick('rental')}  className="text-black bg-white border border-gray-400  hover:border-black focus:border-black font-medium rounded-lg text-sm px-20 py-2.5 text-center flex items-center mr-2 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
-                    <MdCarRental className='w-5 h-5 mr-2 -ml-1 '/>
-                    Rentals
-                        </button>
+           
                         </div>
 
 
